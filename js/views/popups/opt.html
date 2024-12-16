@@ -1,0 +1,16 @@
+<!-- OTP -->
+<div class="otp_pop" id="dlgOTP" ng-controller="otpController">
+    <Span class="pop_closeBtn" id="btnOptClose" ng-click="OtpFormClosed()" title="Close"></Span>
+    <form id="frmOTP" name="frmOTP" method="post" class="otp">
+        <heading>Verify Phone</heading>
+        <structure>
+            <phicon></phicon>
+            <labeltexthead>Verify your mobile number</labeltexthead>
+            <labeltext>Pleaase enter the One Time Password (OTP) sent to your mobile number.</labeltext>
+            <textbox><input name="otpText" ng-model="OtpNumber" id="otpText" only-digits maxlength="6" type="text" required /></textbox>
+            <textbox><input type="button" id="btnSubmitOtp" ng-click="SubmitOtp()" class="button" value="Verify" />
+                     <input type="button" id="btnResendOtp" ng-click="SendOTP()" class="button" value="Re-Send" style="display:none;" /></textbox>
+            <div class="otp_error" id="otp_error" style="display:none;">Only numeric value allowed</div>
+        </structure>
+    </form>
+</div>

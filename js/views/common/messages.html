@@ -1,0 +1,71 @@
+﻿
+<div id="workspacecontainer" ng-controller="MessageController" ng-show="loadingView">
+    <span ng-include src="'js/views/Shared/Header.html'"></span>
+
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="msg_pg_layout">
+                    <form id="form.msg" name="form.msg" method="post" class="msg">
+                        <headinglayout>
+                            <headingtext>Messages <count>({{MessageHeader}})</count></headingtext>
+                            <rightcontent>
+                                <displaybox>
+                                    <input type="checkbox" ng-click="AllSelectedChecked()" ng-model="SelectedAll" id="cb-select"><label for="cb-select"> &nbsp;Select All</label>
+                                </displaybox>
+                                <input type="button" value="Delete" class="buttonTop" ng-click="DeleteClicked()" ng-disabled="EnableDeleted">
+                                <selectmedium>
+                                    <select name="filter" class="watermark" ng-model="FilterTypeId" ng-change="FilterChanged()">
+                                        <option value="-1" selected="selected">All</option>
+                                        <option value="1">Read</option>
+                                        <option value="0">Unread</option>
+                                    </select>
+                                </selectmedium>
+                            </rightcontent>
+                        </headinglayout>
+
+                        <span ng-switch="Messages.length > 0">
+
+                            <div ng-switch-when="false" class="msg_error" id="nomsgcontent" style="display:none">No content to display</div>
+
+                            <maincontent ng-switch-when="true">
+                                <activityblock>
+
+                                </activityblock>
+                                <span ng-repeat="msg in Messages | orderBy: MsgId : true">
+                                    <parentblock>
+                                        <col_checkbox>
+                                            <input type="checkbox" ng-model="msg.Checked" ng-checked="msg.Checked" id="chk{{msg.MsgId}}" ng-click="UnSelectChecked()"><label for="chk{{msg.MsgId}}"></label>
+                                        </col_checkbox>
+                                        <!--<col_from ng-switch="msg.MsgRead">
+                                            <div class="msg_textUnread" ng-switch-when="false">{{msg.MsgFrom}}</div>
+                                            <div class="msg_textRead" ng-switch-when="true">{{msg.MsgFrom}}</div>
+                                        </col_from>-->
+                                        <col_subj ng-switch="msg.MsgRead">
+                                            <div class="msg_textUnread" ng-switch-when="false">{{msg.MsgSubject}}</div>
+                                            <div class="msg_textRead" ng-switch-when="true">{{msg.MsgSubject}}</div>
+                                        </col_subj>
+                                        <col_button ng-switch="PreviewPanelVisible(msg.MsgId)">
+                                            <input type="button" ng-switch-when="false" value="View" class="buttonToggle" ng-click="ShowOneBlock(msg.MsgId)">
+                                            <input type="button" ng-switch-when="true" value="Close" class="buttonToggle" ng-click="ShowOneBlock(msg.MsgId)">
+                                        </col_button>
+                                        <col_date ng-switch="msg.MsgRead">
+                                            <div class="msg_textUnread" ng-switch-when="false">{{msg.CreateDate | date:"MMM dd, yyyy"}}</div>
+                                            <div class="msg_textRead" ng-switch-when="true">{{msg.CreateDate | date:"MMM dd, yyyy"}}</div>
+                                        </col_date>
+                                    </parentblock>
+                                    <div class="childBlock" id="Block{{msg.MsgId}}" style="display: none;">
+                                        <p ng-bind-html="msg.MsgBody"></p>
+                                    </div>
+                                </span>
+
+                            </maincontent>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

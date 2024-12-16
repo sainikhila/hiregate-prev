@@ -1,0 +1,81 @@
+﻿<div id="workspacecontainer" ng-controller="feedbackController" ng-show="loadingView" ng-init="OnLoadResults()">
+    <!--header-->
+    <header id="header_prelogin">
+        <div class="content-widthfix">
+            <div id="logosmall"><div class="logo-white logo-small-in"></div></div>
+            <div class="evaFormHeaderText">Evaluation Form</div>
+        </div>
+    </header>
+
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix" ng-switch="FeedBackCollection.length > 1">
+                <div class="evaFormMsg" ng-switch-when="false" ng-switch="FeedBackCollection[0].StatusId">
+                    <span ng-switch-when="0">Feedback already submitted for this session</span>
+                    <span ng-switch-when="2">Meeting yet to start</span>
+                    <span ng-switch-when="8">Meeting yet to complete</span>
+                    <span ng-switch-when="10">Meeting was expired</span>
+                </div>
+                <div class="evaForm" ng-switch-when="true">
+                    <div class="evaSummary">
+                        <ul>
+                            <li>
+                                <txtBold>Candidate Name:</txtBold>
+                                <txtNormal>{{FeedBackCollection[0].CanName}}</txtNormal>
+                            </li>
+                            <li>
+                                <txtBold>Interviewer Name:</txtBold>
+                                <txtNormal>{{FeedBackCollection[0].EvaName}}</txtNormal>
+                            </li>
+                            <li>
+                                <txtBold>Interview Date:</txtBold>
+                                <txtNormal>{{FeedBackCollection[0].SessionDate | date:'MMMM-dd-yyyy'}}</txtNormal>
+                            </li>
+                            <li>
+                                <txtBold>Position:</txtBold>
+                                <txtNormal><input type="text"></txtNormal>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="evaluatorNote">
+                        Based on the interview, please give the candidate a numerical rating and write specific job related comments. If any of the questions is not specific to the interview, please write N/A in the comment section. The numerical rating system is based on the scale below:
+                    </div>
+                    <div class="scale">
+                        <ul>
+                            <li>1 - Unsatisfactory</li>
+                            <li>2 - Satisfactory</li>
+                            <li>3 - Average</li>
+                            <li>4 - Above Average</li>
+                            <li>5 - Exceptional</li>
+                        </ul>
+                    </div>
+
+                    <div class="evaBlock">
+                        <blockhead>Candidate Evaluation</blockhead>
+                        <ul>
+                            <li ng-repeat="item in FeedBackCollection">
+                                <QrateBlock>
+                                    <QLabel>{{item.Title}}</QLabel>
+                                    <RateLabel>
+                                        <div class="ratingSystemSmall">
+                                            <input type="radio" name="ratingInt{{item.FeedBackMapId}}" ng-model="item.Rating" ng-value="1"><i></i>
+                                            <input type="radio" name="ratingInt{{item.FeedBackMapId}}" ng-model="item.Rating" ng-value="2"><i></i>
+                                            <input type="radio" name="ratingInt{{item.FeedBackMapId}}" ng-model="item.Rating" ng-value="3"><i></i>
+                                            <input type="radio" name="ratingInt{{item.FeedBackMapId}}" ng-model="item.Rating" ng-value="4"><i></i>
+                                            <input type="radio" name="ratingInt{{item.FeedBackMapId}}" ng-model="item.Rating" ng-value="5"><i></i>
+                                        </div>
+                                    </RateLabel>
+                                </QrateBlock>
+                                <Question>{{item.Description}}</Question>
+                                <textarea name="message" ng-model="item.Comment" placeholder="Comments" maxlength="105"></textarea>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div ng-switch-when="true" class="buttonLabel no-print"><input type="button" ng-click="SubmitFeedBack()" value="Submit" class="buttonSubmit"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

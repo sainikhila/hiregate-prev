@@ -1,0 +1,302 @@
+﻿<div id="workspacecontainer" ng-controller="candidateController" ng-show="loadingView" ng-init="OnLoadResults()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="candidate_pgLayout">
+                    <form action="#" method="post" class="candidateSearch">
+                        <div class="can_searchBlock">
+                            <horBlock>
+                                <headingText>Search Candidate</headingText>
+                                <inviteCan style="display: none"><a href="#" onClick="pop('popInviteCandidate')">Invite Candidate to Join</a></inviteCan>
+                                <addCan><a href="javascript:void(0);" ng-click="ShowHideCandidate(true)">Add New Candidate</a></addCan>
+                            </horBlock>
+                            <formField_bg>
+                                <skill_layout>
+                                    <input name="srchSkillCanName" type="text" ng-model="SrchSkillName" placeholder="Enter Skills  e.g. Java, PHP or Candidate Name" />
+                                </skill_layout>
+                                <loc>
+                                    <input name="srchLocation" type="text" ng-model="SrchLocation" placeholder="Location" />
+                                </loc>
+                                <ExpSal_layout>
+                                    <select name="srchExp" ng-select placeholder="Experience" required ng-model="SrchExp">
+                                        <option value="0" selected="selected">Experience</option>
+                                        <option value="0-5">00 - 05 Years</option>
+                                        <option value="5-10">05 - 10 Years</option>
+                                        <option value="10-15">10 - 15 Years</option>
+                                        <option value="15-99">15 - 99 Years</option>
+                                    </select>
+                                </ExpSal_layout>
+                                <ExpSal_layout>
+                                    <select name="srchSalary" ng-select placeholder="Salary" required ng-model="SrchSalary">
+                                        <option value="0" selected="selected">Salary Range (p.a.)</option>
+                                        <option value="100000-500000">01 Lakh - 5 Lakh</option>
+                                        <option value="500000-1000000">06 Lakh - 10 Lakh</option>
+                                        <option value="1000000-9999999">Over 10 Lakh</option>
+                                    </select>
+                                </ExpSal_layout>
+                                <button_layout>
+                                    <input type="button" class="buttonSearch" ng-click="OnSearchFilterClicked()" value="Search" />
+                                </button_layout>
+                            </formField_bg>
+
+                            <countSearchOption>
+                                <resultOverview>
+                                    <div class="resultCount" style="display:none;">
+                                        <headLabel>Searched for:</headLabel>
+                                        <searchFor>Java, PHP</searchFor> <!--put code for search criteria-->
+                                        <normalStyle>Candidates</normalStyle>
+                                        <normalStyle>in</normalStyle>
+                                        <location>Bangalore</location> <!--put code for location-->
+                                        <line>|</line>
+                                        <count>14 </count> <!--put code for result count-->
+                                        <count>Results Found</count>
+                                    </div>
+                                </resultOverview>
+                                <!--<searchOption><a href="#">Recent Search</a></searchOption>-->
+                            </countSearchOption>
+                        </div>
+                        <!-- Search Block Ends-->
+                        <!--Result Block Begins-->
+                        <div class="can_resultBlock">
+                            <!--left block / Search Filter begins -->
+                            <div class="left_filter_block">
+                                <left_ContentArea style="display:none;">
+                                    <leftBlockHead>Profile Preference</leftBlockHead>
+                                    <div id="profileStatus" style="display:none;">
+                                        <filterHead>Profile Status</filterHead>
+                                        <left_workarea>
+                                            <input type="radio" id="radiolocked1" name="profilelocked">
+                                            <label for="radiolocked1">Locked Profile</label>
+                                            <input type="radio" id="radiolocked2" name="profilelocked">
+                                            <label for="radiolocked2">Unlocked Profile</label>
+                                        </left_workarea>
+                                        <filterHead>Profile Activity</filterHead>
+                                        <left_workarea>
+                                            <input type="checkbox" id="cb_process" /><label for="cb_process">Processed By Me</label>
+                                            <input type="checkbox" id="cb_viewed" /><label for="cb_viewed">Already Viewed</label>
+                                            <input type="checkbox" id="cb_notviewed" /><label for="cb_notviewed">Unviewed Profile</label>
+                                            <input type="checkbox" id="cb_saved" /><label for="cb_saved">Saved Profile</label>
+                                            <input type="checkbox" id="cb_discard" /><label for="cb_discard">Discarded Profile</label>
+                                            <input type="checkbox" id="cb_invite" /><label for="cb_invite">Invited Candidate Profile</label>
+                                        </left_workarea>
+                                    </div>
+                                    <div id="expandProfile" onClick="ShowDiv('profileStatus'),HideDiv('expandProfile'),ShowDiv('collapseProfile')" title="Expand"></div>
+                                    <div id="collapseProfile" onClick="HideDiv('profileStatus'),ShowDiv('expandProfile'),HideDiv('collapseProfile')" title="Collapse"></div>
+                                </left_ContentArea>
+
+                                <left_ContentArea>
+                                    <leftBlockHead>Narrow Search Results</leftBlockHead>
+                                    <leftheading style="display:block;"><iconcandidate></iconcandidate>Candidates</leftheading>
+                                    <left_workarea style="display:block;">
+                                        <input type="checkbox" id="cb_can1" ng-model="CanFilter.Company" ng-click="OnCandidateFilterC()" /><label for="cb_can1">Company Candidates</label>
+                                        <input type="checkbox" id="cb_can2" ng-model="CanFilter.Assessed" ng-click="OnCandidateFilterA()" /><label for="cb_can2">Pre-Assessed Candidates</label>
+                                        <!--<input type="checkbox" id="cb_can3" ng-model="CanFilter.All" ng-click="OnCandidateFilter()" /><label for="cb_can3">All Candidates</label>-->
+                                    </left_workarea>
+                                    <leftheading><iconrating></iconrating>Candidate Rating</leftheading>
+                                    <left_workarea>
+                                        <input type="radio" id="radiorating1" name="rating" value="5" ng-model="rating" ng-click="FilterClicked('Rating','5 Rating',5)">
+                                        <label for="radiorating1">5 Rating</label>
+                                        <input type="radio" id="radiorating2" name="rating" value="4" ng-model="rating" ng-click="FilterClicked('Rating','4+ Rating',4)">
+                                        <label for="radiorating2">4+ Rating</label>
+                                        <input type="radio" id="radiorating3" name="rating" value="3" ng-model="rating" ng-click="FilterClicked('Rating','3+ Rating',3)">
+                                        <label for="radiorating3">3+ Rating</label>
+                                        <input type="radio" id="radiorating4" name="rating" value="2" ng-model="rating" ng-click="FilterClicked('Rating','2+ Rating',2)">
+                                        <label for="radiorating4">2+ Rating</label>
+                                        <input type="radio" id="radiorating5" name="rating" value="1" ng-model="rating" ng-click="FilterClicked('Rating','1+ Rating',1)">
+                                        <label for="radiorating5">1+ Rating</label>
+                                    </left_workarea>
+                                    <leftheading><iconexperience></iconexperience>Work Experience</leftheading>
+                                    <left_workarea>
+                                        <input type="radio" id="radioexp1" name="exp" value="15" ng-click="FilterClicked('Experience','15 Years','15-99')">
+                                        <label for="radioexp1">&gt; 15 Years</label>
+                                        <input type="radio" id="radioexp2" name="exp" value="10-15" ng-click="FilterClicked('Experience','10 Years - 15 Years','10-15')">
+                                        <label for="radioexp2">10 Years - 15 Years</label>
+                                        <input type="radio" id="radioexp3" name="exp" value="5-10" ng-click="FilterClicked('Experience','05 Years - 10 Years','5-10')">
+                                        <label for="radioexp3">05 Years - 10 Years</label>
+                                        <input type="radio" id="radioexp4" name="exp" value="5" ng-click="FilterClicked('Experience','05 Years','0-5')">
+                                        <label for="radioexp4">&lt; 05 Years</label>
+                                    </left_workarea>
+                                    <leftheading><iconprice></iconprice>Salary Range (p.a.)</leftheading>
+                                    <left_workarea>
+                                        <input type="radio" id="radioprice1" name="price" value="100000-500000" ng-click="FilterClicked('CTC','100000-500000','100000-500000')">
+                                        <label for="radioprice1">1 Lakh - 5 Lakh</label>
+                                        <input type="radio" id="radioprice2" name="price" value="500000-1000000" ng-click="FilterClicked('CTC','500000-1000000','500000-1000000')">
+                                        <label for="radioprice2">6 Lakh - 10 Lakh</label>
+                                        <input type="radio" id="radioprice3" name="price" value="1000000" ng-click="FilterClicked('CTC','Over 1000000','1000000-9999999')">
+                                        <label for="radioprice3">Over 10 Lakh</label>
+                                        <pricerange_label>
+                                            <textinput>
+                                                <rupeeicon></rupeeicon>
+                                                <input name="pricestart" id="pricestart" only-digits ng-model="pricestart" type="text" />
+                                            </textinput>
+                                            <textlabel>To</textlabel>
+                                            <textinput>
+                                                <rupeeicon></rupeeicon>
+                                                <input name="priceend" id="priceend" only-digits ng-model="priceend" type="text" />
+                                            </textinput>
+                                            <textinput>
+                                                <input type="button" class="button_go" value="Go" onclick="ResetPriceRange()" ng-click="FilterClicked('CTC',pricestart + ' - ' + priceend,pricestart + '-' + priceend)" />
+                                            </textinput>
+                                        </pricerange_label>
+                                    </left_workarea>
+                                    <leftheading><icongender></icongender>Gender</leftheading>
+                                    <left_workarea>
+                                        <input type="radio" id="radiogender1" name="gender" value="F" ng-click="FilterClicked('Gender','Female','F')">
+                                        <label for="radiogender1">Female</label>
+                                        <input type="radio" id="radiogender2" name="gender" value="M" ng-click="FilterClicked('Gender','Male','M')">
+                                        <label for="radiogender2">Male</label>
+                                    </left_workarea>
+                                </left_ContentArea>
+                            </div>
+
+                            <!--right block-->
+                            <div class="right_results_block">
+                                <right_heading>
+                                    <sortlabel-head>Sort By: </sortlabel-head>
+                                    <div class="sortlabel" id="sort01"><a href="javascript:void(0);" ng-click="sortBy('sort01','Rating',true)">Maximum Ratings</a></div>
+                                    <div class="sortlabel" id="sort02"><a href="javascript:void(0);" ng-click="sortBy('sort02','Experience',true)">Exp &ndash; High to Low</a></div>
+                                    <div class="sortlabel" id="sort03"><a href="javascript:void(0);" ng-click="sortBy('sort03','Experience',false)">Exp &ndash; Low to High</a></div>
+                                    <div class="sortlabel" style="display:none;"><input type="button" class="button_sortlabel" value="Reset" /></div>
+                                    <div class="blockRefresh" title="Refresh" ng-click="loadResults()"></div>
+                                </right_heading>
+                                <right_filter ng-show="FilterItemsDisplay.length > 0">
+                                    <search-filter ng-repeat="item in FilterItemsDisplay">{{item.FilterLabel}}<closeicon><a href="javascript:void(0);" ng-click="RemoveFilter(item.FilterIndex,item.FilterType)" title="Close">&#215;</a></closeicon></search-filter>
+                                    <input type="button" class="button_clear" ng-click="ClearFilter()" value="Clear All" />
+                                </right_filter>
+                                <!--search results begin-->
+                                <result_container>
+                                    <div class="noContent" ng-show="Results.length==0">No results found</div>
+                                    <!-- Display Candidate block begins-->
+                                    <div class="can_result" ng-repeat="rslt in Results">
+                                        <div class="can_result_divider" ng-show="$index > 0 && $index < Results.length"></div>
+                                        <result_photo_container>
+                                            <photo ng-switch="rslt.Internal">
+                                                <profile-pic ng-switch-when="true" ng-switch="IsAddPhoto(rslt.Photo)">
+                                                    <deletephoto ng-switch-when="false"><a href="javascript:void(0);" ng-click="DeleteAccountPhoto(rslt.CandidateId)" title="Delete Image">×</a></deletephoto>
+                                                    <a href="javascript:void(0);"><img ng-click="ChangePhoto(rslt.CandidateId,rslt.Photo)" id="IMG_{{rslt.CandidateId}}" ng-src="{{rslt.Photo}}"></a>
+                                                </profile-pic>
+                                                <profile-pic ng-switch-when="false">
+                                                    <img id="IMG_{{rslt.CandidateId}}" ng-src="{{rslt.Photo}}">
+                                                </profile-pic>
+                                            </photo>
+                                        </result_photo_container>
+                                        <result_content_container>
+                                            <phone_label>
+                                                <phIcon></phIcon>
+                                                <statusTextHead>Phone:</statusTextHead>
+                                                <statusText>{{ToNullValue(rslt.DailingCode) + '' + ToNullValue(rslt.PhoneNumber)}}</statusText>
+                                            </phone_label>
+                                            <email_label>
+                                                <emailIcon></emailIcon>
+                                                <statusTextHead>Email Id:</statusTextHead>
+                                                <statusText>{{rslt.Email}}</statusText>
+                                            </email_label>
+                                            <name>{{rslt.Name}}</name>
+                                            <rating-verify-label>
+                                                <ratingcontainer>
+                                                    <ratingstar>
+                                                        <div class="rating_sprite_blue_m" title="{{rslt.Rating}} of 5"><span style="width:{{rslt.Rating * 20}}%" class="rating_sprite_blue_m_bg"></span></div>
+                                                    </ratingstar>
+                                                    <ratingcount>{{rslt.ReviewsCount}} Interview(s)</ratingcount>
+                                                </ratingcontainer>
+                                                <canresume>
+                                                    <canresumeIcon></canresumeIcon>
+                                                    <canresumeText ng-switch="rslt.Resume.length>0">
+                                                        <a ng-switch-when="true" href="{{rslt.Resume}}" target="_blank">View Resume</a>
+                                                        <span ng-switch-when="false">Resume N/A</span>
+                                                    </canresumeText>
+                                                </canresume>
+                                            </rating-verify-label>
+                                            <rating-verify-divider></rating-verify-divider>
+                                            <horBlock-15 style="display:none;">
+                                                <vBlock_canDetails>
+                                                    <coIcon></coIcon>
+                                                    <canDetailsHead>Company:</canDetailsHead>
+                                                    <canDetailsText>Swazuna Technologies</canDetailsText>
+                                                </vBlock_canDetails>
+                                                <vBlock_canDetails>
+                                                    <desgIcon></desgIcon>
+                                                    <canDetailsHead>Designation:</canDetailsHead>
+                                                    <canDetailsText>Project Manager</canDetailsText>
+                                                </vBlock_canDetails>
+
+                                            </horBlock-15>
+
+                                            <horBlock-15>
+                                                <vBlock_canDetails>
+                                                    <expIcon></expIcon>
+                                                    <canDetailsHead>Experience:</canDetailsHead>
+                                                    <canDetailsText>{{rslt.Experience}}</canDetailsText>
+                                                </vBlock_canDetails>
+                                                <vBlock_canDetails>
+                                                    <locIcon></locIcon>
+                                                    <canDetailsHead>Location:</canDetailsHead>
+                                                    <canDetailsText>{{rslt.Location}}</canDetailsText>
+                                                </vBlock_canDetails>
+                                                <vBlock_canDetails_last>
+                                                    <salIcon></salIcon>
+                                                    <canDetailsHead>CTC:</canDetailsHead>
+                                                    <canDetailsText>{{rslt.CTC}} Lacs (p.a.)</canDetailsText>
+                                                </vBlock_canDetails_last>
+                                            </horBlock-15>
+                                            <horBlock-15>
+                                                <skillHead>
+                                                    <skillIcon></skillIcon>
+                                                    <canDetailsHead>Key Skills:</canDetailsHead>
+                                                </skillHead>
+                                                <skillText ng-bind-html="rslt.KeySkills">&nbsp;</skillText>
+                                            </horBlock-15>
+                                            <horblock-15>
+                                                <timezoneicon></timezoneicon>
+                                                <candetailshead>TimeZone:</candetailshead>
+                                                <candetailstext>{{rslt.TimeZone}}</candetailstext>
+                                            </horblock-15>
+                                            <button_label ng-switch="rslt.JobsApplied.Answered===1">
+                                                <input type="button" class="button_srPage" value="Assessment Video &amp; Profile" ng-click="ViewProfile(rslt.CandidateId,rslt.Internal)" />
+                                                <input type="button" class="button_srPage" value="Schedule Interview" ng-click="ShowNewScheduledSession(rslt.CandidateId)">
+                                                <input type="button" class="button_srPage" value="Delete" ng-click="ShowCandidateDelete(rslt.CandidateId)" />
+                                                <input type="button" class="button_srPage" value="Code Challenge" ng-click="ShowCodeChallenge(rslt.CandidateId)" />
+                                                <input ng-switch-when="true" type="button" class="button_srPage" value="View Code" ng-click="ViewCodeChallenge(rslt.JobsApplied)" />
+                                            </button_label>
+                                        </result_content_container>
+                                    </div>
+                                    <!-- Display Candidate block ends-->
+                                </result_container>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Delete Candidate-->
+    <div id="popDeleteCandidate" class="pop_disable_bg">
+        <div id="deleteCan_structure">
+            <div class="deleteCan">
+                <layoutHead>Delete this Candidate?</layoutHead>
+                <blkText>The candidate details will be permanently removed and can't be restored.</blkText>
+                <labelbutton>
+                    <input type="button" value="Cancel" class="button" ng-click="HideCandidateDelete()" />
+                    <input type="button" value="Delete" class="button" ng-click="ConfirmCandidateDelete()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+    
+    <!--Work Area Ends-->
+    <div ng-include src="'js/views/candidate/popups/addcan.html'"></div>
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+    <script type="text/javascript">
+        function ResetPriceRange() {
+            var itms = ['radioprice1', 'radioprice2', 'radioprice3'];
+            for (var i = 0; i < itms.length; i++) {
+                var itm = document.getElementById(itms[i]);
+                itm.checked = false;
+            }
+        }
+    </script>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

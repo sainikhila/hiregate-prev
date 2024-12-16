@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <title>FI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="">
+
+    <!-- favicon -->
+    <!--<link rel="icon" href="../favicon.ico">-->
+    <!-- stylesheets -->
+    <link href="/content/css/pretest.css" rel="stylesheet" />
+    <link href="/content/css/codemirror.css" rel="stylesheet" />
+    <link href="/content/css/generic.css" rel="stylesheet" />
+
+    <!-- js files -->
+    <script type="text/javascript" src="/Scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/src/scripts/codeeditor/codemirror.js"></script>
+
+</head>
+<body>
+
+    <div id="loader_disable_bg" style="display:none;">
+        <div class="loaderFI">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                 x="0px" y="0px" viewBox="0 0 56.8 59.6" style="enable-background:new 0 0 56.8 59.6" xml:space="preserve">
+            <defs>
+            <style type="text/css">
+                .outline {
+                    fill: none;
+                    stroke: #027DA5;
+                    stroke-width: 3;
+                    stroke-miterlimit: 10
+                }
+
+                .outline {
+                    stroke-dasharray: 455;
+                    stroke-offset: 455;
+                    -webkit-animation: dash 1.5s linear alternate infinite;
+                    -o-animation: dash 1.5s linear alternate infinite;
+                    -moz-animation: dash 1.5s linear alternate infinite;
+                    -ms-animation: dash 1.5s linear alternate infinite;
+                    animation: dash 1.5s linear alternate infinite;
+                }
+                /*Line Effect 1 */
+                @-webkit-keyframes dash {
+                    from {
+                        stroke-dashoffset: 455;
+                    }
+
+                    to {
+                        stroke-dashoffset: 0;
+                    }
+                }
+
+                @keyframes dash {
+                    from {
+                        stroke-dashoffset: 455;
+                    }
+
+                    to {
+                        stroke-dashoffset: 0;
+                    }
+                }
+
+                /*Line Effect 2 - hide for different effect*/
+                @-webkit-keyframes dash {
+                    0% {
+                        stroke-dasharray: 1, 200;
+                        stroke-dashoffset: 0;
+                    }
+
+                    50% {
+                        stroke-dasharray: 89, 200;
+                        stroke-dashoffset: -35;
+                    }
+                }
+
+                @keyframes dash {
+                    0% {
+                        stroke-dasharray: 1;
+                        stroke-dashoffset: 0;
+                    }
+
+                    50% {
+                        stroke-dasharray: 89, 200;
+                        stroke-dashoffset: -35;
+                    }
+                }
+</style>
+	</defs>
+            <path class="outline" d="M41.3,7.8c1.3-1,2.8-1.6,4.3-1.6c5.1,0,8.9,3.7,8.9,8.7c0.3,3.2-3.1,6.9-6.7,9.6l0,0l0,2.5c1.8,1.4,3,3.6,3,6
+		c0,3.5-2.4,6.4-5.7,7.5l-1.4,0.3c-1.6,9.5-8.8,16.7-17.5,16.7c-8.6,0-15.8-7.2-17.4-16.7l-1-0.4c-3.3-1-5.7-4-5.7-7.5
+		c0-2.4,1.2-4.6,3-6L5,22.4C5,11.2,14.6,2.2,26.5,2.2C32.2,2.2,37.4,4.3,41.3,7.8L41.3,7.8z" />
+
+            <path fill="#027DA5" d="M24.7,29.1L18.4,23c-0.7-0.5-1.6-0.7-2.6-0.7c-2.6,0-4.7,2.1-4.7,4.6c0,1.2,0.5,2.4,1.3,3.2l9.6,9.1
+		c0.6,0.5,1.5,0.8,2.5,0.8c1.1,0,2.1-0.4,2.7-0.9l22.3-20.9c0.8-0.8,1.3-1.9,1.3-3.2c0-2.5-2.1-4.6-4.7-4.6c-1.2,0-2.3,0.4-3.1,1.1
+		L24.7,29.1z">
+            <animate attributeType="XML"
+                     attributeName="fill"
+                     values="#027DA5;#0291b2;#027DA5"
+                     dur="2s"
+                     repeatCount="indefinite" />
+
+	</path>
+	</svg>
+        </div>
+    </div>
+
+    <!--Video Interview Header -->
+    <div id="header-pretest">
+        <headContent>Code Challenge: Requested by <span id="companyText"></span></headContent>
+    </div>
+    <!--PreTest Workarea -->
+    <div id="container-pretest">
+        <div id="content-pretest">
+            <div class="pretest-mainScreen-Layout">
+
+                <div class="pretest-Q">
+                    <boxShadow>
+                        <heading>
+                            Question
+                        </heading>
+                        <div class="pt_question">
+                            <span id="questionText"></span>
+                        </div>
+                    </boxShadow>
+                </div>
+                <div class="vi-spacer"></div>
+                <div class="pretest_A">
+                    <boxShadow>
+                        <heading>
+                            Language: <span id="languageText"></span>
+                        </heading>
+                        <div class="pt_codePanel">
+                            <form><textarea id="codeeditor" name="codeeditor" rows="25" style="width:100%;" placeholder="Wait for loading the language."></textarea></form>
+                        </div>
+                    </boxShadow>
+                </div>
+                <div class="pt-butlabel">
+                    <input type="button" id="btnCodeSubmit" name="btnCodeSubmit" value="Submit" class="pt-button">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div id="footer-pt">
+        <div id="pt-copyright">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear())</script> &nbsp;<a href="../Pre Test/www.swazuna.com" target="_blank">Swazuna Technologies</a>
+        </div>
+    </div>
+
+    <div id="popConfirmEndTest" class="disable_bg">
+        <div id="confirmEndTest_structure">
+            <div class="confirmEndTest">
+                <alertmsg>Please confirm submitting the test</alertmsg>
+                <labelbutton>
+                    <input type="button" id="btnSubmitCode" value="Submit" class="buttonendtest" />
+                    <input type="button" id="btnSubmitCancel" value="Cancel" class="buttonendtest" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/js/src/scripts/codeeditor/pretest.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+﻿<div id="workspacecontainer" ng-controller="publicController" ng-init="OnLoadResults()" ng-show="loadingView">
+    <header id="header_prelogin">
+        <div class="content-widthfix">
+            <div id="logosmall"><div class="logo-white logo-small-in"></div></div>
+        </div>
+    </header>
+    <!-- Page Header Ends-->
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="pgblock">
+                    <div class="pgblock_L">
+                        <!--Overview Block-->
+                        <div class="overviewBlock">
+                            <div class="overviewPhotoBlock">
+                                <photo>
+                                    <profile-pic><img ng-src="{{Result[0].Photo}}"></profile-pic>
+                                </photo>
+                            </div>
+                            <div class="overviewContentBlock">
+                                <name>{{Result[0].Name}}</name>
+                                <contactBlock>
+                                    <phIcon></phIcon>
+                                    <contactHead>Phone:</contactHead>
+                                    <contactAns>{{Result[0].PhoneNumber}}</contactAns>
+                                    <mailIcon></mailIcon>
+                                    <contactHead>Email:</contactHead>
+                                    <contactAns>{{Result[0].Email}}</contactAns>
+                                </contactBlock>
+                                <rating-verify-divider></rating-verify-divider>
+                                <skillBlock>
+                                    <skillHead>
+                                        <skillIcon></skillIcon>
+                                        Key Skills:
+                                    </skillHead>
+                                    <skillText ng-bind-html="Result[0].KeySkills">&nbsp;</skillText>
+                                </skillBlock>
+                            </div>
+                        </div>
+                        <!--Email Phone Resume Block-->
+                        <div class="ExpLocCTCBlock">
+                            <ul>
+                                <li>
+                                    <icon-exp></icon-exp>
+                                    <textHead>Experience:</textHead>
+                                    <textResult>{{Result[0].Experience}}</textResult>
+                                </li>
+                                <li>
+                                    <icon-ctc></icon-ctc>
+                                    <textHead>CTC:</textHead>
+                                    <textResult>{{Result[0].CTC}} Lacs (p.a.)</textResult>
+                                </li>
+                                <li>
+                                    <icon-loc></icon-loc>
+                                    <textHead>Location:</textHead>
+                                    <textResult>{{Result[0].Location}}</textResult>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Evaluation Details -->
+                        <div class="evaluationBlock" ng-repeat="item in Result">
+                            <div class="evaHeadBlock">
+                                <table>
+                                    <tr>
+                                        <td>Evaluation Date</td>
+                                        <td>Evaluator Name</td>
+                                        <td>Duration</td>
+                                        <td>Overall Rating</td>
+                                        <td rowspan="2" ng-switch="item.FeedBackResult.length>0">
+                                            <a ng-switch-when="true" href="{{item.FeedBackResult}}" class="buttonFeedback" style="text-decoration:none;" target="_blank">Feedback Report</a>
+                                            <input ng-switch-when="false" disabled type="button" value="Feedback Report" class="buttonFeedback">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{item.InterviewDate | date:'MMMM-dd-yyyy'}}</td>
+                                        <td>{{item.Evaluator.slice(0,20)}}</td>
+                                        <td>{{item.Duration}} Minutes</td>
+                                        <td>
+                                            <div class="rating_sprite_blue_m" title="{{item.Rating}} of 5"><span style="width:{{(item.Rating * 20) | number:2}}%" class="rating_sprite_blue_m_bg"></span></div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="evaResultBlock">
+                                <ul>
+                                    <li>
+                                        <div class="preAssessVideo" ng-switch="IsVideoLinkExist(item.InterviewLink)">
+                                            <videolayout>
+                                                <div class="webcamera_control" ng-switch-when="false">
+                                                    <div class="noContent">No Video Recorded</div>
+                                                </div>
+                                                <div class="webcamera_control" ng-switch-when="true">
+                                                    <video id="video_{{item.SessionId}}" class="video-js" controls preload="none" style="width:100%;height:100%" data-setup="{}">
+                                                        <source ng-src="{{item.InterviewLink}}" type='video/mp4'>
+                                                    </video>
+                                                </div>
+                                            </videolayout>
+                                            <videoannotblock>
+                                                <videoannot ng-repeat="tTime in item.Annotations"><a href="javascript:void(0);" ng-click="OnPlayAtPosition(item.SessionId,tTime.Position)">{{tTime.AnnoteName}}</a></videoannot>
+                                            </videoannotblock>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <ratingHead>Ratings -</ratingHead>
+                                        <ratingContainer>
+                                            <ratingBlock ng-repeat="rating in item.SessionRatings">
+                                                <ratingLabel>{{rating.RatingName}}:</ratingLabel>
+                                                <ratingStar><div class="rating_sprite_blue_m" title="{{rating.RatingValue}} of 5"><span style="width:{{(rating.RatingValue * 20) | number:2}}%" class="rating_sprite_blue_m_bg"></span></div></ratingStar>
+                                            </ratingBlock>
+                                        </ratingContainer>
+                                    </li>
+                                </ul>
+                                <evaNoteBlock>
+                                    <noteHead>Interviewer Note -</noteHead>
+                                    <noteResult>{{item.SessionNotes}}</noteResult>
+                                </evaNoteBlock>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Resume Block-->
+                    <div class="pgblock_Resume" ng-switch="Result[0].Resume.length>0">
+                        <headBlock>
+                            <header>Resume</header>
+                            <btnLabel>
+                                <a ng-switch-when="true" href="{{Result[0].Resume}}" class="btn_resume" target="_blank">Download</a>
+                            </btnLabel>
+                        </headBlock>
+                        <contentarea style="overflow:hidden;">
+                            <div ng-switch-when="false" class="noContent">Resume is not available for this Candidate</div>
+                            <iframe ng-switch-when="true" scrolling="no" id="resumeFrame" ng-src="{{Result[0].Resume | trusted}}" style="border:none;width:100%;height:100%;"></iframe>
+                        </contentarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

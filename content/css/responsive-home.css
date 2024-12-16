@@ -1,0 +1,23 @@
+/* For screen bigger than 1200px */
+@media screen and (min-width:1200px){
+.content-widthfix{width:1200px; margin:0px auto 0px auto;}
+}
+
+/* For screen smaller than 1199px */
+@media screen and (max-width:1199px) {
+
+}
+
+/* For screen smaller than 1024px */
+@media screen and (max-width:1024px) {
+
+}
+/* For screen smaller than 800px */
+@media screen and (max-width:800px) {
+
+}
+
+/* For screen smaller than 600px */
+@media screen and (max-width:600px) {
+
+}

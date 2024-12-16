@@ -1,0 +1,131 @@
+[
+  {
+    "Id": 1001,
+    "Name": "C#",
+    "Mode": "text/x-csharp",
+    "Scripts": [
+      "clike.js"
+    ]
+  },
+  {
+    "Id": 1002,
+    "Name": "C/C++",
+    "Mode": "text/x-c++src",
+    "Scripts": [
+      "clike.js"
+    ]
+  },
+  {
+    "Id": 1003,
+    "Name": "Clojure",
+    "Mode": "text/x-clojure",
+    "Scripts": [
+      "clojure.js"
+    ]
+  },
+  {
+    "Id": 1004,
+    "Name": "Java",
+    "Mode": "text/x-java",
+    "Scripts": [
+      "clike.js"
+    ]
+  },
+  {
+    "Id": 1005,
+    "Name": "Go",
+    "Mode": "text/x-go",
+    "Scripts": [
+      "go.js"
+    ]
+  },
+  {
+    "Id": 1006,
+    "Name": "JavaScript",
+    "Mode": "text/javascript",
+    "Scripts": [
+      "javascript.js"
+    ]
+  },
+  {
+    "Id": 1007,
+    "Name": "PHP",
+    "Mode": "text/x-php",
+    "Scripts": [
+      "php.js"
+    ]
+  },
+  {
+    "Id": 1008,
+    "Name": "Python",
+    "Mode": "text/x-python",
+    "Scripts": [
+      "python.js"
+    ]
+  },
+  {
+    "Id": 1009,
+    "Name": "Ruby",
+    "Mode": "text/x-ruby",
+    "Scripts": [
+      "ruby.js"
+    ]
+  },
+  {
+    "Id": 1010,
+    "Name": "Scala",
+    "Mode": "text/x-scala",
+    "Scripts": [
+      "clike.js"
+    ]
+  },
+  {
+    "Id": 1011,
+    "Name": "VB.NET",
+    "Mode": "text/x-vb",
+    "Scripts": [
+      "vb.js"
+    ]
+  },
+  {
+    "Id": 1012,
+    "Name": "Bash",
+    "Mode": "text/x-bash",
+    "Scripts": [
+      "clike.js"
+    ]
+  },
+  {
+    "Id": 1013,
+    "Name": "Objective-C",
+    "Mode": "text/x-objectivec",
+    "Scripts": [
+      "clike.js"
+    ]
+  },
+  {
+    "Id": 1014,
+    "Name": "SQL",
+    "Mode": "text/x-sql",
+    "Scripts": [
+      "sql.js"
+    ]
+  },
+  {
+    "Id": 1015,
+    "Name": "Perl",
+    "Mode": "text/x-perl",
+    "Scripts": [
+      "perl.js"
+    ]
+  },
+  {
+    "Id": 1016,
+    "Name": "Rust",
+    "Mode": "text/x-rustsrc",
+    "Scripts": [
+      "rust.js",
+      "addon/simple.js"
+    ]
+  }
+]

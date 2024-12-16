@@ -1,0 +1,321 @@
+﻿<div id="workspacecontainer" ng-controller="sessionController" ng-show="loadingView" ng-init="Initialize()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">You do not have an active subscription. To buy our services, please get in touch with our customer support team. </div>
+                <div class="session_pg_layout">
+                    <div class="session">
+                        <headBlock>
+                            <pgHeadText>Interview Sessions</pgHeadText>
+                            <rightFilter>
+                                <canSearch>
+                                    <div class="canSearch_container">
+                                        <input type="text" name="search" autocomplete="off" ng-model="companySearch" ng-change="OnFilterSearch()" placeholder="Search by Candidate Name" title="Search by Candidate Name">
+                                    </div>
+                                </canSearch>
+                                <selectsmall style="display:none;">
+                                    <select ng-select name="filterJobID" required ng-model="filterIdStatus" ng-change="OnFilterIdChanged()">
+                                        <option ng-repeat="idFilter in SessionIdFilters" value="{{idFilter}}">{{idFilter}}</option>
+                                    </select>
+                                </selectsmall>
+                                <selectmedium>
+                                    <select ng-select name="filterStatus" ng-model="filterStatus" required ng-change="OnFilterStatusChanged()">
+                                        <option value="Status" selected="selected">Status</option>
+                                        <option value="Scheduled">Scheduled</option>
+                                        <option value="In-Progress">In-Progress</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                        <option value="No Show">No Show</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Expired">Expired</option>
+                                    </select>
+                                </selectmedium>
+                                <selectmedium>
+                                    <select ng-select name="filterJCreatedID" required ng-model="filterJCreatedID" ng-change="OnFilterJCreatedIdChanged()">
+                                        <option ng-repeat="idFilter in JobCreatedIdFilters" value="{{idFilter}}">{{idFilter}}</option>
+                                    </select>
+                                </selectmedium>
+                                <selectmedium>
+                                    <select ng-select name="filterCreatedID" required ng-model="filterCreatedID" ng-change="OnFilterCreatedIdChanged()">
+                                        <option ng-repeat="idFilter in CreatedIdFilters" value="{{idFilter}}">{{idFilter}}</option>
+                                    </select>
+                                </selectmedium>
+                                <dateDisplayBox>
+                                    <filterLabelText>Interview Date</filterLabelText>
+                                    <input type="text" id="dtFilterFromSession" name="dtFilterFromSession" ng-model="dtSesFilterFrom" placeholder="From Date" readonly ng-change="OnFilterSessionDateChanged()">
+                                    <input type="text" id="dtFilterToSession" name="dtFilterToSession" ng-model="dtSesFilterTo" placeholder="To Date" readonly ng-change="OnFilterSessionDateChanged()">
+                                </dateDisplayBox>
+                                <input type="button" value="Schedule New Interview" style="display:none;" class="buttonschedule" ng-click="ShowNewScheduledSession()">
+                            </rightFilter>
+                        </headBlock>
+                        <div class="filterBlock" ng-show="FilterItemsDisplay.length > 0">
+                            <filter ng-repeat="item in FilterItemsDisplay"><b>{{item.FilterLabel}}:</b> {{item.FilterValue}}<closeicon><a href="javascript:void(0);" ng-click="RemoveFilter(item.FilterIndex)" title="Close">&#215;</a></closeicon></filter>
+                            <input type="button" class="button_clear" value="Clear All" ng-click="ClearFilters()" />
+                        </div>
+                        <!--message to display for wrong filter selection-->
+                        <div class="noContent" ng-show="SessionFilters.length==0">No results found</div>
+                        <!--Block 1-->
+                        <contentBlock ng-show="SessionFilters.length > 0" ng-repeat="session in SessionFilters" id="Container_{{session.SessionId + '_' + session.SessionTag}}">
+                            <div class="parentBlock">
+                                <table>
+                                    <tr>
+                                        <td>Session ID</td>
+                                        <td>Candidate Name</td>
+                                        <td>Interviewer Name</td>
+                                        <td>Interview Date &amp; Time</td>
+                                        <td>Scheduled By</td>
+                                        <td>Status</td>
+                                        <td>Ratings</td>
+                                        <td rowspan="2" ng-switch="session.Status">
+                                            <a id="Refresh_{{session.SessionId + '_' + session.SessionTag}}" href="javascript:void(0);" style="display:none;" title="Refresh Block" ng-click="ShowOneBlock(session.SessionId,true)"><div class="refreshIcon"></div></a>
+
+                                            <span ng-switch="session.CStatus==2">
+                                                <a ng-switch-when="true" href="javascript:void(0);" title="Contact Details"><div class="contactIcon"></div></a>
+                                                <a ng-switch-when="false" href="javascript:void(0);" title="Contact Details" ng-click="ShowContact(session.SessionId)"><div class="contactIcon"></div></a>
+                                            </span>
+
+                                            <a ng-switch-when="Confirmed" href="javascript:void(0);" title="Cancel" ng-click="ShowCancelSession(session.SessionId)"><div class="cancelIcon"></div></a>
+                                            <span ng-switch-when="Completed" ng-switch="session.FeedBackResult.length > 0">
+                                                <span ng-switch-when="true" ng-switch="session.CStatus==2">
+                                                    <span ng-switch-when="false" ng-switch="session.StatusTag=='Completed'">
+                                                        <a ng-switch-when="true" href="{{session.FeedBackResult}}" target="_blank" title="Download Report"><div class="downloadIcon"></div></a>
+                                                    </span>
+                                                    <!--<a ng-switch-when="true" href="javascript:void(0);" target="_blank" title="Download Report"><div class="downloadIcon"></div></a>-->
+                                                </span>
+                                                <!--<a ng-switch-when="false" href="javascript:void(0);" title="No Report Found"><div class="downloadIcon"></div></a>-->
+                                            </span>
+                                        </td>
+                                        <td rowspan="2"><input type="button" value="View" class="buttonToggle" id="labelText_{{session.SessionId}}" ng-click="ShowOneBlock(session.SessionId,false);"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{session.SessionTag}}</td>
+                                        <td ng-switch="session.CStatus==2">
+                                            <span ng-switch-when="true">{{session.CandidateName.slice(0,20)}}</span>
+                                            <a ng-switch-when="false" href="javascript:void(0);" ng-click="NavigateToRoute('cnp/' + session.CandidateId)">{{session.CandidateName.slice(0,20)}}</a>
+                                        </td>
+                                        <td>{{session.InterviewerName.slice(0,20)}}</td>
+                                        <td>{{session.InterviewDate | date:"MMM dd, yyyy hh:mm a" }}</td>
+                                        <td>{{session.CreatedBy}}</td>
+                                        <td>{{session.StatusTag}}</td>
+                                        <td ng-switch="session.Rating>0">
+                                            <rating ng-switch-when="true">
+                                                <div class="rating_sprite_blue_m"><span style="width:{{session.Rating * 20 }}%" class="rating_sprite_blue_m_bg" title="{{session.Rating}} of 5"></span></div>
+                                            </rating>
+                                            <span ng-switch-when="false">NA</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="sessiondetails" ng-switch="session.Status">
+                                <div class="childBlock" ng-switch-when="Confirmed" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <div class="childContentBlank">
+                                        {{session.Description}}.
+                                    </div>
+                                </div>
+                                <div class="childBlock" ng-switch-when="Started" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <div class="childContentBlank">
+                                        {{session.Description}}.
+                                    </div>
+                                </div>
+                                <div class="childBlock" ng-switch-when="Requested" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <div class="childContentBlank">
+                                        {{session.Description}}.
+                                    </div>
+                                </div>
+                                <div class="childBlock" ng-switch-when="Cancelled" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <div class="childContentBlank">
+                                        <b>Reason for Cancellation -</b> {{session.Description}}.
+                                    </div>
+                                </div>
+                                <div class="childBlock" ng-switch-when="Completed" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <span ng-switch="session.StatusTag=='Completed'">
+                                        <div class="childContentLayout" ng-switch-when="true">
+                                            <genericDetailsBlock>
+                                                <label10>
+                                                    <childHead>Start Time:</childHead>
+                                                    <childResult>{{SelectedSession.SessionStart | date:"hh:mm a" }}</childResult>
+                                                    <childHead>End Time:</childHead>
+                                                    <childResult>{{SelectedSession.SessionEnd | date:"hh:mm a" }}</childResult>
+                                                </label10>
+                                                <label10>
+                                                    <childHead>Duration:</childHead>
+                                                    <childResult>{{SelectedSession.Duration}} Minute</childResult>
+                                                </label10>
+                                                <label10>
+                                                    <childHead>Overall Rating:</childHead>
+                                                    <overallRatingLayout>
+                                                        <div class="rating_sprite_blue_m" title="{{SelectedSession.Rating}} of 5"><span style="width:{{SelectedSession.Rating * 20}}%" class="rating_sprite_blue_m_bg"></span></div>
+                                                    </overallRatingLayout>
+                                                </label10>
+                                                <label10 ng-switch="IsValueFound(SelectedSession.InterviewLink)">
+                                                    <childHead>Recorded Interview Link:</childHead>
+                                                    <childResult ng-switch-when="false">Link is not available</childResult>
+                                                    <childResult ng-switch-when="true">
+                                                        <a href="javascript:void(0)" ng-click="ShowRecoredLink(SelectedSession.InterviewLink)">View Interview Recording</a>
+                                                    </childResult>
+                                                </label10>
+                                                <label10 style="display:none;">
+                                                    <childHead>Interviewer Report Card:</childHead>
+                                                    <childResult><a href="javascript:void(0);">View</a></childResult>
+                                                </label10>
+                                            </genericDetailsBlock>
+                                            <rateNoteBlock>
+                                                <ratingHead>Ratings -</ratingHead>
+                                                <ratingContainer>
+                                                    <ratingBlock ng-repeat="rates in SelectedSession.SessionRatings">
+                                                        <ratingLabel>{{rates.RatingName}}:</ratingLabel>
+                                                        <ratingStar><div class="rating_sprite_blue_s"><span style="width:{{rates.RatingValue * 20}}%" class="rating_sprite_blue_s_bg"></span></div></ratingStar>
+                                                    </ratingBlock>
+                                                </ratingContainer>
+                                                <noteHead>Interviewer Comment:</noteHead>
+                                                <noteResult>{{SelectedSession.Comment}}</noteResult>
+                                            </rateNoteBlock>
+                                        </div>
+                                        <childbuttonlayout ng-switch-when="true" ng-switch="session.CStatus==2">
+
+                                            <span ng-switch-when="true">
+                                                <input id="btnReport_d_{{session.SessionId + '_' + session.SessionTag}}" type="button" disabled value="Download Report" class="buttonChild">
+                                                <input type="button" ng-click="OnShareSessionClicked(session.SessionId)" value="Share Session" disabled class="buttonChild">
+                                            </span>
+
+                                            <span ng-switch-when="false" ng-switch="session.FeedBackResult.length > 0">
+                                                <a style="text-decoration:none;" ng-switch-when="true" id="myLink" href="{{session.FeedBackResult}}" target="_blank" class="buttonChild noancherline">Download Report</a>
+                                                <input ng-switch-when="false" id="btnReport_d_{{session.SessionId + '_' + session.SessionTag}}" type="button" disabled value="Download Report" class="buttonChild">
+                                            </span>
+                                            <input ng-switch-when="false" type="button" ng-click="OnShareSessionClicked(session.SessionId)" value="Share Session" class="buttonChild">
+                                        </childbuttonlayout>
+                                        <span ng-switch-when="true" ng-switch="SelectedSession.SharedList.length > 0">
+                                            <sharedsession ng-switch-when="true">
+                                                <sharedsessionhead>
+                                                    Shared With -
+                                                    <note>Uncheck and update to remove sharing from the email id</note>
+                                                </sharedsessionhead>
+                                                <shareblk ng-repeat="sharedItem in SelectedSession.SharedList">
+                                                    <sharedisplay ng-switch="sharedItem.Approved">
+                                                        <ul>
+                                                            <li>
+                                                                <input type="checkbox" ng-disabled="!sharedItem.Approved" ng-checked="sharedItem.Shared" ng-model="sharedItem.Shared"
+                                                                       id="btnShared_{{session.SessionId + '_' + sharedItem.SessionTag + '_' + sharedItem.SharedId}}" checked="">
+                                                                <label for="btnShared_{{session.SessionId + '_' + sharedItem.SessionTag + '_' + sharedItem.SharedId}}">{{sharedItem.Email}}</label>
+                                                            </li>
+                                                            <li>{{sharedItem.SharedName}}</li>
+                                                            <li ng-switch-when="false">Approval Pending</li>
+                                                            <li ng-switch-when="true">Approved</li>
+                                                        </ul>
+                                                    </sharedisplay>
+
+                                                </shareblk>
+                                            </sharedsession>
+                                            <updatebuttonlayout ng-switch-when="true" ng-switch="session.CStatus==2">
+                                                <input ng-switch-when="true" disabled id="btnShared_{{session.SessionId + '_' + session.SessionTag}}" ng-click="OnSharedUpdateClicked(SelectedSession.SharedList)" type="button" value="Update" class="buttonChild">
+                                                <input ng-switch-when="false" id="btnShared_{{session.SessionId + '_' + session.SessionTag}}" ng-click="OnSharedUpdateClicked(SelectedSession.SharedList)" type="button" value="Update" class="buttonChild">
+                                            </updatebuttonlayout>
+                                        </span>
+
+                                        <div ng-switch-when="false" class="childContentBlank">
+                                            {{session.Description}}.
+                                        </div>
+                                    </span>
+                                </div>
+                                <div class="childBlock" ng-switch-when="Rejected" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <div class="childContentBlank">
+                                        {{session.Description}}.
+                                    </div>
+                                </div>
+                                <div class="childBlock" ng-switch-when="Rescheduled" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <div class="childContentBlank">
+                                        {{session.Description}}.
+                                    </div>
+                                </div>
+                                <div class="childBlock" ng-switch-when="Expired" id="Block_{{session.SessionId + '_' + session.SessionTag}}" style="display:none">
+                                    <div class="childContentBlank">
+                                        {{session.Description}}.
+                                    </div>
+                                </div>
+                            </div>
+                        </contentBlock>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--Work Area Ends-->
+    <!-- Share Session-->
+    <div id="popShareSessionDiv" class="pop_disable_bg">
+        <div id="popup_ShareSession">
+            <div class="shareSession">
+                <txtHead>Share Session</txtHead>
+                <txtLabel>
+                    <mailicon><vline></vline></mailicon>
+                    <input name="txtShareEmail" id="txtShareEmail" type="email" placeholder="Email Address" />
+                </txtLabel>
+                <cblabel>
+                    <input type="checkbox" name="chkShareGDPR" ng-checked="ShareGDPR" ng-model="ShareGDPR" id="chkShareGDPR"><label for="chkShareGDPR">GDPR Compliance</label>
+                </cblabel>
+                <txtlabel ng-show="ShareGDPR">
+                    <coicon><vline></vline></coicon>
+                    <input name="txtSharedName" id="txtSharedName" type="text" placeholder="Company or Contact Name">
+                </txtlabel>
+                <gdprnote ng-show="ShareGDPR">Candidate will be notified through email about the session sharing. Only if the candidate approves, the session will be shared.</gdprnote>
+                <labelbutton>
+                    <input type="button" id="btnShareSession" value="Share" class="button" ng-click="OnSubmitSharedClicked()" />
+                    <input type="button" value="Close" class="button" ng-click="OnCancelSharedClicked()" />
+                </labelbutton>
+                <div class="errorMsg" id="errorShare" style="display:none;">Email is mandatory for sharing session</div>
+                <div class="successMsg" id="successShare" style="display:none;">Session shared successfully</div>
+            </div>
+        </div>
+    </div>
+    <!-- Recorded Video-->
+    <div id="popRecordedVideoDiv" class="pop_disable_bg">
+        <div id="popup_RecordedVideo">
+            <div class="recordedVideo">
+                <videoContainer>
+                    <video class="video-js vjs-default-skin" id="sessionvideocontrol" style="width:640px;height:480px"
+                           controls preload="auto"
+                           data-setup='{ "aspectRatio":"640:480"}'>
+                        <source type='video/mp4' />
+                    </video>
+                </videoContainer>
+                <videoannotblock>
+                    <videoannot ng-repeat="tTime in SelectedSession.Annotations"><a href="javascript:void(0);" ng-click="OnPlayAtPosition(tTime.Position)">{{tTime.AnnoteName}}</a></videoannot>
+                </videoannotblock>
+                <labelbutton>
+                    <!--<input type="submit" value="Play" class="button"/>-->
+                    <input type="submit" value="Close" class="button" id="btnVideoClose" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+    <script>
+        $(document).on("click", "#btnVideoClose", function () {
+            var video = document.getElementById('sessionvideocontrol');
+            video.pause();
+            HideDiv('popRecordedVideoDiv');
+        });
+
+        $(document).ready(function () {
+
+            var todaysDate = new Date();
+            var pubStartDate = new Pikaday({
+                field: document.getElementById('dtFilterFromSession'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+
+            var pubEndDate = new Pikaday({
+                field: document.getElementById('dtFilterToSession'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+        });
+
+    </script>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

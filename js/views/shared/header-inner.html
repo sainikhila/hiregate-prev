@@ -1,0 +1,161 @@
+<!-- Page Header Starts-->
+<!-- Page Header Starts-->
+<div ng-controller="headerController" ng-switch="HeaderStateId">
+    <header id="header_prelogin" ng-switch-when="0">
+        <div class="content-widthfix">
+            <a href="javascript:void(0);" ng-click="NavigateToRoute('')"><div id="logosmall"><div class="logo-white logo-small-in"></div></div></a>
+
+            <div id="menu-pos-prelogin">
+                <div class="menuContainer" ng-controller="menuController">
+
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);" ng-click="NavigateToRoute('features')" title="Features"><iconfeature></iconfeature></a>
+                        </li>
+                        <li>
+                            <navitxtlabel><a href="javascript:void(0);" ng-click="NavigateToRoute('features')">Features</a></navitxtlabel>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" ng-click="NavigateToRoute('pricing')" title="Pricing"><iconprice></iconprice></a>
+                        </li>
+                        <li>
+                            <navitxtlabel><a href="javascript:void(0);" ng-click="NavigateToRoute('pricing')">Pricing</a></navitxtlabel>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" ng-click="ShowSignInPopup()" class="signin_show" title="Sign In"><iconsignin></iconsignin></a>
+                        </li>
+                        <li>
+                            <navitxtlabel><a class="signin_show" ng-click="ShowSignInPopup()" title="Sign In">Login</a></navitxtlabel>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" ng-click="NavigateToRoute('rg')" title="Signup"><iconsignup></iconsignup></a>
+                        </li>
+                        <li>
+                            <input type="button" class="butsignup" value="Sign Up" href="javascript:void(0);" ng-click="NavigateToRoute('rg')">
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="demo_show" ng-click="ShowRequestDemo()" title="Request Demo"><iconreqdemo></iconreqdemo></a>
+                        </li>
+                        <li>
+                            <input type="button" class="butreqdemo demo_show" ng-click="ShowRequestDemo()" value="Request Demo">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <header id="header_postlogin_full" ng-switch-when="1">
+        <div class="content-widthfix">
+            <div id="topbar">
+                <div id="logosmall"><div class="logo-white logo-smaller"></div></div>
+                <div id="header-content-right">
+                    <div id="adminMenu" ng-show="Type==1">
+                        <coIcon></coIcon>
+                        <coName><a id="companyUrl" href="javascript:void(0);" ng-click="NavigateToRoute('ac')">{{CompanyName.slice(0,30)}}..</a></coName>
+                    </div>
+                    <!--menu-postlogin begins-->
+                    <div id="menu-postlogin">
+                        <div class="postlogin_menu">
+                            <a href="javascript:void(0);" class="alert_show" title="Alerts"><labelicon><alerticon><count>0</count></alerticon></labelicon></a>
+                            <vline></vline>
+                            <!--Drop menu starts-->
+                            <div class="menuname">
+                                <div id="dropmenu_content_placing">
+                                    <div id="dropmenu_name">{{LoggedInFullName.slice(0,15)}}..</div>
+                                    <div id="dropmenu_arrow"></div>
+                                </div>
+                            </div>
+
+                            <div class="touchmenu">
+                                <div class="dropmenu_arrow_box"></div>
+                                <div class="dropmenu-structure">
+                                    <div class="dropmenu-content">
+                                        <div id="menu-box" ng-controller="menuController">
+                                            <div class="menu-photo" ng-switch="IsAddPhoto(AccountPhoto)">
+                                                <profile-pic>
+                                                    <deletephoto ng-switch-when="false"><a href="javascript:void(0);" ng-click="DeleteAccountPhoto()" title="Delete Photo">x</a></deletephoto>
+                                                    <a ng-click="LoadForPhotoEdit()" href="javascript:void(0);">
+                                                        <img ng-switch-when="true" ng-src="{{AccountPhoto}}" title="Add a photo">
+                                                        <img ng-switch-when="false" ng-src="{{AccountPhoto}}" title="Change a photo">
+                                                    </a>
+                                                </profile-pic>
+                                                <!--show only if profile pic is available-->
+                                                <chgphoto ng-switch-when="false"><a ng-click="LoadForPhotoEdit()" href="javascript:void(0);">Change Photo</a></chgphoto>
+                                            </div>
+                                            <div class="menu-navi">
+                                                <name>{{LoggedInFullName}}</name>
+                                                <div class="profile-menu">
+                                                    <ul class="nav-bar">
+                                                        <li class="nav-account"><a href="javascript:void(0);" ng-click="NavigateToRoute('pp')">My Profile</a></li>
+                                                        <li class="nav-pswd"><a class="pswd_show" href="javascript:void(0);" ng-click="ShwoChangedPassword()">Change Password</a></li>
+                                                        <li class="nav-logout"><a href="javascript:void(0);" ng-click="SignOutClicked()">Logout</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--menu-postlogin ends-->
+
+                </div>
+                <!--header-content-right ends-->
+            </div>
+            <!-- Navi Bar Begins -->
+            <div id="navibar">
+                <div class="main-navi-container">
+                    <div class="main-navi">
+                        <menu-items></menu-items>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+
+            function OpenCompanySite(_url) {
+                alert(_url);
+            }
+
+        </script>
+    </header>
+    <div class="alert_pop">
+        <Span class="pop_closeBtn_alert" title="Close"></Span>
+        <div class="alert_heading">Notifications</div>
+        <div class="alert_layout">No Notifications Found.</div>
+        <div class="alert_button_bg"></div>
+    </div>
+    <div id="popNotifySessionTimeOut" style="z-index:5000;" class="pop_disable_bg">
+        <div class="popConfirmLayout">
+            <div class="confirmAlert">
+                <txtBold>Your session has timed Out!</txtBold>
+                <txt>
+                    You were idle for too long. For your security, you have been logged out of HireGate. Please login again
+                </txt>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" ng-click="SignOutHeaderClicked()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+    <div id="popNotifyMultipleSignOn" style="z-index:5000;" class="pop_disable_bg">
+        <div class="popConfirmLayout">
+            <div class="confirmAlert">
+                <txtBold>Unusual SignIn Activity</txtBold>
+                <txt>
+                    There is an attempt to sign in from another location or device. If you notice anything unfamiliar, please re-login and change
+                    your password.
+                </txt>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" ng-click="SignOutHeaderClicked()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+    <span ng-include src="'js/views/popups/photoedit.html'"></span>
+    <span ng-include src="'js/views/popups/sign-in.html'"></span>
+    <span ng-include src="'js/views/popups/changepassword.html'"></span>
+    <span ng-include src="'js/views/popups/reqdemo.html'"></span>
+    <!-- Page Header Ends-->
+</div>

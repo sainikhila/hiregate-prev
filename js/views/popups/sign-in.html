@@ -1,0 +1,60 @@
+﻿<div ng-controller="menuController">
+    <div class="signin_pop">
+        <span class="pop_closeBtn" title="Close"></span>
+        <div class="si-su">
+            <heading>Sign In</heading>
+            <structure-si>
+                <div id="logindetails">
+                    <form method="post" class="si-su-form">
+                        <label-10>
+                            <emailicon><vline></vline></emailicon>
+                            <input id="signinEmail" type="email" ng-enter="SignInClicked()" name="signinEmail" ng-model="SigninEmail" placeholder="Email Address" required>
+                        </label-10>
+                        <label-10>
+                            <pswdicon><vline></vline></pswdicon>
+                            <input id="signinPws" type="password" autocomplete="off" ng-enter="SignInClicked()" name="signinPws" ng-model="SigninPws" placeholder="Password" required>
+                        </label-10>
+                        <label-10-generic>
+                            <input type="button" class="button" value="LOGIN" ng-click="SignInClicked()">
+                        </label-10-generic>
+                        <labelpswd ng-click="ShowForgotPwsPanel()"><a href="javascript:void(0);">Forgot Password?</a></labelpswd>
+                        <height-5>
+                            <div id="displayerror1" style="display:none;">
+                                <error>{{error_message1}}<icon><a href="javascript:void(0);" onclick="HideDiv('displayerror1')" title="Close">&#215;</a></icon>
+                                </error>
+                            </div>
+                        </height-5>
+                    </form>
+                </div>
+                <!--FORGOT PASSWORD-->
+                <form method="post" class="si-su-form">
+                    <div id="fgt-pswd">
+                        <fgtpswd-txthead>
+                            Retrieve Password
+                            <fgtpswd-close ng-click="ShowLoginPanel()"><a href="javascript:void(0);" title="Return to Login">&#215;</a></fgtpswd-close>
+                        </fgtpswd-txthead>
+                        <hline></hline>
+                        <fgtpswd-txtdesc>
+                            Enter registered email to retrieve password
+                        </fgtpswd-txtdesc>
+                        <label-10>
+                            <emailicon><vline></vline></emailicon>
+                            <input id="forgotPwsEmail" type="email" ng-enter="ForgotPwsClicked()" name="forgotPwsEmail" ng-model="ForgotPwsEmail" placeholder="Email Address" required>
+                        </label-10>
+                        <label-10-generic>
+                            <input type="button" class="button" value="SUBMIT" ng-click="ForgotPwsClicked()">
+                        </label-10-generic>
+                        <height-5>
+                            <div id="displayerror2" style="display:none;">
+                                <error>{{error_message2}}<icon><a href="javascript:void(0);" onclick="HideDiv('displayerror2')" title="Close">&#215;</a></icon>
+                                </error>
+                            </div>
+                        </height-5>
+                    </div>
+                </form>
+                <!--FORGOT PASSWORD ENDS-->
+            </structure-si>
+            <terms>By Signing In you agree to our <a href="javascript:void(0);" ng-click="NavigateToRoute('terms')" target="_parent">Terms</a> and <a href="javascript:void(0);" ng-click="NavigateToRoute('privacy')" target="_parent">Privacy Policy</a></terms>
+        </div>
+    </div>
+</div>

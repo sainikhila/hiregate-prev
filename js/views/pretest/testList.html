@@ -1,0 +1,55 @@
+﻿<div id="workspacecontainer" ng-controller="pretestListController" ng-show="loadingView" ng-init="OnDefaultLoad()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Error</div>
+                <div class="crTest_pg_container">
+                    <ul class="buildQ_Qlist">
+                        <!--Test Description and Question List Block-->
+                        <li class="buildQ_Qlist" style="width: 100%;">
+                            <!--Added Question List-->
+                            <div class="testQList" id="dvTestQParentBlock" style="display:block;">
+                                <div class="shadowLayout">
+                                    <div class="crTestHeadBlock">
+                                        <pageHead>
+                                            <pgHeadText>Test List</pgHeadText>
+                                        </pageHead>
+                                        <div class="noContent" id="dvTestQNoListContentBlock" style="display: none">Build question to see here</div>
+                                        <div class="qstnListTable" id="dvTestQListBlock">
+                                            <table>
+                                                <tr>
+                                                    <td>Title</td>
+                                                    <td>Description</td>
+                                                    <td>Job Name</td>
+                                                    <td>Created By</td>
+                                                    <td>Created On</td>
+                                                    <td>Active</td>
+                                                    <td>Published</td>
+                                                </tr>
+                                                <tr ng-repeat="item in TestList">
+                                                    <td><a href="javascript:void(0);" ng-click="NavigateToRoute('ps/' + item.TestId)">{{item.Title}}</a></td>
+                                                    <td>{{item.Description}}</td>
+                                                    <td>{{item.JobTitle}}</td>
+                                                    <td>{{item.Contact}}</td>
+                                                    <td>{{item.CreatedOn}}</td>
+                                                    <td>In-Active</td>
+                                                    <td>Un-Published</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+

@@ -1,0 +1,533 @@
+﻿<div id="workspacecontainer" ng-controller="dashboardController" ng-show="loadingView" ng-init="LoadDefaults()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">You do not have an active subscription. To buy our services, please get in touch with our customer support team. </div>
+                <div class="dash_pg_container">
+                    <!--Left Block-->
+                    <div class="dash_pgLeft_block">
+
+                        <div class="dashblock">
+                            <ul>
+                                <li>
+                                    <div class="dash_block_container">
+                                        <heading>
+                                            Interview Status
+                                            <rightContent>
+                                                <yearlabel>
+                                                    <select name="statusFilterYear" id="statusFilterYear"
+                                                            ng-model="CountYear" ng-change="GetSessionsByStatus()"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:2015,max:0,chars:'',twodigit:true}"
+                                                            placeholder="Select">
+                                                        <!--<option value="" selected="selected">Select</option>-->
+                                                    </select>
+                                                </yearlabel>
+                                                <monthlabel>
+                                                    <select ng-select name="statusFilterMonth" id="statusFilterMonth"
+                                                            ng-model="CountMonth" ng-change="GetSessionsByStatus()"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:1,max:12,fullmonth:true}"
+                                                            placeholder="Select">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </monthlabel>
+                                            </rightContent>
+                                        </heading>
+                                        <contentarea>
+                                            <div class="noContent" id="intstatusmsg" style="display:none">No interview has been scheduled</div>
+                                            <div id="intstatus"></div>
+                                        </contentarea>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dash_block_container">
+                                        <heading>
+                                            Job Statistics
+                                            <rightContent>
+                                                <yearlabel>
+                                                    <select name="jobFilterYear" id="jobFilterYear"
+                                                            ng-model="StatisticsYear" ng-change="GetJobStatistics()"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:2015,max:0,chars:'',twodigit:true}"
+                                                            placeholder="Select">
+                                                        <!--<option value="" selected="selected">Select</option>-->
+                                                    </select>
+                                                </yearlabel>
+                                            </rightContent>
+                                        </heading>
+                                        <contentarea>
+                                            <div class="noContent" id="jobstatisticsmsg" style="display:none">No jobs has been created</div>
+                                            <div id="jobstatistics"></div>
+                                        </contentarea>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--Monthwise Interview Details-->
+                        <div class="dash_block_container">
+                            <heading>
+                                Monthwise Interviews Scheduled and Conducted <!--<div class="blockRefresh"></div>-->
+                                <rightContent>
+                                    <yearlabel>
+                                        <select name="monthSessionFilterYear" id="monthSessionFilterYear"
+                                                ng-model="MonthSessionYear" ng-change="GetSessionsByMonthlyCond()"
+                                                ng-options="item.Value as item.Text for item in [] | range:{min:2015,max:0,chars:'',twodigit:true}"
+                                                placeholder="Select">
+                                            <!--<option value="" selected="selected">Select</option>-->
+                                        </select>
+                                    </yearlabel>
+                                    <monthlabel>
+                                        <select ng-select name="monthSessionFilterMonth" id="monthSessionFilterMonth"
+                                                ng-model="MonthSessionMonth" ng-change="GetSessionsByMonthly()"
+                                                ng-options="item.Value as item.Text for item in [] | range:{min:1,max:12,fullmonth:true}"
+                                                placeholder="Select">
+                                            <option value="" selected="selected">Select</option>
+                                        </select>
+                                    </monthlabel>
+                                    <jobidlabel>
+                                        <select name="monthSessionFilterJob" id="monthSessionFilterJob"
+                                                ng-model="MonthSessionJob" ng-change="GetSessionsByMonthlyCond()"
+                                                ng-options="item.Id as item.Text for item in AllJobs" ng-select
+                                                placeholder="Job ID">
+                                            <option value="" selected="selected">Job ID</option>
+                                        </select>
+                                    </jobidlabel>
+                                </rightContent>
+                            </heading>
+                            <contentarea_monthwise>
+                                <div class="noContent" id="int_schedule_take_msg" style="display:none">No interviews scheduled</div>
+                                <div id="int_schedule_taken"></div>
+                            </contentarea_monthwise>
+                        </div>
+                        <!--Interviews Taken by Day and Time-->
+                        <div class="dashblock">
+                            <ul>
+                                <li>
+                                    <div class="dash_block_container">
+                                        <heading>
+                                            Interviews Scheduled by Day
+                                            <rightContent>
+                                                <yearlabel>
+                                                    <select name="daySessionFilterYear" id="daySessionFilterYear"
+                                                            ng-model="DaySessionYear" ng-change="GetSessionsByDay()"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:2015,max:0,chars:'',twodigit:true}"
+                                                            placeholder="Select">
+                                                        <!--<option value="" selected="selected">Select</option>-->
+                                                    </select>
+                                                </yearlabel>
+                                                <monthlabel>
+                                                    <select ng-select name="daySessionFilterMonth" id="daySessionFilterMonth"
+                                                            ng-model="DaySessionMonth" ng-change="GetSessionsByDay()"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:1,max:12,fullmonth:true}"
+                                                            placeholder="Select">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </monthlabel>
+                                            </rightContent>
+                                        </heading>
+                                        <contentarea>
+                                            <div class="noContent" id="interviewdaymsg" style="display:none">No interview has been created</div>
+                                            <div id="interviewday"></div>
+                                        </contentarea>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dash_block_container">
+                                        <heading>
+                                            Interviews Scheduled by Time
+                                            <rightContent>
+                                                <yearlabel>
+                                                    <select name="dayTimeSessionYear" id="dayTimeSessionYear"
+                                                            ng-model="TimeSessionYear" ng-change="GetSessionsByTime()"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:2015,max:0,chars:'',twodigit:true}"
+                                                            placeholder="Select">
+                                                        <!--<option value="" selected="selected">Select</option>-->
+                                                    </select>
+                                                </yearlabel>
+                                                <monthlabel>
+                                                    <select ng-select name="dayTimeSessionMonth" id="dayTimeSessionMonth"
+                                                            ng-model="TimeSessionMonth" ng-change="GetSessionsByTime()"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:1,max:12,fullmonth:true}"
+                                                            placeholder="Select">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </monthlabel>
+                                            </rightContent>
+                                        </heading>
+                                        <contentarea>
+                                            <div class="noContent" id="timechartmsg" style="display:none">No interview details available</div>
+                                            <div id="timechart"></div>
+                                        </contentarea>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--Upcoming Sessions-->
+                        <div class="dash_block_container">
+                            <heading>
+                                Interviews - {{dsSessionFilter}} <div class="blockRefresh" ng-click="RefreshSessions()"></div>
+                                <rightcontent>
+                                    <statuslabel>
+                                        <select name="dsSessionFilter" id="dsSessionFilter"
+                                                ng-model="dsSessionFilter" ng-change="OnSessionFilter()">
+                                            <option value="All" selected="">All</option>
+                                            <option value="Scheduled">Scheduled</option>
+                                            <option value="In-Progress">In-Progress</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                            <option value="NoShow">No-Show</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Expired">Expired</option>
+                                        </select>
+                                    </statuslabel>
+                                </rightcontent>
+                            </heading>
+                            <contentarea_session ng-switch="Sessions.length>0">
+                                <div class="noContent" ng-switch-when="false">No interview sessions to display</div>
+                                <div class="dash_session_head" ng-switch-when="true">
+                                    <table>
+                                        <tr>
+                                            <td>Job ID</td>
+                                            <td>Session ID</td>
+                                            <td>Candidate Name</td>
+                                            <td>Date</td>
+                                            <td>Time</td>
+                                            <td>Scheduled By</td>
+                                            <td>Status</td>
+                                            <td>Ratings</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="dash_session" ng-switch-when="true">
+                                    <table>
+                                        <tr ng-repeat="item in Sessions">
+                                            <td ng-switch="item.JStatus==99">
+                                                <span ng-switch-when="true">N/A</span>
+                                                <a ng-switch-when="false" href="javascript:void(0);" ng-click="NavigateToRoute('jbd/' + item.JobId)">{{item.JobTag}}</a>
+                                            </td>
+                                            <td><a href="javascript:void(0);" ng-click="NavigateToRoute('cs/' + item.SessionId)">{{item.SessionTag}}</a></td>
+                                            <td>{{item.CandidateName.slice(0,20)}}</td>
+                                            <td>{{item.InterviewDate | date:'dd/MM/yyyy'}}</td>
+                                            <td>{{item.InterviewDate | date:'hh:mm a'}}</td>
+                                            <td>{{item.CreatedBy}}</td>
+                                            <!--<td ng-show="item.Status==='Confirmed'">Scheduled</td>-->
+                                            <td>{{item.StatusTag}}</td>
+                                            <td>
+                                                <rating>
+                                                    <div class="rating_sprite_blue_m"><span style="width:{{item.Rating * 20}}%" class="rating_sprite_blue_m_bg" title="{{item.Rating}} of 5"></span></div>
+                                                </rating>
+                                            </td>
+                                            <td ng-switch="item.Status==='Confirmed'">
+                                                <a href="javascript:void(0);" title="Contact Details" ng-click="ShowContact(item.SessionId)"><div class="coDetails"></div></a>
+                                                <a ng-switch-when="true" href="javascript:void(0);" title="Cancel Interview" ng-click="ShowCancelSession(item.SessionId)"><div class="cancelSession"></div></a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </contentarea_session>
+                            <bottom>
+                                <a href="javascript:void(0);" ng-click="NavigateToRoute('cs')">View All Sessions</a>
+                            </bottom>
+                        </div>
+                    </div>
+                    <!--Right Block Begins-->
+                    <div class="dash_pgRight_block">
+
+                        <div class="dash_block_container">
+                            <heading>My Profile<span><a href="javascript:void(0);" ng-click="NavigateToRoute('pp')">Update</a></span></heading>
+                            <contentarea_small>
+                                <div class="dash_personal_details">
+                                    <photoNameBlock>
+                                        <photo>
+                                            <profile-pic><img ng-click="LoadForPhotoEdit()" style="cursor:pointer;" ng-src="{{AccountPhoto}}"></profile-pic>
+                                        </photo>
+                                        <nameDescBlock>
+                                            <name>{{ShortContact.Name}}</name>
+                                            <designation>{{ShortContact.Designation}}</designation>
+                                            <department>{{ShortContact.Department}}</department>
+                                        </nameDescBlock>
+                                    </photoNameBlock>
+                                    <mailBlock>
+                                        <mailIcon></mailIcon>
+                                        <mailPh_txt>{{ShortContact.Email}}</mailPh_txt>
+                                    </mailBlock>
+                                    <phoneBlock>
+                                        <phIcon></phIcon>
+                                        <mailPh_txt>{{ShortContact.Phone}}</mailPh_txt>
+                                    </phoneBlock>
+                                </div>
+                            </contentarea_small>
+                        </div>
+
+                        <div class="dash_block_container">
+                            <heading>My Tasks</heading>
+                            <contentarea_small ng-switch="MyTasks.length > 0">
+                                <div class="noContent" ng-switch-when="false">No tasks asgined</div>
+                                <div class="dash_mytask" ng-switch-when="true">
+                                    <ul>
+                                        <li ng-show="MyTasks[1].JobId > 0">
+                                            <taskhead>Schedule Interview for - </taskhead>
+                                            <taskname>Job Id: <a href="javascript:void(0);" ng-click="NavigateToRoute('jbd/' + MyTasks[1].JobId)">{{MyTasks[1].JobTag}}</a></taskname>
+                                            <created><b>Assigned by:</b> {{MyTasks[1].AssignedBy}}</created>
+                                            <startendblock>
+                                                <startendhead>Start:</startendhead>
+                                                <startend>{{MyTasks[1].StartOn | date:'dd/MM/yyyy'}}</startend>
+                                                <startendhead>End:</startendhead>
+                                                <startend>{{MyTasks[1].EndsOn | date:'dd/MM/yyyy'}}</startend>
+                                            </startendblock>
+                                        </li>
+                                        <!--<li ng-show="MyTasks[0].JobId < 0">
+                                            <taskhead>Create a Job Requirement - </taskhead>
+                                            <taskname>Job Description - <a href="javascript:void(0);" ng-click="NavigateToRoute('jbd/' + MyTasks[0].JobId)">View</a></taskname>
+                                            <created><b>Assigned by:</b>{{MyTasks[0].AssignedBy}}</created>
+                                        </li>-->
+                                    </ul>
+                                </div>
+                            </contentarea_small>
+                        </div>
+
+                        <div class="dash_block_container">
+                            <heading>
+                                Active Jobs
+                            </heading>
+                            <contentarea_small ng-switch="ActiveJobs.length > 0">
+                                <div ng-switch-when="false" class="noContent">No active jobs available</div>
+                                <div ng-switch-when="true" class="dash_position">
+                                    <ul>
+                                        <li ng-repeat="item in ActiveJobs">
+                                            <position>{{item.Text}}</position>
+                                            <createdon><b>Created On:</b> {{item.DateOn | date:'yyyy-MMM-dd'}}</createdon>
+                                            <input type="button" class="btnviewjob" value="View Job Details" ng-click="NavigateToRoute('jbd/' + item.Id)">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </contentarea_small>
+                        </div>
+
+                        <div class="dash_block_container">
+                            <heading>Subscription Status<!--<span><a href="javascript:void(0);">Subscribe</a></span>--></heading>
+                            <contentarea_small>
+                                <div class="dash_subscription">
+                                    <overallStatus>
+                                        <hor10>
+                                            <statusHead>Status:</statusHead>
+                                            <activeInactive>
+                                                <div class="subActive" style="display:block"></div>
+                                                <div class="subInactive" style="display:none"></div>
+                                            </activeInactive>
+                                        </hor10>
+                                        <hor10>
+                                            <statusHead>Plan:</statusHead>
+                                            <statusText>Enterprise</statusText>
+                                        </hor10>
+                                    </overallStatus>
+                                </div>
+                            </contentarea_small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <!-- Page Footer Starts-->
+    <!-- Page Footer Ends-->
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart', 'bar'] });
+
+        function loadInterviewStatus(items, title) {
+            function pieChart() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Interview Status');
+                data.addColumn('number', 'Percentage');
+                data.addRows(items);
+
+                var options = {
+                    'title': title,
+                    'backgroundColor': '#fff',
+                    'titleTextStyle': { color: '#000', fontSize: 15 },
+                    'width': 'auto',
+                    'height': 250,
+                    'colors': ['#1b994b', '#348ea1', '#fd9827', '#dd451f', '#16428d'],
+                    'chartArea': { top: 50, height: '70%', width: '90%' },
+                    'pieHole': 0.4,
+                    'legend': { textStyle: { color: '#353535', fontSize: 12, bold: true }, position: 'labeled' },
+                    'pieSliceText': 'value',
+                    'pieSliceTextStyle': { color: '#fff', fontSize: 14, bold: true }
+                };
+                var chart = new google.visualization.PieChart(document.getElementById('intstatus'));
+                chart.draw(data, options);
+            }
+            google.charts.setOnLoadCallback(pieChart);
+        }
+
+        function loadJobStatics(items, title) {
+            function barChart() {
+                var data = google.visualization.arrayToDataTable(items);
+
+                var options = {
+                    'title': title,
+                    'backgroundColor': '#ffffff',
+                    'colors': ['#1b994b', '#348ea1', '#fd9827'],
+                    'titleTextStyle': { color: '#000', fontSize: 15 },
+                    'width': 'auto',
+                    'height': 250,
+                    'chartArea': { top: 50, left: "25%" },
+                    'legend': { position: "none" },
+                    'fontSize': 13,
+                    'hAxis': {
+                        title: '', minValue: 0, textStyle: {
+                            bold: true, fontSize: 12, color: '#353535'
+                        },
+                        titleTextStyle: {
+                            bold: true, fontSize: 16, color: '#454545'
+                        }
+                    },
+                    'vAxis': {
+                        title: '', textStyle: {
+                            fontSize: 12, bold: true, color: '#353535'
+                        },
+                        titleTextStyle: {
+                            fontSize: 16, bold: true, color: '#454545'
+                        }
+                    }
+                };
+
+                var chart = new google.visualization.BarChart(document.getElementById('jobstatistics'));
+                chart.draw(data, options);
+            }
+            google.charts.setOnLoadCallback(barChart);
+        }
+
+        function loadInterviewsByDay(items, title) {
+            function dayChart() {
+                var data = google.visualization.arrayToDataTable(items);
+
+                var options = {
+                    'title': title,
+                    'backgroundColor': '#ffffff',
+                    'titleTextStyle': { color: '#000', fontSize: 15, },
+                    'width': 'auto',
+                    'height': 250,
+                    'chartArea': { top: 50, left: "25%" },
+                    'legend': { position: "none" },
+                    'fontSize': 13,
+                    'hAxis': {
+                        title: '', minValue: 0, textStyle: {
+                            bold: true, fontSize: 12, color: '#353535'
+                        },
+                        titleTextStyle: {
+                            bold: true, fontSize: 16, color: '#454545'
+                        }
+                    },
+                    'vAxis': {
+                        title: '', textStyle: {
+                            fontSize: 12, bold: true, color: '#353535'
+                        },
+                        titleTextStyle: {
+                            fontSize: 16, bold: true, color: '#454545'
+                        }
+                    }
+                };
+                var chart = new google.visualization.BarChart(document.getElementById('interviewday'));
+                chart.draw(data, options);
+            }
+            google.charts.setOnLoadCallback(dayChart);
+        }
+
+        function loadInterviewsByTime(items, title) {
+            function timetaken() {
+                var data = google.visualization.arrayToDataTable(items);
+
+                var options = {
+                    'title': title,
+                    'backgroundColor': '#ffffff',
+                    'titleTextStyle': { color: '#000', fontSize: 15 },
+                    'width': 'auto',
+                    'height': 240,
+                    'colors': ['#1b994b', '#348ea1', '#fd9827', '#dd451f', '#f04e63', '#7b3294'],
+                    'chartArea': { top: 50, height: '70%', width: '85%' },
+                    'legend': { textStyle: { color: '#3489a1', fontSize: 11, bold: true }, position: 'labeled' },
+                    'slices': {
+                        1: { offset: 0.05 },
+                        2: { offset: 0.05 },
+                        3: { offset: 0.05 },
+                        4: { offset: 0.05 }
+                    },
+                    'pieSliceText': 'value',
+                    'pieSliceTextStyle': { color: '#fff', fontSize: 14, bold: true }
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('timechart'));
+                chart.draw(data, options);
+            }
+            google.charts.setOnLoadCallback(timetaken);
+        }
+
+        function loadInterviewsByMonth(items, title) {
+            function monthChart() {
+
+                var data = new google.visualization.DataTable();
+                // Declare columns
+                data.addColumn('date', 'date');
+                data.addColumn('number', 'Interviews Scheduled');
+                data.addColumn({ type: 'string', role: 'annotation' });
+                data.addColumn('number', 'Interviews Conducted');
+                data.addColumn({ type: 'string', role: 'annotation' });
+                data.addRows(items);
+
+                var options = {
+                    'title': title,
+                    'backgroundColor': '#ffffff',
+                    'titleTextStyle': { color: '#000', fontSize: 15, },
+                    'colors': ['#fd9827', '#348ea1'],
+                    'legend': { position: "top", textStyle: { color: '#454545', fontSize: 11, bold: true } },
+                    'width': 'auto',
+                    'height': 250,
+                    'chartArea': { top: 60, width: "92%", left: "5%", },
+                    annotations: { alwaysOutside: true, textStyle: { fontSize: 12, color: '#454545', auraColor: '#fff' } },
+                    hAxis: {
+                        'title': '',
+                        'format': 'd',
+                        'slantedText': false,
+                        'slantedTextAngle': 15,
+                        'gridlines': { color: 'none' },
+                        'textStyle': {
+                            fontSize: 10, bold: true, color: '#353535'
+                        },
+                    },
+                    vAxis: {
+                        'title': '',
+                        'gridlines': { count: 5, color: '#ccc' }
+                    }
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('int_schedule_taken'));
+                chart.draw(data, options);
+            }
+            google.charts.setOnLoadCallback(monthChart);
+        }
+
+        $(document).ready(function () {
+
+            $("select")
+                .on("change", function () {
+                    var $this = $(this);
+                    if ($this.val() === "")
+                        $this.addClass("watermark");
+                    else if ($this.val() === "Status")
+                        $this.addClass("watermark");
+                    else if (parseInt($this.val()) === 0)
+                        $this.addClass("watermark");
+                    else
+                        $this.removeClass("watermark");
+                })
+                .change();
+
+        });
+
+    </script>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+

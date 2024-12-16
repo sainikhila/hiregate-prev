@@ -1,0 +1,23 @@
+﻿<div id="workspacecontainer" ng-controller="ErrorController" ng-init="LoadDefaults()" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="secondary_page_container">
+                    <div class="accValidate">
+                        <textLabelError>Oops! Something went wrong</textLabelError>
+                        <textLabelbody>The requested URL was not found on the server. <br>Perhaps you can return back to the <a href="javascript:void(0)" ng-click="NavigateToRoute('/')">homepage</a> and try the action again. If the problem persists, let us know.</textLabelbody>
+                        <!--<button_label><input type="button" value="Return to Homepage" class="buttonVerified"></button_label>-->
+                    </div>
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div> <!--Container Ends-->
+    <!--Work Area Ends-->
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+
+

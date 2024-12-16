@@ -1,0 +1,21 @@
+﻿<div id="workspacecontainer" ng-controller="accessController" ng-show="loadingView" ng-init="OnLoadResults()">
+    <header id="header_prelogin">
+        <div class="content-widthfix">
+            <div class="logo-white-in logo-small-in"></div>
+        </div>
+    </header>
+    <!-- Page Header Ends-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="secondary_page_container">
+                    <div class="accValidate">
+                        <textLabel>{{NotifyMsg}}</textLabel>
+                    </div>
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

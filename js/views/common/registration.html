@@ -1,0 +1,443 @@
+﻿<div id="workspacecontainer" ng-controller="registerController" ng-show="loadingView">
+    <!-- Page Header Starts-->
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!-- Page Header Ends-->
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- Login USP block-->
+            <div class="login_block">
+                <div class="content-widthfix">
+                    <div class="login_block_L">
+                        <div class="login_block_container">
+                            <heading>Sign In</heading>
+                            <structure>
+                                <div id="reg-login-details" style="display:block;">
+                                    <form class="loginForm" id="form.signin" novalidate>
+                                        <labelForm>
+                                            <emailicon>
+                                                <vline></vline>
+                                            </emailicon>
+                                            <input id="loginEmail" name="loginEmail" ng-enter="SubmitLogin()" type="email" autocomplete="off" placeholder="Email Address" required />
+                                        </labelForm>
+                                        <labelForm>
+                                            <pswdicon>
+                                                <vline></vline>
+                                            </pswdicon>
+                                            <input id="loginPassword" name="loginPassword" ng-enter="SubmitLogin()" type="password" autocomplete="off" placeholder="Password" required />
+                                            <buttonLabel>
+                                                <button class="button loginarrow" ng-click="SubmitLogin()"></button>
+                                            </buttonLabel>
+                                        </labelForm>
+                                        <labelRemPassLayout>
+                                            <labelRemPass>
+                                                <!--<input type="checkbox" value="None" id="cb" name="cb" />
+                                                <label for="cb">Remember Me</label>-->
+                                            </labelRemPass>
+                                            <labelRemPass>
+                                                <a href="javascript:void(0);" ng-click="ShowForgotPassword()">Forgot Password?</a>
+                                            </labelRemPass>
+                                        </labelRemPassLayout>
+                                        <div id="showHideError">
+                                            <div class="si_error" style="display:none" id="errorLogin"></div>
+                                            <div class="resendEmail" style="display:none;" id="btnResendEmail"><a ng-click="ReSendEmail()" href="javascript:void(0);">Click Here</a> to re-send the verification email</div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--FORGOT PASSWORD-->
+
+                                <div id="reg-fgt-pswd" style="display:none;">
+                                    <form method="post" novalidate class="loginForm">
+                                        <fgtpswd-txthead>
+                                            Retrieve Password
+                                            <fgtpswd-close ng-click="HideForgotPassword()">
+                                                <a href="javascript:void(0);" title="Return to Login">&#215;</a>
+                                            </fgtpswd-close>
+                                        </fgtpswd-txthead>
+                                        <hline></hline>
+                                        <fgtpswd-txtdesc>
+                                            Enter registered email to retrieve password
+                                        </fgtpswd-txtdesc>
+                                        <labelForm>
+                                            <emailicon>
+                                                <vline></vline>
+                                            </emailicon>
+                                            <input id="forgotEmail" name="forgotEmail" type="email" ng-enter="SubmitForgotPassword()" placeholder="Email Address" required>
+                                            <buttonLabel>
+                                                <button class="button loginarrow" ng-click="SubmitForgotPassword()"></button>
+                                            </buttonLabel>
+                                        </labelForm>
+                                        <div id="showHideError1">
+                                            <div class="si_error" id="statusForgotLogin" style="display:none">
+                                                Invalid Email ID. Please retry
+                                                <icon>
+                                                    <a href="javascript:void(0);" title="Close" onClick="HideDiv('statusForgotLogin')">&#215;</a>
+                                                </icon>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!--FORGOT PASSWORD ENDS-->
+                            </structure>
+                        </div>
+                    </div>
+                    <div class="login_block_R">
+                        <div class="loginUSP">
+                            <block>
+                                <icon01></icon01>
+                                <textLayout>
+                                    <textHeading>Pre-assessed Jobseekers</textHeading>
+                                    <text>Job Seekers are rated based on their skills by crowdsourced indusrty experts. Search though our pool of pre-assessed jobseekers and shortlist the best talent.</text>
+                                </textLayout>
+                            </block>
+                            <block>
+                                <icon02></icon02>
+                                <textLayout>
+                                    <textHeading>Reduce Time and Cost to Hire</textHeading>
+                                    <text>Eliminate the initial rounds of interview process with pre-assessed jobseekers. Fill an open position with almost 75% lesser time.</text>
+                                </textLayout>
+                            </block>
+                            <blockLast>
+                                <icon03></icon03>
+                                <textLayout>
+                                    <textHeading>Share Recorded Interviews</textHeading>
+                                    <text>Conduct live video interview and coding tests to evaluate jobseekers and share recorded interviews with stakeholders for an unbiased and faster decision making.</text>
+                                </textLayout>
+                            </blockLast>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--SignUp block-->
+            <div class="signup_block">
+                <div class="content-widthfix">
+                    <div class="signup">
+                        <heading>Register Now</heading>
+                        <div class="signupContainer">
+                            <!--Application Form Block-->
+                            <div class="signup_leftBlock">
+                                <form method="post" class="signup_form" name="frmCorporate" id="frmCorporate" ng-submit="SignUpSubmit()" novalidate>
+                                    <blockhead>Login Details</blockhead>
+                                    <content>
+                                        <label-20>
+                                            <vblock>
+                                                <div class="labelheading" id="cpemailLabel">
+                                                    Email Address *
+                                                    <div class="errorFormat" style="display:none;" id="emailExist">Already Exist</div>
+                                                    <div class="errorFormat" style="display:none;" id="emailInvalid">Invalid Email</div>
+                                                </div>
+                                                <mailIcon>
+                                                    <vline></vline>
+                                                </mailIcon>
+                                                <input ng-model="NewSignUp.Login.Email" email-validate key-id="4" on-touch autocomplete="off" name="cpemail" id="cpemail" type="email" required />
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cppasswordLabel">Password *</div>
+                                                <passwordIcon>
+                                                    <vline></vline>
+                                                </passwordIcon>
+                                                <input ng-model="NewSignUp.Login.Password" on-touch autocomplete="off" name="cppassword" id="cppassword" type="password" required />
+                                            </vblock>
+                                            <vblock>
+                                                <noteText>
+                                                    Please provide company email address. Verification email will be sent. Use this to login.
+                                                </noteText>
+                                            </vblock>
+                                        </label-20>
+                                    </content>
+                                    <blockhead>Company Details</blockhead>
+                                    <content>
+                                        <label-20>
+                                            <vblock>
+                                                <div class="labelheading" id="cpNameLabel">Company Name *</div>
+                                                <div class="errorFormat" style="display:none;" id="companyExist">Already Exist</div>
+                                                <coIcon>
+                                                    <vline></vline>
+                                                </coIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.Name" company-validate on-touch autocomplete="off" type="text" name="cpName" id="cpName" required />
+                                                </textGeneric>
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpCINLabel">
+                                                    CIN/LLP *
+                                                    <div class="errorFormat" style="display:none;" id="cinExist">Already Exist</div>
+                                                </div>
+                                                <descIcon>
+                                                    <vline></vline>
+                                                </descIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.CIN" cin-validate on-touch autocomplete="off" type="text" name="cpCIN" id="cpCIN" placeholder="Corporate Identification Number" required />
+                                                </textGeneric>
+                                                <noteHelp>
+                                                    <a href="https://www.zaubacorp.com/" target="_blank">Know your CIN/LLP</a>
+                                                </noteHelp>
+                                            </vblock>
+                                            <vblock style="display:none;">
+                                                <div class="labelheading" id="cpwebsiteLabel">
+                                                    Company Website *
+                                                    <div class="errorFormat" style="display:none;">Invalid Format</div>
+                                                </div>
+                                                <webIcon>
+                                                    <vline></vline>
+                                                </webIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.Website" on-touch url-validate autocomplete="off" type="text" name="cpwebsite" id="cpwebsite" placeholder="http://www" />
+                                                </textGeneric>
+                                            </vblock>
+                                            <vblock style="display:none;">
+                                                <div class="labelheading" id="cplevelLabel">Type *</div>
+                                                <typeicon><vline></vline></typeicon>
+                                                <select name="cplevel" id="cplevel">
+                                                    <!--<option value="" selected="selected">Select</option>-->
+                                                    <!--<option value="#" disabled>Corporate</option>-->
+                                                    <option value="Consultant" selected="selected">Consultant</option>
+                                                    <!--<option value="#" disabled>Educational Institution</option>-->
+                                                </select>
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpgstLabel">GST No <div class="errorFormat" style="display:none;" id="cpgstExist">Already Exist</div></div>
+                                                <descicon><vline></vline></descicon>
+                                                <textgeneric><input type="text" gst-validate ng-model="NewSignUp.Company.GST" name="cpgst" id="cpgst" on-touch autocomplete="off" placeholder="Goods and Services Tax No."></textgeneric>
+                                            </vblock>
+                                        </label-20>
+                                        <label-20>
+                                            <vblock mass-autocomplete>
+                                                <div class="labelheading" id="cpcountryLabel">Country *</div>
+                                                <locationIcon>
+                                                    <vline></vline>
+                                                </locationIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.Country" on-touch autocomplete="off"
+                                                           ui-key="name" mass-autocomplete-item="ac_option_populate"
+                                                           name="cpcountry" id="cpcountry" type="text" />
+                                                </textGeneric>
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpcityLabel">City *</div>
+                                                <locationIcon>
+                                                    <vline></vline>
+                                                </locationIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.City" on-touch autocomplete="off" name="cpcity" id="cpcity" type="text" required
+                                                           city-id="cpcity" country-id="cpcountry" zip-code-update="UpdateZipCode(dailingCode)" next-focus-id="cpaddress"
+                                                           state-id="cpstate" placeholder="Enter City" google-place="CountryCode" />
+                                                </textGeneric>
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpstateLabel">State *</div>
+                                                <locationIcon>
+                                                    <vline></vline>
+                                                </locationIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.State" on-touch autocomplete="off" name="cpstate" id="cpstate" type="text" readonly />
+                                                </textGeneric>
+                                            </vblock>
+                                        </label-20>
+                                        <label-20>
+                                            <vblock>
+                                                <div class="labelheading" id="cpaddressLabel">Address *</div>
+                                                <locationIcon>
+                                                    <vline></vline>
+                                                </locationIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.Address" on-touch autocomplete="off" name="cpaddress" id="cpaddress" type="text" required />
+                                                </textGeneric>
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpzipLabel">
+                                                    Zip Code *
+                                                    <div class="errorFormat" style="display:none;">Invalid Format</div>
+                                                </div>
+                                                <locationIcon>
+                                                    <vline></vline>
+                                                </locationIcon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Company.ZipCode" on-touch only-digits autocomplete="off" name="cpzip" id="cpzip" type="text" required />
+                                                </textGeneric>
+                                            </vblock>
+                                            <vblock style="display:none;">
+                                                <div class="labelheading" id="cpphoneLabel">
+                                                    Landline (Include City Code)
+                                                    <div class="errorFormat" style="display:none;">Invalid Format</div>
+                                                </div>
+                                                <landphicon>
+                                                    <vline></vline>
+                                                    <phCountryCode>{{NewSignUp.Company.AreaCode}}</phCountryCode>
+                                                </landphicon>
+                                                <textphone>
+                                                    <input ng-model="NewSignUp.Company.LandLine" on-touch only-digits autocomplete="off" name="cpphone" id="cpphone" type="text" />
+                                                </textphone>
+                                            </vblock>
+                                        </label-20>
+                                    </content>
+                                    <blockhead>
+                                        Contact Details
+                                        <textDesc>OTP will be sent to the mobile number provided here</textDesc>
+                                    </blockhead>
+                                    <contentLast>
+                                        <label-20>
+                                            <vblock>
+                                                <div class="labelheading" id="cpccontactLabel">Contact Person *</div>
+                                                <userIcon>
+                                                    <vline></vline>
+                                                </userIcon>
+                                                <textGeneric>
+                                                    <input required ng-model="NewSignUp.Contact.Name" on-touch autocomplete="off" name="cpccontact" id="cpccontact" type="text" />
+                                                </textGeneric>
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpcemailLabel">Email Address</div>
+                                                <mailIcon>
+                                                    <vline></vline>
+                                                </mailIcon>
+                                                <input ng-model="NewSignUp.Contact.Email" ng-value="NewSignUp.Login.Email" on-touch autocomplete="off" readonly name="cpcemail" id="cpcemail" type="email" placeholder="Provide company email id" />
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpcgenderLabel">Gender *</div>
+                                                <gendericon>
+                                                    <vline></vline>
+                                                </gendericon>
+                                                <displaybox>
+                                                    <rodioblock>
+                                                        <input required type="radio" id="radiogender" on-touch ng-model="NewSignUp.Contact.Gender" value="M" name="cpcgender">
+                                                        <label for="radiogender">Male</label>
+                                                    </rodioblock>
+                                                    <rodioblock>
+                                                        <input required type="radio" id="radiogender1" on-touch ng-model="NewSignUp.Contact.Gender" value="F" name="cpcgender">
+                                                        <label for="radiogender1">Female</label>
+                                                    </rodioblock>
+                                                </displaybox>
+                                            </vblock>
+                                        </label-20>
+
+                                        <label-20>
+                                            <vblock>
+                                                <div class="labelheading" id="cpcmobileLabel">
+                                                    Mobile Number *
+                                                    <div class="errorFormat" style="display:none;">Invalid Format</div>
+                                                </div>
+                                                <phicon>
+                                                    <vline></vline>
+                                                    <phcountrycode>{{NewSignUp.Contact.AreaCode}}</phcountrycode>
+                                                </phicon>
+                                                <textphone>
+                                                    <input ng-model="NewSignUp.Contact.MobileNumber" only-digits on-touch autocomplete="off" name="cpcmobile" id="cpcmobile" type="text" required />
+                                                </textphone>
+                                            </vblock>
+                                            <vblock>
+                                                <div class="labelheading" id="cpcphoneLabel">
+                                                    Landline (Include City Code)
+                                                    <div class="errorFormat" style="display:none;">Invalid Format</div>
+                                                </div>
+                                                <landphicon>
+                                                    <vline></vline>
+                                                    <phCountryCode>{{NewSignUp.Contact.AreaCode}}</phCountryCode>
+                                                </landphicon>
+                                                <textphone>
+                                                    <input ng-model="NewSignUp.Contact.LandLine" only-digits on-touch autocomplete="off" name="cpcphone" id="cpcphone" type="text" />
+                                                </textphone>
+                                            </vblock>
+                                            <vblock style="display:none;">
+                                                <div class="labelheading" id="cpcextensionLabel">Extension</div>
+                                                <landphicon>
+                                                    <vline></vline>
+                                                </landphicon>
+                                                <textGeneric>
+                                                    <input ng-model="NewSignUp.Contact.Extension" only-digits on-touch autocomplete="off" name="cpcextension" id="cpcextension" type="text" />
+                                                </textGeneric>
+                                            </vblock>
+                                        </label-20>
+                                    </contentLast>
+
+                                    <termsOfUse>
+                                        By signing up you agree to our
+                                        <a href="javascript:void(0);" ng-click="NavigateToRoute('terms')">Terms of Use</a> and
+                                        <a href="javascript:void(0);" ng-click="NavigateToRoute('privacy')">Privacy Policy</a>.
+                                    </termsOfUse>
+                                    <label100>
+                                        <captchaLayout>
+                                            <div class="captcha">
+                                                <input type="submit" id="btnSubmitRegister" class="button" value="Register Now">
+                                            </div>
+                                        </captchaLayout>
+                                        <captchaText>I'm not a robot</captchaText>
+                                        <div class="submissionError" id="submissionError" style="display:none">Please fill mandatory fields</div>
+                                        <div class="submissionSuccess" id="submissionSuccess" style="display:none">Registration Successful. Please verify your Email Address.</div>
+                                    </label100>
+
+                                </form>
+                            </div>
+
+                            <!--Support Block-->
+                            <div class="signup_rightBlock">
+                                <div class="supportForm">
+                                    <blockhead>Customer Support</blockhead>
+                                    <content>
+                                        <label20>
+                                            <iconPhone>
+                                            </iconPhone>
+                                            <textLayout>
+                                                <textHead>Call us at −</textHead>
+                                                <textHead>(+91) 888 444 2460</textHead>
+                                                <textDesc>Time - 9AM to 5PM IST</textDesc>
+                                            </textLayout>
+                                        </label20>
+                                        <label20>
+                                            <iconMail></iconMail>
+                                            <textLayout>
+                                                <textHead>Send an email to −</textHead>
+                                                <emailLink>
+                                                    <a href="mailto:support@hiregate.in">support@hiregate.in</a>
+                                                </emailLink>
+                                                <textDesc>Response Time - 4 Hours</textDesc>
+                                            </textLayout>
+                                        </label20>
+                                    </content>
+                                    <blockhead>Request Call Back</blockhead>
+                                    <content>
+                                        <requestText>Leave your details here, our representative will get in touch with you.</requestText>
+                                        <form ng-submit="SubmitEnquiry()" id="form.frmenquiry" name="form.frmenquiry" method="post" class="requestForm" novalidate>
+                                            <div class="request_labelheading" id="enqfnameLabel">Contact Person *</div>
+                                            <userIcon><vline></vline></userIcon>
+                                            <input name="enqfname" id="enqfname" type="text" ng-model="Enquiry.Name" roll-back-css="request_labelheading" autocomplete="off" on-touch required />
+
+                                            <!--<div class="request_labelheading" id="enqfcompanyLabel">Company Name *</div>
+                                            <coIcon>
+                                                <vline></vline>
+                                            </coIcon>
+                                            <input name="enqfcompany" id="enqfcompany" type="text" ng-model="Enquiry.Company" roll-back-css="request_labelheading" autocomplete="off" on-touch required />-->
+
+                                            <div class="request_labelheading" id="enqemailLabel">Email Address *</div>
+                                            <mailIcon><vline></vline></mailIcon>
+                                            <input name="enqemail" id="enqemail" type="email" ng-model="Enquiry.Email" roll-back-css="request_labelheading" autocomplete="off" on-touch required />
+
+                                            <div class="request_labelheading" id="enqcontactnumberLabel">Contact Number *</div>
+                                            <phIcon><vline></vline></phIcon>
+                                            <textphone><input name="enqcontactnumber" id="enqcontactnumber" type="text" roll-back-css="request_labelheading" autocomplete="off" maxlength="10" only-digits ng-model="Enquiry.Number" on-touch required /></textphone>
+                                            <buttonContainer><input type="submit" value="Submit" class="button"></buttonContainer>
+                                            <div id="enqMsgId" style="display:none;" class="{{CSSStyle}}">{{Message}}</div>
+                                        </form>
+                                    </content>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Signup block ends-->
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <span ng-include src="'js/views/popups/opt.html'"></span>
+    <script type="text/javascript" src="/js/src/scripts/captcha.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#frmCorporate').ebcaptcha();
+        });
+    </script>
+
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

@@ -1,0 +1,287 @@
+﻿<div id="workspacecontainer" ng-controller="jobEditController" ng-init="LoadDefaults()" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Error</div>
+                <div class="job_pg_container">
+                    <div class="jobLayout">
+                        <pageHead>
+                            <pgHeadText>Job Requirement - Edit Job</pgHeadText>
+                            <headingRight>
+                                <input type="button" value="&#x1F519; Job List" class="jobButtonBack" onClick="window.history.back()">
+                            </headingRight>
+                        </pageHead>
+                        <!--Create Job-->
+                        <form method="post" name="frmJobCreate" id="frmJobCreate" novalidate>
+                            <div class="createJob">
+                                <label10>
+                                    <block-left>
+                                        <div id="txtJobTitleLabel" class="labelheading">Job Title *</div>
+                                        <div class="labeldesc">
+                                            <input type="text" on-touch autocomplete="off" required name="txtJobTitle" id="txtJobTitle" ng-model="jb.JobTitle" placeholder="Use Complete Word.. Eg Senior Manager and not Sr Mgr">
+                                        </div>
+                                        <div id="txtJobDescLabel" class="labelheading">Job Description *</div>
+                                        <div class="labeldesc">
+                                            <textarea name="txtJobDesc" on-touch autocomplete="off" required id="txtJobDesc" ng-model="jb.JobDesc" placeholder="Maximum 1000 charatrer"></textarea>
+                                        </div>
+                                        <div id="txtJobSkillsLabel" class="labelheading">Key Skills</div>
+                                        <div class="labeldesc">
+                                            <input name="txtJobSkills" id="txtJobSkills" on-touch autocomplete="off" ng-model="jb.JobSkills" type="text">
+                                        </div>
+                                        <div id="txtJobResponseLabel" class="labelheading">Key Responsibilities</div>
+                                        <div class="labeldesc">
+                                            <textarea name="txtJobResponse" id="txtJobResponse" on-touch autocomplete="off" ng-model="jb.JobResponse" placeholder="Maximum 1000 charatrer"></textarea>
+                                        </div>
+                                    </block-left>
+                                    <block-right>
+                                        <div id="txtJobEducationLabel" class="labelheading">Education Qualification</div>
+                                        <div class="labeldesc">
+                                            <input name="txtJobEducation" id="txtJobEducation" on-touch autocomplete="off" ng-model="jb.JobEducation" type="text">
+                                        </div>
+                                        <div id="txtJobWorkExpYearLabel" class="labelheading">Work Experience *</div>
+                                        <div class="labeldesc">
+                                            <createjobvlabel>
+                                                <experiencelabel>
+                                                    <select name="txtJobWorkExpYear1" id="txtJobWorkExpYear1"
+                                                            ng-model="jb.JobWorkExpYear1" ng-click="ResetRequired('txtJobWorkExpYear','labelheading')"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:0,max:20,chars:'',twodigit:true}"
+                                                            placeholder="Select" required>
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </experiencelabel>
+                                            </createjobvlabel>
+                                            <createjobvlabeltxt>To</createjobvlabeltxt>
+                                            <createjobvlabel>
+                                                <experiencelabel>
+                                                    <select name="txtJobWorkExpYear2" id="txtJobWorkExpYear2"
+                                                            ng-model="jb.JobWorkExpYear2" ng-click="ResetRequired('txtJobWorkExpYear','labelheading')"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:0,max:20,chars:'',twodigit:true}"
+                                                            placeholder="Select">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </experiencelabel>
+                                            </createjobvlabel>
+                                            <createjobvlabeltxt>Years</createjobvlabeltxt>
+                                        </div>
+                                        <div id="txtJobSalaryLabel" class="labelheading">Salary Range (P.A.)</div>
+                                        <div class="labeldesc">
+                                            <createjobvlabel>
+                                                <salarylabel>
+                                                    <select name="txtJobSalary1" id="txtJobSalary1" ng-click="ResetRequired('txtJobSalary','labelheading')"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:0,max:50,chars:'',twodigit:true}"
+                                                            ng-model="jb.JobSalary1" placeholder="Select">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </salarylabel>
+                                            </createjobvlabel>
+                                            <createjobvlabeltxt>To</createjobvlabeltxt>
+                                            <createjobvlabel>
+                                                <salarylabel>
+                                                    <select name="txtJobSalary2" id="txtJobSalary2" ng-click="ResetRequired('txtJobSalary','labelheading')"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:0,max:50,chars:'',twodigit:true}"
+                                                            ng-model="jb.JobSalary2" placeholder="Select">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </salarylabel>
+                                            </createjobvlabel>
+                                            <createjobvlabeltxt>Lakh(s)</createjobvlabeltxt>
+                                        </div>
+                                        <div class="labelheading">Location(s) hiring for <notetxt>(Hold ctrl / command to select more than one city)</notetxt></div>
+                                        <div class="labeldesc">
+                                            <createjobvlabel>
+                                                <countrylabel>
+                                                    <select name="txtJobCountry" id="txtJobCountry" ng-model="CountryId"
+                                                            ng-options="item.code as item.name for item in countries" ng-change="GetCitiesByCountry(CountryId)"
+                                                            placeholder="Country">
+                                                        <option value="IN">India</option>
+                                                    </select>
+                                                </countrylabel>
+                                            </createjobvlabel>
+                                            <createjobvlabel>
+                                                <selectmulti>
+                                                    <select name="txtJobLocation" id="txtJobLocation" ng-model="jb.JobLocation"
+                                                            ng-options="item.Id as item.Name for item in CitiesList"
+                                                            ng-click="OnLocationSelected()"
+                                                            multiple></select>
+                                                </selectmulti>
+                                            </createjobvlabel>
+                                            <div class="selectedCity">
+                                                <cityhead>Selected Cities:</cityhead>
+                                                <cityresults>{{SelectedJobLocations}}</cityresults>
+                                            </div>
+                                        </div>
+                                    </block-right>
+                                </label10>
+
+                                <div class="pgSubHead" id="txtParamsLabel">
+                                    Setup rating parameter for this job *
+                                    <rightlink>
+                                        <labelPick><input type="checkbox" id="paramPreviousList" ng-model="paramPreviousList" /><label for="paramPreviousList">{{CompanyName}} defined List</label></labelPick>
+                                        <labelPick><input type="checkbox" id="paramPreDefinedList" ng-model="paramPreDefinedList" /><label for="paramPreDefinedList">System defined List</label></labelPick>
+                                        <input type="button" value="Upload XML File" class="buttonView" style="display:none;">
+                                        <input type="button" id="paramAddNew" name="paramAddNew" ng-click="AddNewParameter()" value="Add New" class="buttonView">
+                                    </rightlink>
+                                </div>
+
+                                <parameterRateBlockNew ng-repeat="item in NewParameters">
+                                    <parameterCheckBox><input type="checkbox" ng-model="item.Selected" name="Param_{{item.Id}}" id="Param_{{item.Id}}" /><label for="Param_{{item.Id}}"></label></parameterCheckBox>
+                                    <parameterPointsNew>
+                                        <parametertextlabel><input type="text" ng-model="item.Title" id="Param_Title_{{item.Id}}" name="Param_Title_{{item.Id}}" placeholder="Rating Parameter"></parametertextlabel>
+                                    </parameterPointsNew>
+                                    <parameterQuestionNew>
+                                        <parameterQuestionlabel><textarea ng-model="item.Description" id="Param_Description_{{item.Id}}" name="Param_Description_{{item.Id}}" placeholder="Question for the parameter"></textarea></parameterQuestionlabel>
+                                    </parameterQuestionNew>
+                                </parameterRateBlockNew>
+
+                                <parameterRateContainer ng-show="paramPreviousList" ng-switch="EXistingParameters.length > 0">
+                                    <parameterheadblock>{{CompanyName}} defined List</parameterheadblock>
+                                    <div class="noContent" ng-switch-when="false">No Rating Parameter found in the {{CompanyName}} Defined List.</div>
+                                    <ul class="parameterRateBlock" ng-switch-when="true">
+                                        <li class="parameterRateBlock" ng-repeat="item in EXistingParameters">
+                                            <parameterCheckBox><input type="checkbox" ng-model="item.Selected" name="Previous_Param_{{item.Id}}" id="Previous_Param_{{item.Id}}" /><label for="Previous_Param_{{item.Id}}"></label></parameterCheckBox>
+                                            <parameterPoints>{{item.Title}}</parameterPoints>
+                                            <parameterQuestion>{{item.Description}}</parameterQuestion>
+                                        </li>
+                                    </ul>
+                                </parameterRateContainer>
+                                <parameterRateContainer ng-show="paramPreDefinedList">
+                                    <parameterheadblock>System defined List</parameterheadblock>
+                                    <ul class="parameterRateBlock">
+                                        <li class="parameterRateBlock" ng-repeat="item in PredefinedParameters">
+                                            <parameterCheckBox><input type="checkbox" ng-model="item.Selected" name="Previous_Param_{{item.Id}}" id="Previous_Param_{{item.Id}}" /><label for="Previous_Param_{{item.Id}}"></label></parameterCheckBox>
+                                            <parameterPoints>{{item.Title}}</parameterPoints>
+                                            <parameterQuestion>{{item.Description}}</parameterQuestion>
+                                        </li>
+                                    </ul>
+                                </parameterRateContainer>
+
+                                <div class="pgSubHead" id="txtAssigneesLabel">Assign User to the Job *</div>
+                                <ul class="assignUserBlock">
+                                    <li class="assignUserBlock" ng-repeat="asgn in Assignees">
+                                        <input type="checkbox" ng-click="ResetRequired('txtAssignees','pgSubHead')" ng-model="asgn.Selected" id="cb_{{asgn.Id}}" /><label for="cb_{{asgn.Id}}">{{asgn.Text}}</label>
+                                    </li>
+                                </ul>
+                                <div class="pgSubHead" id="txtContactLabel">Contact Details *</div>
+                                <ul class="jobContactBlock">
+                                    <li class="jobContactBlock">
+                                        <contactlabel><input ng-click="ResetRequired('txtContact','pgSubHead')" name="txtJobContName" on-touch required id="txtJobContName" autocomplete="off" ng-model="jb.JobContName" type="text" placeholder="Name"><contactlabel>
+                                    </li>
+                                    <li class="jobContactBlock">
+                                        <contactlabel><input ng-click="ResetRequired('txtContact','pgSubHead')" name="txtJobContPhone" on-touch required id="txtJobContPhone" autocomplete="off" ng-model="jb.JobContPhone" type="text" placeholder="Phone"></contactlabel>
+                                    </li>
+                                    <li class="jobContactBlock">
+                                        <contactlabel><input ng-click="ResetRequired('txtContact','pgSubHead')" name="txtJobContEmail" on-touch required id="txtJobContEmail" autocomplete="off" ng-model="jb.JobContEmail" type="email" placeholder="Email"></contactlabel>
+                                    </li>
+                                </ul>
+                                <labelbutton>
+                                    <input ng-show="jb.Status==4" type="button" id="btnSaveJob1" name="btnSaveJob1" value="Save Job" class="buttonPost" ng-click="SaveJob(true)">
+                                    <input ng-show="jb.Status==4" type="button" id="btnPubJob1" name="btnPubJob1" value="Publish Job" class="buttonPost" ng-click="OnPublishShow(true)">
+
+									<input ng-show="jb.Status==3" type="button" id="btnSaveJob2" name="btnSaveJob2" value="Save Job" class="buttonPost" ng-click="SaveJob(false)">
+                                    <input ng-show="jb.Status==3" type="button" id="btnPubJob2" name="btnPubJob2" value="Publish Job" class="buttonPost" ng-click="OnPublishShow(false)">
+
+                                    <input ng-show="jb.Status==1" type="button" id="btnSaveJob3" name="btnSaveJob3" value="Update Job" class="buttonPost" ng-click="SaveJob(false)">
+                                    <input ng-show="jb.Status==1" type="button" id="btnPubJob3" name="btnPubJob3" value="Publish Job" class="buttonPost" ng-click="OnPublishShow(false)">
+
+                                    <input ng-show="jb.Status==0" type="button" id="btnSaveJob4" name="btnSaveJob4" value="Save Job" class="buttonPost" ng-click="SaveJob(true)">
+                                    <input ng-show="jb.Status==0" type="button" id="btnPubJob4" name="btnPubJob4" value="Publish Job" class="buttonPost" ng-click="OnPublishShow(true)">
+
+                                    <input ng-show="jb.Status==2" type="button" id="btnSaveJob5" name="btnSaveJob5" value="Save Job" class="buttonPost" ng-click="SaveJob(true)">
+                                    <input ng-show="jb.Status==2" type="button" id="btnPubJob5" name="btnPubJob5" value="Publish Job" class="buttonPost" ng-click="OnPublishShow(true)">
+                                    <input type="reset" value="Reset" class="buttonPost" ng-click="ReloadJob()">
+                                </labelbutton>
+                                <div class="submissionError" id="submitError" style="display:none">Please fill mandatory fields</div>
+                                <div class="submissionSuccess" id="submitOk" style="display:none">Job Posted Successfully</div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <!--Publish Job-->
+    <div id="popPublishJob" class="pop_disable_bg">
+        <div id="publishJob_structure">
+            <div class="publishJob">
+                <layoutHead>Select a Date Range</layoutHead>
+                <vBlock2col><input name="text" type="text" ng-model="pubDateFrom" id="pubDateFrom" readonly required placeholder="From Date" /></vBlock2col>
+                <vBlock2col><input name="text" type="text" ng-model="pubDateTo" id="pubDateTo" readonly required placeholder="To Date" /></vBlock2col>
+                <fi_publish><input type="checkbox" ng-modal="pubToFaceIt2" ng-checked="pubToFaceIt2" name="pubToFaceIt2" id="pubToFaceIt2"><label for="pubToFaceIt2">Publish in FaceInterview Job Listing</label></fi_publish>
+                <labelbutton>
+                    <input type="submit" value="Publish Job" class="button" ng-click="PublishJob()" />
+                    <input type="button" value="Cancel" class="button" ng-click="OnPublishHide()" />
+                </labelbutton>
+                <div class="errorMsg" id="errorEditPubMsg" style="display:none">Select From and To date</div>
+            </div>
+        </div>
+    </div>
+    <!--Job Publish Successful-->
+    <div id="popJobPublishSuccessful" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>Job Published Successfully</txtHead>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onClick="HideDiv('popJobPublishSuccessful')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            var todaysDate = new Date();
+
+            var startDate,
+                endDate,
+                updateStartDate = function () {
+                    startPicker.setStartRange(startDate);
+                    endPicker.setStartRange(startDate);
+                    endPicker.setMinDate(startDate);
+                },
+                updateEndDate = function () {
+                    startPicker.setEndRange(endDate);
+                    startPicker.setMaxDate(endDate);
+                    endPicker.setEndRange(endDate);
+                },
+                startPicker = new Pikaday({
+                    field: document.getElementById('pubDateFrom'),
+                    minDate: todaysDate,
+                    defaultDate: todaysDate,
+                    maxDate: new Date(2020, 12, 31),
+                    onSelect: function () {
+                        startDate = this.getDate();
+                        updateStartDate();
+                    }
+                }),
+                endPicker = new Pikaday({
+                    field: document.getElementById('pubDateTo'),
+                    defaultDate: todaysDate,
+                    minDate: todaysDate,
+                    maxDate: new Date(2020, 12, 31),
+                    onSelect: function () {
+                        endDate = this.getDate();
+                        updateEndDate();
+                    }
+                }),
+                _startDate = startPicker.getDate(),
+                _endDate = endPicker.getDate();
+            if (_startDate) {
+                startDate = _startDate;
+                updateStartDate();
+            }
+            if (_endDate) {
+                endDate = _endDate;
+                updateEndDate();
+            }
+        });
+
+    </script>
+
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

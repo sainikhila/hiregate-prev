@@ -1,0 +1,35 @@
+﻿<div id="workspacecontainer" ng-controller="docAccessController" ng-show="loadingView" ng-init="OnLoadResults()">
+    <header id="header_prelogin">
+        <div class="content-widthfix">
+            <div id="logosmall"><div class="logo-white logo-small-in"></div></div>
+        </div>
+    </header>
+
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="msg_pg_layout" style="margin-bottom: 45px">
+                    <form id="form.msg" name="form.msg" method="post" class="msg">
+                        <headinglayout>
+                            <headingtext>List of Documents</headingtext>
+                        </headinglayout>
+                        <mainContent>
+                            <parentBlock ng-repeat="doc in DocList">
+                                <col_subj>
+                                    <div class="msg_textRead">{{doc.AttachName}}</div>
+                                </col_subj>
+                                <col_button>
+                                    <input type="button" value="View" class="buttonToggle" ng-click="OpenDoc(doc.AttachmentId)">
+                                </col_button>
+                                <col_date>
+                                    <div class="msg_textRead">{{doc.AttachType}}</div>
+                                </col_date>
+                            </parentBlock>
+                        </mainContent>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

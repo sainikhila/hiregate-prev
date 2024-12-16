@@ -1,0 +1,147 @@
+﻿<div id="workspacecontainer" ng-controller="acctUserController" ng-init="LoadDefaultsDetails()" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="acc_pgLayout">
+                    <!-- Account page common header -->
+                    <div class="accBrief">
+                        <vBlock_Logo><a href="javascript:void(0);"><img ng-click="ChangePhoto(ShortCompanyInfo.Logo)" id="img_comp_photo" ng-src="{{ShortCompanyInfo.Logo}}"></a></vBlock_Logo>
+                        <vBlock_L>
+                            <coName><a href="javascript:void(0);" ng-click="NavigateToRoute('ac')">{{ShortCompanyInfo.Name}}</a></coName>
+                            <label_hor>
+                                <custID_head>Customer ID:</custID_head>
+                                <custID>{{ShortCompanyInfo.CustomerId}}</custID>
+                            </label_hor>
+                        </vBlock_L>
+                        <vBlock_R>
+                            <label_10 ng-switch="ShortCompanyInfo.Status">
+                                <statusHead>Status:</statusHead>
+                                <div ng-switch-when="Active" class="statusActive" style="display:inline-block"></div>
+                                <div ng-switch-when="InActive" class="statusInactive" style="display:inline-block"></div>
+                                <subscribe style="display:none"><a href="javascript:void(0);">[Renew / Upgrade]</a></subscribe>
+                            </label_10>
+                            <label_hor>
+                                <subscriptionHead>Subscription Plan:</subscriptionHead>
+                                <subscription>{{ShortCompanyInfo.Plan}}</subscription>
+                            </label_hor>
+                        </vBlock_R>
+                    </div>
+
+                    <!--Left Navigation-->
+                    <div class="accNavi">
+                        <ul>
+                            <li><a href="javascript:void(0);" ng-click="NavigateToRoute('acd')"><accIcon></accIcon>Account Details</a></li>
+                            <li><a class="current"><userIcon></userIcon>Manage Users</a></li>
+                            <li class="disabled"><a href="renewal.html"><renewalIcon></renewalIcon>Renewal and Top-Up</a></li>
+                            <li class="disabled"><a href="subscription.html"><subscriptionIcon></subscriptionIcon>Subscription Plan</a></li>
+                            <li class="disabled"><a href="orderHistory.html"><orderIcon></orderIcon>Order History</a></li>
+                            <li class="disabled"><a href="accSetting.html"><settingIcon></settingIcon>Account Settings</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Accounts page right block-->
+                    <div class="accInpageRightStructure">
+                        <!-- Accounts Details page -->
+                        <div class="subUser">
+                            <blockhead>Create Sub User</blockhead>
+
+                            <form method="post" name="frmCorporate" id="frmCorporate" ng-submit="SubmitUser()" novalidate>
+                                <content>
+                                    <label-15>
+                                        <vblock>
+                                            <div id="txtCUserNameLabel" class="labelheading">User Name *</div>
+                                            <userIcon><vline></vline></userIcon>
+                                            <textGeneric><input ng-model="Username" on-touch type="text" autocomplete="off" name="txtCUserName" id="txtCUserName" required /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div id="txtCUserEmailLabel" class="labelheading">
+                                                Email Address *
+                                                <div class="errorFormat" style="display:none;" id="emailExist">Already Exist</div>
+                                                <div class="errorFormat" style="display:none;" id="emailInvalid">Invalid Email</div>
+                                            </div>
+                                            <mailIcon><vline></vline></mailIcon>
+                                            <textGeneric><input type="email" ng-model="Email" company-email="true" key-id="4" email-validate on-touch autocomplete="off" name="txtCUserEmail" id="txtCUserEmail" required /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div id="txtCUserNumLabel" class="labelheading">Mobile Number * <div style="display:none;" class="errorFormat">Invalid Format</div></div>
+                                            <phicon><vline></vline></phicon>
+                                            <textGeneric><input type="text" ng-model="MobileNumber" only-digits maxlength="10" on-touch autocomplete="off" name="txtCUserNum" id="txtCUserNum" required /></textGeneric>
+                                        </vblock>
+                                    </label-15>
+                                    <label-10>
+                                        <displaybox>
+                                            <permissionHead id="txtCUserRoleLabel" class="labelheading">Permissions *</permissionHead>
+                                            <permissionBlock>
+                                                <vblockPermission><input type="checkbox" id="chkFullAccess" ng-click="FullAccessClicked(Role)" ng-model="Role.FullAccess" /><label for="chkFullAccess">Full Access</label></vblockPermission>
+                                                <vblockPermission><input type="checkbox" id="chkJobCreation" ng-click="JobAccessClicked(Role)" ng-model="Role.JobCreation" /><label for="chkJobCreation">Job Creation</label></vblockPermission>
+                                                <vblockPermission><input type="checkbox" id="chkProcessAssociate" ng-click="ProcessAccessClicked(Role)" ng-model="Role.ProcessAssociate" /><label for="chkProcessAssociate">Process Associate</label></vblockPermission>
+                                            </permissionBlock>
+                                        </displaybox>
+                                    </label-10>
+                                </content>
+
+                                <buttomContainer>
+                                    <buttonLabel><input type="submit" class="buttonAddUser" value="Add Sub User" /></buttonLabel>
+                                    <successErrorLabel>
+                                        <div class="successLabel" id="submissionSuccess" style="display:none">Updated Successfully</div>
+                                        <div class="errorLabel" id="submissionError" style="display:none">Clear error fields and add</div>
+                                    </successErrorLabel>
+                                </buttomContainer>
+                            </form>
+                            <blockhead>Manage Sub Users</blockhead>
+                            <div class="manageUser" ng-switch="CompanyUsers.length > 0">
+                                <div class="noContent" ng-switch-when="false">No users to display</div>
+                                <table ng-switch-when="true">
+                                    <tr>
+                                        <td>Email ID</td>
+                                        <td>User Name</td>
+                                        <td>Status</td>
+                                        <td>Full Access</td>
+                                        <td>Job Creation</td>
+                                        <td>Process Associate</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr ng-repeat="item in CompanyUsers" ng-switch="item.RecordStatus">
+                                        <td>{{item.Email}}</td>
+                                        <td>{{item.Name}}</td>
+                                        <td ng-switch-when="0">Active</td>
+                                        <td ng-switch-when="1">Pending</td>
+                                        <td ng-switch-when="2">Deleted</td>
+                                        <td ng-switch-when="3">In-Active</td>
+
+                                        <td><input type="checkbox" id="chkSelFull_{{item.ContactId}}" ng-click="FullAccessClicked(item.Role)" ng-model="item.Role.FullAccess" /><label for="chkSelFull_{{item.ContactId}}"></label></td>
+                                        <td><input type="checkbox" id="chkSelHire_{{item.ContactId}}" ng-click="JobAccessClicked(item.Role)" ng-model="item.Role.JobCreation" /><label for="chkSelHire_{{item.ContactId}}"></label></td>
+                                        <td><input type="checkbox" id="chkSelInt_{{item.ContactId}}" ng-click="ProcessAccessClicked(item.Role)" ng-model="item.Role.ProcessAssociate" /><label for="chkSelInt_{{item.ContactId}}"></label></td>
+
+                                        <td ng-switch-when="0"><input type="button" ng-click="UpdateCompanyUserRole(item)" class="buttonModify" value="Update" /><input type="button" ng-click="ChangeCompanyUserState(item.ContactId,3)" class="buttonModify" value="De-Activate" /></td>
+                                        <td ng-switch-when="1"><input type="button" ng-click="ChangeCompanyUserState(item.ContactId,3)" class="buttonModify" value="De-Activate" /></td>
+                                        <td ng-switch-when="2">&nbsp;</td>
+                                        <td ng-switch-when="3"><input type="button" ng-click="ChangeCompanyUserState(item.ContactId,0)" class="buttonModify" value="Activate" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Confirm Discard Application-->
+    <div id="popRoleError" class="pop_disable_bg">
+        <div class="confirmMsg_structure">
+            <div class="confirmMsg">
+                <txtHead>Select atleast one role.</txtHead>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onclick="HideDiv('popRoleError')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

@@ -1,0 +1,75 @@
+﻿<div id="workspacecontainer" ng-controller="tabController" ng-show="loadingView">
+    <span ng-include src="'js/views/Shared/Header.html'"></span>
+    <!-- Page Header Ends-->
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="secondary_page_container">
+                    <div class="SP_leftBlock">
+                        <div class="secondaryPage">
+                            <naviLayout>
+                                <ul id="sp_menuBar">
+                                    <li class="active"><a>About Us</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('privacy')">Privacy Policy</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('terms')">Terms of Use</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('agreement')">User Agreement</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('disclaimer')">Disclaimer</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('faq')">FAQ's</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('join')">Join Us</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('innews')">In News</a></li>
+                                </ul>
+                            </naviLayout>
+                            <!-- page content starts-->
+                            <div class="pgContent">
+                                <pgText>Preparing for an interview can be Scary and Stressful. Facing a mock interview by an industry expert is one of the most effective techniques to over come the fear and stress factors to ace your actual interview.</pgText>
+                                <pgtext>At HireGate we help Fresh graduates and job seekers to prepare for job interviews using our mock interviews and to create an interview profile with interview video and Rating that can be share with the corporates. HireGate also helps Industry experts with good industry experience to register with us as interviewer and earn money at their free time.</pgtext>
+                                <pgtext>HireGate is a product of SWAZUNA Technologies</pgtext>
+                            </div> <!-- page content ends-->
+                        </div>
+                    </div> <!--Left Block Ends-->
+
+                    <div class="SP_rightBlock">
+                        <!-- Get In Touch-->
+                        <block_bg>
+                            <blockHead>Get In Touch</blockHead>
+                            <contentBlock>
+                                <label20>
+                                    <iconPhone></iconPhone>
+                                    <textLayout>
+                                        <textHead>Call us at −</textHead>
+                                        <textHead>(+91) 888 444 2460</textHead>
+                                        <textDesc>Time - 9AM to 5PM IST</textDesc>
+                                    </textLayout>
+                                </label20>
+                                <label5>
+                                    <iconMail></iconMail>
+                                    <textLayout>
+                                        <textHead>Send an email to −</textHead>
+                                        <emailLink><a href="mailto:support@hiregate.in">support@hiregate.in</a></emailLink>
+                                        <textDesc>Response Time - 4 Hours</textDesc>
+                                    </textLayout>
+                                </label5>
+                            </contentBlock>
+                        </block_bg>
+
+                        <!--Request Call Back-->
+                        <block_bg>
+                            <blockHead>Request Call Back</blockHead>
+                            <contentBlock>
+                                <requestText>Leave your details here, our representative will get in touch with you.</requestText>
+                                <span ng-include src="'js/views/shared/requestCallBack.html'"></span>
+                            </contentBlock>
+                        </block_bg>
+                    </div> <!--Right Block Ends-->
+
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div>
+    <!--Container Ends-->
+    <!--Work Area Ends-->
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

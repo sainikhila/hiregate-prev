@@ -1,0 +1,65 @@
+﻿<div class="photo_pop" ng-controller="photoController" ng-init="ResetValues()">
+    <span class="pop_closePhotoBtn" title="Close" ng-click="ResetValues(true)"></span>
+    <div class="frame-photo">
+        <div class="imgupload">
+            <heading id="photoHeader">Upload Profile Pic</heading>
+            <structure>
+                <!-- Cropping modal -->
+                <div id="crop-avatar">
+                    <div id="avatar-modal">
+                        <form id="form.photo" autocomplete="off" name="form.photo" method="post" ng-submit="PhotoSubmit()" class="imgupload-form">
+                            <photoblk>
+                                <label>
+                                    <div class="avatar-preview preview-md">
+                                        <div class="avatar-data">
+                                            <img ng-src="{{CroppedImg}}" />
+                                        </div>
+                                    </div>
+                                </label>
+                                <labelbut>
+                                    <input type="submit" id="btnUploadPhoto" class="button" value="Upload">
+                                </labelbut>
+                            </photoblk>
+                            <container>
+                                <!-- Upload Image Area -->
+                                <selectimage ng-show="!FromCam">
+                                    <div class="avatar-wrapper">
+                                        <div ng-hide="FromImage">
+                                            <labeltext id="lblText"></labeltext>
+                                            <labelbtn></labelbtn>
+                                            <labelformat>Accepted filetype: PNG, JPG, GIF<br>Max file size: 300kb</labelformat>
+                                        </div>
+                                        <div ng-show="FromImage" class="cropArea" id="cropareadiv">
+                                            <img-crop  style="width:100%;height:100%;" image="PhotoImage" result-image="CroppedImg" area-type="square"></img-crop>
+                                        </div>
+                                    </div>
+                                </selectimage>
+                                <!--Webcam Area-->
+                                <webcam ng-show="FromCam">
+                                    <video autoplay="autoplay" id="videoElement">Video stream not available.</video>
+                                </webcam>
+                                <uploadstatus id="uploadStatus" style="display:none;">Please wait, uploading the photo</uploadstatus>
+                                <label ng-switch="WebCam">
+                                    <!--Buttons-->
+                                    <labelv-but ng-show="!FromImage && !FromCam">
+                                        <div class="fileUpload">
+                                            <p class="custom-para">Select</p>
+                                            <input id="fileInput"
+                                                   file-photo-change callback-fn="fileNameChanged($event)"
+                                                   type="file" title="Select" class="upload" />
+                                        </div>
+                                    </labelv-but>
+                                    <labelv-but ng-switch-when="true"><input type="button" ng-show="!FromCam && !FromImage" class="button1" value="Use Webcam" ng-click="GetFromWebCam()"></labelv-but>
+                                    <labelv-but ng-switch-when="true"><input type="button" ng-show="FromCam" class="button1" value="Capture" ng-click="CaptureCamera()"></labelv-but>
+                                    <labelv-but><input type="button" ng-show="FromImage || FromCam" ng-click="ResetValues()" class="button1" value="Reset"></labelv-but>
+                                </label>
+                            </container>
+                        </form>
+                    </div>
+                </div>
+                <!--crop-avatar ends-->
+            </structure>
+            <terms>By uploading an image you certify that you have the rights to the image<br>and agree with our <a href="#">terms of use</a>.</terms>
+        </div>
+    </div>
+</div>

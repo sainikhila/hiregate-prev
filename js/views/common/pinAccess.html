@@ -1,0 +1,38 @@
+﻿<div id="workspacecontainer" ng-controller="pinAccessController" ng-show="loadingView">
+
+    <header id="header_prelogin">
+        <div class="content-widthfix">
+            <div class="logo-white-in logo-small-in"></div>
+        </div>
+    </header>
+
+    <!-- Page Header Ends-->
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="loginlayout">
+                    <heading>Please enter your Email and PIN to access the page</heading>
+                    <structure>
+                        <div id="logindetails">
+                            <div class="loginForm">
+                                <bgBlock>
+                                    <emailicon><vline></vline></emailicon>
+                                    <input id="txtEmail" type="email" ng-enter="OnPinSubmit()" name="txtEmail" placeholder="Email Address" required>
+                                </bgBlock>
+                                <bgBlock>
+                                    <PINicon><vline></vline></PINicon>
+                                    <input id="txtPinNum" ng-enter="OnPinSubmit()" ng-model="pinNum" maxlength="4" only-digits type="password" name="txtPinNum" placeholder="PIN" required>
+                                    <buttonLabel><button class="button loginarrow" ng-click="OnPinSubmit()"></button></buttonLabel>
+                                </bgBlock>
+                                <div class="submissionError" id="submissionError" style="display:none;">Invalid Credentials. Please Retry</div>
+                            </div>
+                        </div>
+                    </structure>
+                    <knowmoreText>Visit us at <a href="https://hiregate.in" target="_blank">HireGate.in</a> to know more </knowmoreText>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

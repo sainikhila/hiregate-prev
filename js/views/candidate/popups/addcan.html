@@ -1,0 +1,29 @@
+﻿<!--Add New Candidate-->
+<div id="popAddNewCandidate" class="pop_disable_bg">
+    <div id="inviteCan_structure">
+        <div class="inviteCan">
+            <layoutHead>Add New Candidate</layoutHead>
+            <input name="canName" id="canName" type="text" ng-model="CanName" placeholder="Candidate Name *">
+            <input name="canEmail" id="canEmail" type="text" ng-model="CanEmail" placeholder="Candidate Email *">
+            <input name="canPhone" id="canPhone" maxlength="10" type="text" only-digits ng-model="CanPhone" placeholder="Candidate Phone *">
+            <labelbutton>
+                <input type="button" value="Add Candidate" class="button" ng-click="SubmitCandidate()" />
+                <input type="button" value="Cancel" class="button" ng-click="ShowHideCandidate(false)" />
+            </labelbutton>
+            <div class="errorMsg" id="errCanAdd" style="display:none">All fields are mandatory</div>
+        </div>
+    </div>
+</div>
+
+<!--Add Candidate Successful-->
+<div id="popAddCandidateSuccessful" class="pop_disable_bg">
+    <div id="successSubmit_structure">
+        <div class="successSubmit">
+            <txtHead>Candidate Added Successfully</txtHead>
+            <txt>Please fill other details of the candidate in the candidate profile page</txt>
+            <labelbutton>
+                <input type="button" value="Close" class="button" onClick="HideDiv('popAddCandidateSuccessful')" />
+            </labelbutton>
+        </div>
+    </div>
+</div>

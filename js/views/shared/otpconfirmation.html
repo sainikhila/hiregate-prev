@@ -1,0 +1,20 @@
+﻿ <!-- OTP Begins -->
+<div class="otp_pop" style="top: -1034px;">
+    <Span class="pop_closeBtn" title="Close"></Span>
+    <form ng-submit="SubmitOtp()" method="post" class="otp" id="form.frmOTP" name="form.frmOTP" novalidate>
+        <heading>Verify Phone</heading>
+        <structure>
+            <phicon></phicon>
+            <labeltexthead>Verify your mobile number</labeltexthead>
+            <labeltext>Please enter the One Time Password (OTP) sent to your mobile number.</labeltext>
+            <textbox><input name="otp" id="otp" type="text" autocomplete="off" ng-model="OtpNumber" maxlength="6" only-digits required ng-keyup="OtpNumberErrorType=0" /></textbox>
+            <textbox>
+                <input type="submit" class="button" value="Verify" />&nbsp;
+                <input type="button" class="button" value="Resend" ng-click="SendOTP()" />
+            </textbox>
+            <div class="otp_error" id="errorOpt1" style="display:none">Only numeric value allowed</div>
+            <div class="otp_error" id="errorOpt2" style="display:none">Invalid OTP Number. Re-key.</div>
+        </structure>
+    </form>
+</div>
+<!-- OTP Ends -->

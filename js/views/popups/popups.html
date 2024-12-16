@@ -1,0 +1,240 @@
+﻿<div ng-controller="popupController">
+    <!--Contact Details-->
+    <div id="popContactDetails" class="pop_disable_bg">
+        <div class="contactDetails_structure">
+            <div class="contactDetails">
+                <detailHead>Candidate -</detailHead>
+                <detailBlock>
+                    <name>{{SelectedSession.CandidateName}}</name>
+                    <phoneBlock>
+                        <phIcon></phIcon>
+                        <phone>{{SelectedSession.CPhone}}</phone>
+                    </phoneBlock>
+                    <emailBlock>
+                        <emailIcon></emailIcon>
+                        <email>{{SelectedSession.CEmail}}</email>
+                    </emailBlock>
+                </detailBlock>
+
+                <detailHead>Interviewer 1 -</detailHead>
+                <detailBlock>
+                    <name>{{SelectedSession.InterviewerName}}</name>
+                    <phoneBlock>
+                        <phIcon></phIcon>
+                        <phone>{{SelectedSession.EPhone}}</phone>
+                    </phoneBlock>
+                    <emailBlock>
+                        <emailIcon></emailIcon>
+                        <email>{{SelectedSession.EEmail}}</email>
+                    </emailBlock>
+                </detailBlock>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" ng-click="HideContact()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Contact Details-->
+    <div id="popContactDetails2" class="pop_disable_bg">
+        <div class="contactDetails_structure">
+            <div class="contactDetails">
+                <detailHead>Contact Details - </detailHead>
+                <detailBlock>
+                    <name>{{SelectedContact.Name}}</name>
+                    <phoneBlock>
+                        <phIcon></phIcon>
+                        <phone>{{SelectedContact.Phone}}</phone>
+                    </phoneBlock>
+                    <emailBlock>
+                        <emailIcon></emailIcon>
+                        <email>{{SelectedContact.Email}}</email>
+                    </emailBlock>
+                </detailBlock>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" ng-click="HideContact()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Cancel Interview Reason-->
+    <div id="popCancelInterviewNote" class="pop_disable_bg">
+        <div id="profileNote_structure">
+            <div class="profileNote">
+                <txtHead>Reason for Cancelling Interview</txtHead>
+                <textarea id="reasonToCancel" name="message"></textarea>
+                <labelbutton>
+                    <input type="button" value="Confirm" class="button" ng-click="SubmitCancelSession()" />
+                    <input type="button" value="Cancel" class="button" ng-click="HideCancelSession()" />
+                </labelbutton>
+                <div class="errorMsg" id="cancelErrorMsg" style="display:none;">Please add a reason for cancelling</div>
+            </div>
+        </div>
+    </div>
+
+    <!--Cancel Note-->
+    <div id="popCancelReason" class="pop_disable_bg">
+        <div id="cancelNote_structure">
+            <div class="cancelNoteDetails">
+                <blockHead>Reason for Cancellation</blockHead>
+                <contentBlock>
+                    <reason>{{reasonToCancel}}</reason>
+                </contentBlock>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onClick="hide('popCancelReason')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--New Interview Schedule-->
+    <div id="popNewSchedule" class="pop_disable_bg">
+        <div id="newScheduleStructure">
+            <ul>
+                <!--Schedule-->
+                <li>
+                    <div class="newSchedule">
+                        <form id="frmNewSession" name="frmNewSession" ng-model="frmNewSession" novalidate>
+                            <blockHead>Schedule an Interview</blockHead>
+                            <structure>
+                                <vBlock><input type="email" id="CandidateEmail" name="CandidateEmail" ng-blur on-blur-event="OnCanEmailChanged()" ng-model="ns.CandidateEmail" placeholder="Candidate Email ID"></vBlock>
+                                <vBlock><input type="text" id="CandidateName" name="CandidateName" ng-model="ns.CandidateName" placeholder="Candidate Name"></vBlock>
+                                <vBlock><input type="text" id="CandidatePhone" maxlength="10" name="CandidatePhone" only-digits ng-model="ns.CandidatePhone" placeholder="Candidate Mobile No."></vBlock>
+                                <selecttimezone>
+                                    <select id="CandidateTimeZone" name="CandidateTimeZone" ng-model="ns.CanTimeZone"
+                                            ng-options="item.Text for item in TimeZonesList track by item.Id">
+                                        <option value="" selected="selected">Candidate Time Zone</option>
+                                    </select>
+                                </selecttimezone>
+                            </structure>
+                            <structure>
+                                <vBlock><input type="email" id="InterviewerEmail" name="InterviewerEmail" ng-blur on-blur-event="OnEvaEmailChanged()" ng-model="ns.InterviewerEmail" placeholder="Interviewer Email ID"></vBlock>
+                                <vBlock><input type="text" id="InterviewerName" name="InterviewerName" ng-model="ns.InterviewerName" placeholder="Interviewer Name"></vBlock>
+                                <vBlock><input type="text" id="InterviewerPhone" maxlength="10" name="InterviewerPhone" only-digits ng-model="ns.InterviewerPhone" placeholder="Interviewer Mobile No."></vBlock>
+                                <vBlock style="display:none;"><input type="text" id="InterviewerRate" name="InterviewerRate" ng-model="ns.InterviewerRate" placeholder="Interviewer Rate"></vBlock>
+                                <selecttimezone>
+                                    <select id="InterviewerTimeZone" name="InterviewerTimeZone" ng-model="ns.IntTimeZone"
+                                            ng-options="item.Text for item in TimeZonesList track by item.Id">
+                                        <option value="" selected="selected">Interviewer Time Zone</option>
+                                    </select>
+                                </selecttimezone>
+                            </structure>
+
+                            <vBlockIIcoljobid>
+                                <jobid>
+                                    <select id="txtJobSelection" name="txtJobSelection" ng-model="ns.JobId"
+                                            ng-change="DisplayJobDesc()" ng-sel
+                                            ng-options="item.Id as item.Text for item in jb">
+                                        <option value="" selected="selected">Job ID</option>
+                                    </select>
+                                </jobid>
+                            </vBlockIIcoljobid>
+                            <vBlockIIcoldatetime>
+                                <vBlockDate>
+                                    <input name="text" type="text" id="dtPickerIntDate" ng-change="DisableNaNTimes()" ng-model="Date" placeholder="Interview Date" readonly required />
+                                </vBlockDate>
+                                <selectTime>
+                                    <select name="hours" id="hours"
+                                            ng-model="Hours" class="watermark"
+                                            ng-options="item.Value as item.Text for item in Times"
+                                            ng-change="DisableNaNMinutes()" ng-select
+                                            placeholder="Select" required>
+                                        <option value="" selected="selected">Hour</option>
+                                    </select>
+                                </selectTime>
+                                <selecttime>
+                                    <select name="minutes" id="minutes" ng-model="Minutes" required class="watermark" ng-select
+                                            ng-options="item.Value as item.Text for item in MinutesList">
+                                        <option value="" selected="selected">Min</option>
+                                    </select>
+                                </selecttime>
+                            </vBlockIIcoldatetime>
+                            <vBlockIIcolselectCV ng-switch="ns.CandidateResume.length==0">
+                                <headlabel>Resume:</headlabel>
+                                <displayboxCV ng-switch-when="false">
+                                    <a href="{{ns.CandidateResume}}" target="_blank">View Resume</a>
+                                    <a href="javascript:void(0);" title="Remove Resume" ng-click="ShowDeleteResume()"><div class="deleteIcon"></div></a>
+                                </displayboxCV>
+                                <input ng-switch-when="true" id="sessionResume" name="sessionResume" accept=".pdf,.doc,.docx" type="file" ng-model="ns.Resume" file-change
+                                       file-error-id="schErrDisplay" file-diplay-style="block" file-form-name="frmNewSession" />
+                            </vBlockIIcolselectCV>
+                            <vBlockIIcolselectJD>
+                                <headlabel>Job Description:</headlabel>
+                                <input id="sessionJobDesc" name="sessionJobDesc" accept=".pdf,.doc,.docx" type="file" ng-model="ns.JDProfile" file-change
+                                       file-error-id="schErrDisplay" file-diplay-style="block" file-form-name="frmNewSession" />
+                            </vBlockIIcolselectJD>
+                            <label5>
+                                <div class="submitError" id="schErrDisplay" style="display:none;">&nbsp;</div>
+                                <buttonlabel>
+                                    <input type="button" id="btnSubmitNewSch" value="Submit" class="button" ng-click="SubmitNewScheduledSession()" />
+                                    <input type="button" value="Close" class="button" ng-click="HideNewScheduledSession()" />
+                                </buttonlabel>
+                            </label5>
+                        </form>
+                    </div>
+                </li>
+                <!--JD-->
+                <li>
+                    <div class="jobdesc">
+                        <structure>
+                            <headLabel>Job Description:</headLabel>
+                            <jdcontent id="jobDesc">Please select a Job ID to view the Job Description</jdcontent>
+                        </structure>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="popDeletePhoto" class="pop_disable_bg">
+        <div class="popConfirmLayout">
+            <div class="confirmAlert">
+                <txtBold>Are you sure you want to delete the photo?</txtBold>
+                <labelbutton>
+                    <input type="button" value="Yes" class="button" ng-click="DoDeletePhoto()" />
+                    <input type="button" value="No" class="button" onClick="HideDiv('popDeletePhoto')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Code Challenge-->
+    <div id="popCodeChallenge" class="pop_disable_bg">
+        <div id="codeChallenge_structure">
+            <div class="codeChallengeTest">
+                <layoutHead>Offline Code Challenge</layoutHead>
+                <vblk-lang>
+                    <select ng-model="SelectedLanguageId" id="SelectedLanguageId" name="SelectedLanguageId"
+                            ng-options="item.Id as item.Name for item in LanguagesPack">
+                        <option value="" selected="selected">Select</option>
+                    </select>
+                </vblk-lang>
+                <textarea id="txtCodeInfo" name="txtCodeInfo" ng-model="codetext"></textarea>
+                <labelbutton>
+                    <input type="button" value="Post Challenge" class="button" ng-click="SubmitCodeChallenge()" />
+                    <input type="button" value="Cancel" class="button" ng-click="HideCodeChallenge()" />
+                </labelbutton>
+                <div class="errorMsg" id="codeError" style="display:none">Please select a language</div>
+                <div class="successMsg" id="codeSuccess" style="display:none">Posted Successfully</div>
+            </div>
+        </div>
+    </div>
+
+    <!--Compilation Output-->
+    <div id="popJobTestCode" class="pop_disable_bg">
+        <div id="testCodeStructure">
+            <div class="testCode">
+                <blockHead style="display:none">Pre Test Assignment</blockHead>
+                <testQstn>{{Question}}</testQstn>
+                <testLang>Language: {{LanguageName}}</testLang>
+                <structure id="answerCode">
+                </structure>
+                <butlabel>
+                    <input type="button" style="display:none;" value="Run Code" class="butcompileclose" />
+                    <input type="button" value="Close" class="butcompileclose" ng-click="HideCodeForCompile()" />
+                </butlabel>
+            </div>
+        </div>
+    </div>
+</div>

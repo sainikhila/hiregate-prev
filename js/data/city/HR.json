@@ -1,0 +1,23 @@
+[ 
+{"Id": 1,"Name": "Šibenik"}, 
+{"Id": 2,"Name": "Čakovec"}, 
+{"Id": 3,"Name": "Bjelovar"}, 
+{"Id": 4,"Name": "Dubrovnik"}, 
+{"Id": 5,"Name": "Gospić"}, 
+{"Id": 6,"Name": "Karlovac"}, 
+{"Id": 7,"Name": "Koprivnica"}, 
+{"Id": 8,"Name": "Krapina"}, 
+{"Id": 9,"Name": "Osijek"}, 
+{"Id": 10,"Name": "Pazin"}, 
+{"Id": 11,"Name": "Požega"}, 
+{"Id": 12,"Name": "Pula"}, 
+{"Id": 13,"Name": "Rijeka"}, 
+{"Id": 14,"Name": "Sisak"}, 
+{"Id": 15,"Name": "Slavonski"}, 
+{"Id": 16,"Name": "Split"}, 
+{"Id": 17,"Name": "Varaždin"}, 
+{"Id": 18,"Name": "Virovitica"}, 
+{"Id": 19,"Name": "Vukovar"}, 
+{"Id": 20,"Name": "Zadar"}, 
+{"Id": 21,"Name": "Zagreb"} 
+] 

@@ -1,0 +1,15 @@
+<div class="footer-container-in" ng-controller="footerController" ng-show="loadingView">
+    <div class="content-widthfix">
+        <label-5>
+            <logoarea>
+                <div class="logo-white-in logo-footer-in"></div>
+            </logoarea>
+        </label-5>
+        <copyright>
+            Copyright &copy; {{CopyRight | date:'yyyy'}} &nbsp;|&nbsp;
+            <a href="javascript:void(0)" ng-click="NavigateToRoute('privacy')">Privacy Policy</a> &nbsp;|&nbsp;
+            <a href="javascript:void(0)" ng-click="NavigateToRoute('terms')">Terms of Use</a> &nbsp;
+            <!--<a href="javascript:void(0)" ng-click="NavigateToRoute('agreement')">User Agreement</a>-->
+        </copyright>
+    </div>
+</div>

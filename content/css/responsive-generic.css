@@ -1,0 +1,40 @@
+/* For screen bigger than 1200px */
+@media screen and (min-width:1200px){
+.content-widthfix{width:1200px; margin:0px auto 0px auto;}
+}
+/* For screen smaller than 1199px */
+@media screen and (max-width:1199px) {
+.global_page_error {margin-right:10px; margin-left:10px}
+}
+@media screen and (max-width:1024px) {
+
+}
+@media screen and (max-width:800px) {
+
+}
+@media screen and (max-width:700px) {
+
+}
+@media screen and (max-width:600px) {
+
+}
+@media screen and (max-width:530px) {
+
+}
+@media screen and (max-width:500px) {
+
+}
+@media screen and (max-width:450px) {
+
+
+}
+@media screen and (max-width:400px) {
+
+}
+@media screen and (max-width:350px) {
+
+}
+/* For screen bigger than 600px */
+@media screen and (min-width:600px){
+
+}

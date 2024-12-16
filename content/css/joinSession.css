@@ -1,0 +1,215 @@
+.common_page_container {
+	display:block;
+	margin-bottom:70px;
+	margin-top:20px;
+}
+
+/*Join Session*/
+.joinSession {
+	display:block;
+}
+.joinSession smallScreen {
+	display:none;
+	font:0.875em Arial;
+	color:#454545;
+	text-align:center;
+}
+.joinSession verBlock_L, .joinSession verBlock_R {
+	display:inline-block;
+	vertical-align:top;
+	width:calc(120% / 2 - 60px);
+	width: -webkit-calc(120% / 2 - 60px);
+	box-shadow:0px 2px 8px rgba(0, 0, 0, .35);
+	padding:25px;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAIAAADZ8fBYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAmpJREFUeNqkltl2gzAMRIGQ///b7Gk74sJFJadP9QPHsaxtNJIz3m63cVlfy5rn+f1+T9P0vSxFbk6n0zAM2SN9vV5eG7YV9fF+v2eHArexkm/EmEAfhSwdZ3M+n3MzG25iJJdH4sV0rqKJG0OOWn5ymK9xGCCKhlJ2H48HsiiP2+KnCpUXUWwRBC6k2BIWkoh0wij+8RkZSeVr1AKFmw6lmBhTRXC9XoGMvMwdZcIBUMHBtz6ez2duBmisE82KA0fCZ+DQI9+EoJSqRhpbuEQqyhV27HJbKLsJFglKAFP2JtDJltXuXzVNmNjqmOAA96CBLplhvUyHvzJJnsJECGBHdH/YMuSeEGWcCeRXqyxWdCDQkA8cTaKjZM3rGxx6uVGOIHutYMJY+renCMqJoEp3uVxklWBBJk4gg+2Py5xEBa9k7BjhwoSYU3vEQ5tViClLddSSYvZ4JXaj2XH45wAjg53CmTvkgjKnvYDSE9pZZwoggMd5ki7UlezTLqWzOzuXDUVznlRCqZuhkTIM7VWWsL80t2zIkiD2eDN3uqYM6+3noBErJ6TIyrM1b+458C1gjwu22cE6+KwKq7iUeK0p5gS0azrpew0cTzIVNNb3TYvmfmBP5zznlE46xm7qD+vXlxAPDAT0GXRsGAXCItymjw+q4iQp3HBrp3Wqd/6jBoVlMX3cqYa1giU49DdCcK2AY6i/wZqWub2hylnq5pRzjoipveST7IjoQ0eeORrXfvPR7D0GqXOB0ffZYJ+PgCNifd/6v5jDe2ybHYLqrz3Lp6Qqn7ljR+3/grblnHXCWgNLKoAs3P8IMAD7Oe5ywflOEAAAAABJRU5ErkJggg==');
+	min-height:275px;
+}
+.joinSession verBlock_R {
+	width:calc(80% / 2 - 60px);
+	width: -webkit-calc(80% / 2 - 60px);
+	margin-left:15px;
+}
+.joinSession label5 {
+	display:block;
+	margin-bottom:5px;
+}
+.joinSession label10 {
+	display:block;
+	margin-bottom:10px;
+}
+.joinSession label15 {
+	display:block;
+	margin-bottom:15px;
+}
+.joinSession label25 {
+	display:block;
+	margin-bottom:25px;
+}
+.joinSession lineSpace {
+	display:block;
+	margin-top:5px;
+}
+.joinSession textHead {
+	display:block;
+	font:bold 0.875em Arial;
+	text-transform:uppercase;
+	color:#454545;
+	margin-bottom:15px;
+}
+.joinSession textHeadPoints {
+	display:block;
+	font:bold 1.25em Arial;
+	color:#454545;
+	margin-bottom:5px;
+}
+.joinSession sessionID {
+	display:block;
+	font:bold 1.675em Arial; 
+	color:#028a92;
+	margin-top:-3px;
+	height:50px;
+}
+.joinSession date, .joinSession time {
+	display:inline-block;
+	font:1.0625em Arial;
+	color:#454545;
+	margin-right:20px;
+}
+.joinSession pinLabel {
+	display:block;
+	font:1.0625em Arial;
+	color:#454545;
+	margin-bottom:10px;
+}
+.joinSession ::-webkit-input-placeholder {
+	color: #d5d5d5
+}
+.joinSession :-moz-placeholder {
+	color: #d5d5d5
+}
+.joinSession ::-moz-placeholder {
+	color: #d5d5d5
+}
+.joinSession :-ms-input-placeholder {
+	color: #d5d5d5
+}
+.joinSession input[type="text"] {
+	display:inline-block;
+	vertical-align:top;
+	width:125px;
+	height:40px;
+	border: 1px solid #80babf;
+	border-radius: 1px;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAIAAADZ8fBYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAtBJREFUeNqs1sGS2kAMBFBs2OX/fxUoFlgg6fFzupytyi1zcNkzGqnVagmmy+Uyz/M0Te/3+/l8fn5+5pmdX8ualvV6vdjk5XA45H232zn9/v7OxbzYzEv2h/H1es1bznKB96wcxMV+v4+pC7mfZ3YcCZzN4/GYz0DJ3Rh8fHzk5fF4TPBmK2cxBSeuOYUlR/kUO8/sAw4yMwZcDb9fX1+OxZRvwzSSlIsgMLmTFiieOQ3qA1JynA+pseM9TnO0WxaAW+q3zGSlNvgdeM/ncw4SZMtvrFux7ENaHqycSuV+vydAMgA/fgNx3i8rFhJ3gce4y36Cx04A12BUUjBxgrQSPfPIXYxWoSxcK73LlY2EspOQpIL9GAgwuI3O/lVTvqBWLkgFrnKxF2NalPrqN1ukJ2yuYWBeVlsDm6FS6fIZm3YK7GvgitSBBOHFYIK73PCxzw5ayImTv2oevMRAd7pFgIq/LZdNdavgtiniV+C5LajBWu7sl1NUugnjc1nVOIpgV8ZDSyEFL4CrPn40ZChSMQbagWtklpnRx/9lgJENcLk15k6D5Di7GJBaLNpdiBOsepJiN/md6akcgcwRgKjouNBUfAnvivyyPybO4nA6nU6FpvroI3LBynKJKsaR8p9BUWEMqWXuKBTXvARL2w9f7cN4gbcTsure9vHMPY9okRrldVaYgZU9vDWDSUJYHXjbaUJ1brU7O+krcO+dztVlf1xGv7nfmvAul455XVA4eOjQiE3mhnm7sixCVoe3hnFNGUvZdgorF67McsiUalVo1QfRtt8rxHyG5cKkhNLVXAN8/Z0vWUZPxzzi5AWmGI3dn49tedZ+S92EpbaWeMt4hywSTSLGvDee0Tj83m63/iJ0VEOdZzbjS/o/smaJ91hKv5IfPGhWoCr4DiAZVKf+IWyV3g6UBEWuE6izpg0DkRhSozZZb2tQAhkI+VuAAQDWqloutjZAswAAAABJRU5ErkJggg==');
+	font: 1.375em Arial;
+	color:#454545;
+	outline: 0;
+	letter-spacing: 2px;
+	text-align:center;
+}
+.joinSession .buttonJoin {
+	display:inline-block;
+	vertical-align:top;
+	padding:0 13px;
+	height:43.5px;
+	border:none;
+	font:1.0625em Arial;
+	color: #fff;
+	background: #349fa7;
+	text-align:center;
+	outline:none;
+	margin-left:4px;
+}
+.joinSession .buttonJoin:hover {
+	color: #e5e5e5;
+	cursor:pointer;
+}
+.joinSession .buttonJoin[disabled], .joinSession .buttonJoin[disabled]:hover, .joinSession .buttonJoin.disabled, .joinSession .buttonJoin.disabled:hover {
+	background: #349fa7;
+	color: #8ec2c6;
+	border-color: #aaa;
+	cursor: default;
+	text-shadow: none;
+	position: static;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border:1px dotted #a7a7a7;
+}
+.joinSession .toStart {
+	display:inline-block;
+	vertical-align:top;
+	margin-left:12px;
+}
+.joinSession startLabel{
+	display:block;
+	font:0.75em Arial;
+	color:#767676;
+	margin:0px 0 4px 2px;
+}
+.joinSession startTime {
+	display:block;
+	font:bold 1.0625em Arial;
+	color:#646464;
+}
+.joinSession hour, .joinSession minute, .joinSession second {
+	display:inline-block;
+	vertical-align:middle;
+	border:1px solid #ccc;
+	padding:2px 5px;
+	margin:0 2px;
+	min-width:20px;
+	text-align:center;
+}
+.joinSession noteText {
+	display:block;
+	font:0.8125em Arial;
+	color:#aeaeae;
+}
+.joinSession .errorMessage {
+	display:block;
+	font:0.9375em Arial;
+	color:#fff;
+	background:#cf9c04;
+	margin-top:10px;
+	text-align:center;
+	height:28px;
+	line-height:28px;
+}
+.joinSession ul {
+    margin: 0;
+    padding: 0 0 0 1.5em;
+    list-style: none;
+}
+.joinSession li:before { 
+    display: block;
+	content: "";
+    border-color: transparent #028a92;
+    border-style: solid;
+    border-width: 0.45em 0 0.45em 0.55em;
+    height: 0;
+    width: 0;
+    left: -1.5em;
+    top: 1em;
+    position: relative;
+}
+.joinSession li {
+	font:0.9375em Arial;
+	color:#454545;
+	margin-bottom:3px;
+}
+.joinSession li a{
+	text-decoration:none;
+	color:#349fa7;
+}
+.joinSession li a:hover {
+	cursor:pointer;
+	color:#454545;
+}
+
+/* Responsive for screen smaller than 800px */
+@media screen and (max-width:800px)
+{
+	.joinSession verBlock_L, .joinSession verBlock_R {display:none;}
+	.joinSession smallScreen {display:block;}
+}

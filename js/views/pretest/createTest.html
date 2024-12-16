@@ -1,0 +1,1054 @@
+﻿<div id="workspacecontainer" ng-controller="pretestController" ng-show="loadingView" ng-init="OnDefaultLoad()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Error</div>
+                <div class="crTest_pg_container">
+                    <ul class="buildQ_Qlist">
+                        <!--Q Builder Block-->
+                        <li class="buildQ_Qlist">
+                            <div class="shadowLayout">
+                                <div class="crTestHeadBlock">
+                                    <pageHead>
+                                        <pgHeadText>Prepare New Test</pgHeadText>
+                                        <headingRight>
+                                            <input type="button" value="&#x1F519; Test List" class="bkButton" onClick="window.history.back()">
+                                        </headingRight>
+                                    </pageHead>
+                                </div>
+                                <!--Create Test-->
+                                <div class="createTest">
+                                    <titleDescblk id="dvTestTitleBlock" style="display:none;">
+                                        <div class="labelheading">Test Title *</div> <!--use class="labelheading_error" for error-->
+                                        <titleText>
+                                            <input type="text" id="txtTestTitle" name="txtTestTitle" ng-model="testTitle" placeholder="Eg - XYZ college 1st Yr BE Electronics">
+                                        </titleText>
+                                        <div class="labelheading">Test Description *</div>
+                                        <descText>
+                                            <textarea id="txtTestDesc" name="txtTestDesc" ng-model="testDesc" placeholder="Please write within 1000 character"></textarea>
+                                        </descText>
+                                        <div style="display:none;" class="labelheading">Job ID</div>
+                                        <jobidSelect>
+                                            <select ng-select ng-model="testJobId" name="testJobId" id="testJobId"
+                                                    ng-options="item.Id as item.Text for item in jb"
+                                                    required>
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </jobidSelect>
+                                        <buildQButLabel>
+                                            <input ng-click="OnBuildTestClicked()" type="button" value="Build Test" class="buttonBuildQ">
+                                        </buildQButLabel>
+                                        <orLabel style="display:none;">Or</orLabel>
+                                        <buildQButLabel style="display:none;">
+                                            <input type="button" value="Build Random Questions from Bank" class="buttonBuildQ" onClick="pop('popRandomPick')">
+                                            <input type="button" value="Pick Questions from Bank" class="buttonBuildQ" ng-click="OnShowAddFromQBank()">
+                                        </buildQButLabel>
+                                        <div class="errorMsg" id="errorTestCreate" name="errorTestCreate" style="display: none">Fill mandatory fields and try again</div>
+                                    </titleDescblk>
+
+                                    <!--Category Selection-->
+                                    <ul class="categorySection" style="display:none;" id="dvCategoryBlock">
+                                        <li class="categorySection">
+                                            <div class="labelheading">Subject <addnew><a href="javascript:void(0);" ng-click="ShowAddSection('S')">&#43; New</a></addnew></div>
+                                            <select ng-select ng-model="subjectId" name="subjectId" id="subjectId"
+                                                    ng-options="item.Id as item.Text for item in SubjectsList"
+                                                    required ng-change="OnSubjectedSelected()">
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </li>
+                                        <li class="categorySection">
+                                            <div class="labelheading">Section <addnew><a href="javascript:void(0);" ng-click="ShowAddSection('C')">+ New</a></addnew></div>
+                                            <select ng-select ng-model="sectionId" name="sectionId" id="sectionId"
+                                                    ng-options="item.Id as item.Text for item in SectionsList"
+                                                    required ng-change="OnSectionSelected()">
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </li>
+                                        <li class="categorySection">
+                                            <div class="labelheading">Category *</div>
+                                            <select ng-disabled="CategoryDisabled" ng-select ng-model="categoryId" name="categoryId" id="categoryId"
+                                                    ng-options="item.Id as item.Name for item in CategoryList"
+                                                    required ng-change="OnCategorySelected()"></select>
+                                        </li>
+                                        <li class="categorySection">
+                                            <div class="labelheading">Complexity *</div>
+                                            <select name="complexityId" id="complexityId" required ng-select
+                                                    ng-options="item.Value as item.Text for item in [] | range:{min:1,max:5}"
+                                                    ng-model="complexityId">
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </li>
+                                    </ul>
+
+                                    <!--Multi Choice-->
+                                    <div style="display:none;" id="dvMultiChoiceBlock">
+                                        <div class="subjHead">
+                                            Multi Choice - {{SectionName}}<!--<marks>0 Marks</marks>-->
+                                            <rightlink style="display:none;">
+                                                <input type="button" value="Add New" class="buttonView">
+                                            </rightlink>
+                                        </div>
+                                        <testContentBlock>
+                                            <qstnBlk>
+                                                <div class="labelheading">
+                                                    <Qstyle>Question 1 *</Qstyle>
+                                                    <tmBlk>
+                                                        <ul class="timeMark">
+                                                            <li class="timeMark">
+                                                                <select name="MultiChoice.Marks" id="MultiChoice.Marks" placeholder="Marks" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:50,chars:'',twodigit:true}"
+                                                                        ng-model="MultiChoice.Marks" ng-select>
+                                                                    <option value="" selected="selected">Marks</option>
+                                                                </select>
+                                                            </li>
+                                                            <li class="timeMark">
+                                                                <select name="MultiChoice.Time" id="MultiChoice.Time" placeholder="Time" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:59,chars:'',twodigit:true}"
+                                                                        ng-model="MultiChoice.Time" ng-select>
+                                                                    <option value="" selected="selected">Time (Min)</option>
+                                                                </select>
+                                                            </li>
+                                                        </ul>
+                                                    </tmBlk>
+                                                </div>
+                                                <qstntext><textarea name="MultiChoice.Question" id="MultiChoice.Question" ng-model="MultiChoice.Question"></textarea></qstntext>
+                                                <div class="labelheading" ng-show="AllowAddNewMultiple">Answer Choices * <addNewChoice><a href="javascript:void(0);" ng-click="AddNewChoice()">Add New Choice</a></addNewChoice></div>
+                                                <div class="createTest_ansCh">
+                                                    <table>
+                                                        <tr ng-repeat="item in MultiChoice.Answers | filter:{ Deleted: false }">
+                                                            <td><input type="checkbox" ng-model="item.Selected" ng-checked="item.Selected" name="multiChecked_{{item.ItemIndex}}" id="multiChecked_{{item.ItemIndex}}" /><label for="multiChecked_{{item.ItemIndex}}"></label></td>
+                                                            <td><ansChTxt><input type="text" ng-model="item.Answer" name="multiText_{{item.ItemIndex}}" id="multiText_{{item.ItemIndex}}" placeholder="Enter an answer choice"></ansChTxt></td>
+                                                            <td><a href="javascript:void(0);" ng-show="item.DeleteCheck" title="Delete Choice" ng-click="DeleteChoiceDeItem(item.ItemIndex)"><deleteIcon></deleteIcon></a></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <morethanone>
+                                                    <input type="checkbox" name="MultiChoice.AllowMultiples" id="MultiChoice.AllowMultiples" ng-model="MultiChoice.AllowMultiples" ng-checked="MultiChoice.AllowMultiples" /><label for="MultiChoice.AllowMultiples">Allow more than one Answer to this Question </label>
+                                                </morethanone>
+                                                <ul class="mandBank">
+                                                    <li class="mandBank">
+                                                        <input type="checkbox" name="MultiChoice.Mandatory" id="MultiChoice.Mandatory" ng-model="MultiChoice.Mandatory" ng-checked="MultiChoice.Mandatory" /><label for="MultiChoice.Mandatory">Mandatory Question</label>
+                                                    </li>
+                                                    <li class="mandBank">
+                                                        <input type="checkbox" name="MultiChoice.SaveToBank" id="MultiChoice.SaveToBank" ng-model="MultiChoice.SaveToBank" ng-checked="MultiChoice.SaveToBank" /><label for="MultiChoice.SaveToBank">Save Question to Bank</label>
+                                                    </li>
+                                                </ul>
+                                            </qstnBlk>
+                                            <testContentButtonLabel>
+                                                <input type="button" ng-click="AddQuestion()" value="Add to Test" class="buttonSaveLabel">
+                                                <input type="button" ng-click="CancelQuestion()" value="Cancel" class="buttonSaveLabel">
+                                                <div style="display:none;" id="MultiCategoryError" class="errorCategory">Fill mandatory fields and try again</div>
+                                            </testContentButtonLabel>
+
+                                        </testContentBlock>
+                                    </div>
+                                    <!--Multi Choice Ends-->
+                                    <!--Single Choice-->
+                                    <div id="dvSingleChoiceBlock" style="display:none;">
+                                        <div class="subjHead">
+                                            Single Choice - {{SectionName}}<!--<marks>0 Marks</marks>-->
+                                            <rightlink style="display:none;">
+                                                <input type="button" value="Add New" class="buttonView">
+                                            </rightlink>
+                                        </div>
+                                        <testContentBlock>
+                                            <qstnBlk>
+                                                <div class="labelheading">
+                                                    <Qstyle>Question 2 *</Qstyle>
+                                                    <tmBlk>
+                                                        <ul class="timeMark">
+                                                            <li class="timeMark">
+                                                                <select name="SingleChoice.Marks" id="SingleChoice.Marks" placeholder="Marks" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:50,chars:'',twodigit:true}"
+                                                                        ng-model="SingleChoice.Marks" ng-select>
+                                                                    <option value="" selected="selected">Marks</option>
+                                                                </select>
+                                                            </li>
+                                                            <li class="timeMark">
+                                                                <select name="SingleChoice.Time" id="SingleChoice.Time" placeholder="Time" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:59,chars:'',twodigit:true}"
+                                                                        ng-model="SingleChoice.Time" ng-select>
+                                                                    <option value="" selected="selected">Time (Min)</option>
+                                                                </select>
+                                                            </li>
+                                                        </ul>
+                                                    </tmBlk>
+                                                </div>
+                                                <qstntext><textarea name="SingleChoice.Question" id="SingleChoice.Question" ng-model="SingleChoice.Question"></textarea></qstntext>
+                                                <div class="labelheading">
+                                                    Answer Choices * <addNewChoice>
+                                                        <a ng-show="AllowAddNewSingle" href="javascript:void(0);" ng-click="AddNewChoice()">Add New Choice</a>
+                                                    </addNewChoice>
+                                                </div>
+                                                <div class="createTest_ansCh">
+                                                    <table>
+                                                        <tr ng-repeat="item in SingleChoice.Answers | filter:{ Deleted: false }">
+                                                            <td><input type="radio" ng-model="item.Selected" ng-checked="item.Checked" ng-click="OnOptionSelected()" name="singleChecked_choice" id="singleChecked_{{item.ItemIndex}}" /><label for="singleChecked_{{item.ItemIndex}}"></label></td>
+                                                            <td><ansChTxt><input type="text" ng-model="item.Answer" name="singleChecked_{{item.ItemIndex}}" id="singleChecked_{{item.ItemIndex}}" placeholder="Enter an answer choice"></ansChTxt></td>
+                                                            <td><a href="javascript:void(0);" ng-show="item.DeleteCheck" title="Delete Choice" ng-click="DeleteChoiceDeItem(item.ItemIndex)"><deleteIcon></deleteIcon></a></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <ul class="mandBank">
+                                                    <li class="mandBank">
+                                                        <input type="checkbox" name="SingleChoice.Mandatory" id="SingleChoice.Mandatory" ng-checked="SingleChoice.Mandatory" /><label for="SingleChoice.Mandatory">Mandatory Question</label>
+                                                    </li>
+                                                    <li class="mandBank">
+                                                        <input type="checkbox" name="SingleChoice.SaveToBank" id="SingleChoice.SaveToBank" ng-checked="SingleChoice.SaveToBank" /><label for="SingleChoice.SaveToBank">Save Question to Bank</label>
+                                                    </li>
+                                                </ul>
+                                            </qstnBlk>
+                                            <testContentButtonLabel>
+                                                <input type="button" ng-click="AddQuestion()" value="Add to Test" class="buttonSaveLabel">
+                                                <input type="button" ng-click="CancelQuestion()" value="Cancel" class="buttonSaveLabel">
+                                                <div style="display:none;" id="SingleCategoryError" class="errorCategory">Fill mandatory fields and try again</div>
+                                            </testContentButtonLabel>
+                                        </testContentBlock>
+                                    </div>
+                                    <!--Single Choice Ends-->
+                                    <!--TextBox-->
+                                    <div id="dvTextBoxBlock" style="display:none;">
+                                        <div class="subjHead">
+                                            Text Box - {{SectionName}}<!--<marks>0 Marks</marks>-->
+                                            <rightlink style="display:none;">
+                                                <input type="button" value="Add New" class="buttonView">
+                                            </rightlink>
+                                        </div>
+                                        <testContentBlock>
+                                            <qstnBlk>
+                                                <div class="labelheading">
+                                                    <Qstyle>Question 3 *</Qstyle>
+                                                    <tmBlk>
+                                                        <ul class="timeMark">
+                                                            <li class="timeMark">
+                                                                <select name="TextBoxChoice.Marks" id="TextBoxChoice.Marks" placeholder="Marks" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:50,chars:'',twodigit:true}"
+                                                                        ng-model="TextBoxChoice.Marks" ng-select>
+                                                                    <option value="" selected="selected">Marks</option>
+                                                                </select>
+                                                            </li>
+                                                            <li class="timeMark">
+                                                                <select name="TextBoxChoice.Time" id="TextBoxChoice.Time" placeholder="Time" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:59,chars:'',twodigit:true}"
+                                                                        ng-model="TextBoxChoice.Time" ng-select>
+                                                                    <option value="" selected="selected">Time (Min)</option>
+                                                                </select>
+                                                            </li>
+                                                        </ul>
+                                                    </tmBlk>
+                                                </div>
+                                                <qstntext><textarea name="TextBoxChoice.Question" id="TextBoxChoice.Question" ng-model="TextBoxChoice.Question"></textarea></qstntext>
+                                            </qstnBlk>
+                                            <testContentButtonLabel>
+                                                <input type="button" ng-click="AddQuestion()" value="Add to Test" class="buttonSaveLabel">
+                                                <input type="button" ng-click="CancelQuestion()" value="Cancel" class="buttonSaveLabel">
+                                                <div style="display:none;" id="TextCategoryError" class="errorCategory">Fill mandatory fields and try again</div>
+                                            </testContentButtonLabel>
+                                        </testContentBlock>
+                                    </div>
+                                    <!--TextBox Ends-->
+                                    <!--Paragraph-->
+                                    <div id="dvParagraphBlock" style="display:none;">
+                                        <div class="subjHead">
+                                            Paragraph - {{SectionName}}<!--<marks>0 Marks</marks>-->
+                                            <rightlink style="display:none;">
+                                                <input type="button" value="Add New" class="buttonView">
+                                            </rightlink>
+                                        </div>
+                                        <testContentBlock>
+                                            <qstnBlk>
+                                                <div class="labelheading">
+                                                    <Qstyle>Question 4 *</Qstyle>
+                                                    <tmBlk>
+                                                        <ul class="timeMark">
+                                                            <li class="timeMark">
+                                                                <select name="ParaChoice.Marks" id="ParaChoice.Marks" placeholder="Marks" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:50,chars:'',twodigit:true}"
+                                                                        ng-model="ParaChoice.Marks" ng-select>
+                                                                    <option value="" selected="selected">Marks</option>
+                                                                </select>
+                                                            </li>
+                                                            <li class="timeMark">
+                                                                <select name="ParaChoice.Time" id="ParaChoice.Time" placeholder="Time" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:59,chars:'',twodigit:true}"
+                                                                        ng-model="ParaChoice.Time" ng-select>
+                                                                    <option value="" selected="selected">Time (Min)</option>
+                                                                </select>
+                                                            </li>
+                                                        </ul>
+                                                    </tmBlk>
+                                                </div>
+                                                <qstntext><textarea name="ParaChoice.Question" id="ParaChoice.Question" ng-model="ParaChoice.Question"></textarea></qstntext>
+                                            </qstnBlk>
+                                            <testContentButtonLabel>
+                                                <input type="button" ng-click="AddQuestion()" value="Add to Test" class="buttonSaveLabel">
+                                                <input type="button" ng-click="CancelQuestion()" value="Cancel" class="buttonSaveLabel">
+                                                <div style="display:none;" id="ParaCategoryError" class="errorCategory">Fill mandatory fields and try again</div>
+                                            </testContentButtonLabel>
+                                        </testContentBlock>
+                                    </div>
+                                    <!--Paragraph Ends-->
+                                    <!--Code Test-->
+                                    <div id="dvCodeTestBlock" style="display:none;">
+                                        <div class="subjHead">
+                                            Coding Test - {{SectionName}}<!--<marks>0 Marks</marks>-->
+                                            <rightlink style="display:none;">
+                                                <input type="button" value="Add New" class="buttonView">
+                                            </rightlink>
+                                        </div>
+                                        <testContentBlock>
+                                            <qstnBlk>
+                                                <div class="labelheading">
+                                                    <Qstyle>Question 5 *</Qstyle>
+                                                    <tmBlk>
+                                                        <ul class="timeMark">
+                                                            <li class="timeMark">
+                                                                <select name="CodeChoice.Marks" id="CodeChoice.Marks" placeholder="Marks" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:50,chars:'',twodigit:true}"
+                                                                        ng-model="CodeChoice.Marks" ng-select>
+                                                                    <option value="" selected="selected">Marks</option>
+                                                                </select>
+                                                            </li>
+                                                            <li class="timeMark">
+                                                                <select name="CodeChoice.Time" id="CodeChoice.Time" placeholder="Time" required
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:1,max:59,chars:'',twodigit:true}"
+                                                                        ng-model="CodeChoice.Time" ng-select>
+                                                                    <option value="" selected="selected">Time (Min)</option>
+                                                                </select>
+                                                            </li>
+                                                        </ul>
+                                                    </tmBlk>
+                                                    <clBlk>
+                                                        <codeLanguage>
+                                                            <select name="CodeChoice.LanguageId" id="CodeChoice.LanguageId"
+                                                                    ng-model="CodeChoice.LanguageId" placeholder="Select Language" required
+                                                                    ng-options="item.Id as item.Name for item in LanguagesPack">
+                                                                <option value="" selected="selected">Select Language</option>
+                                                            </select>
+                                                        </codeLanguage>
+                                                    </clBlk>
+                                                </div>
+                                                <qstntext><textarea name="CodeChoice.Question" id="CodeChoice.Question" ng-model="CodeChoice.Question"></textarea></qstntext>
+                                                <div class="labelheading">Coding Panel - <notetxt>Paste code challenge and ask the candidate to rectify</notetxt></div>
+                                                <codePanelArea style="overflow:hidden;">
+                                                    <textarea style="width:100%;height:100%;overflow:auto;" name="CodeChoice.Challenge" id="CodeChoice.Challenge" ng-model="CodeChoice.Challenge"></textarea>
+                                                </codePanelArea>
+                                            </qstnBlk>
+                                            <testContentButtonLabel>
+                                                <input type="button" ng-click="AddQuestion()" value="Add to Test" class="buttonSaveLabel">
+                                                <input type="button" ng-click="CancelQuestion()" value="Cancel" class="buttonSaveLabel">
+                                                <div style="display:none;" id="CodeCategoryError" class="errorCategory">Fill mandatory fields and try again</div>
+                                            </testContentButtonLabel>
+                                        </testContentBlock>
+                                    </div>
+                                    <!--CodeTest Ends-->
+                                </div>
+                            </div>
+                        </li>
+
+                        <!--Test Description and Question List Block-->
+                        <li class="buildQ_Qlist">
+                            <!--Test Overview-->
+                            <div class="testOverview">
+                                <div class="shadowLayout">
+                                    <div class="noContent" id="dvDisplayTestNoContentBlock" style="display:none;">Build test and see the details here</div>
+                                    <div class="testTitleBlk" style="display:none;" id="dvDisplayTestBlock">
+                                        <titleDescAdded>
+                                            <addedHead>Test Title -</addedHead>
+                                            <addedText>{{TestInfo.Title}}</addedText>
+                                            <addedHead>Test Description -</addedHead>
+                                            <addedText>{{TestInfo.Description}}</addedText>
+                                            <ul class="QMarkBlk">
+                                                <li class="QMarkBlk">
+                                                    <addedHead>Question Added -</addedHead>
+                                                </li>
+                                                <li class="QMarkBlk">
+                                                    <addedText>{{TotalQuestions}}</addedText>
+                                                </li>
+                                                <li class="QMarkBlk">
+                                                    <addedHead>Total Marks -</addedHead>
+                                                </li>
+                                                <li class="QMarkBlk">
+                                                    <addedText>{{TotalMarks}}</addedText>
+                                                </li>
+                                                <li class="QMarkBlk">
+                                                    <addedHead>Total Time -</addedHead>
+                                                </li>
+                                                <li class="QMarkBlk">
+                                                    <addedText>{{TotalTime}}</addedText>
+                                                </li>
+                                            </ul>
+                                            <titleDescButLabel>
+                                                <input type="button" ng-disabled="TotalQuestions===0" value="Preview" class="button_testDesc" ng-click="OnShowPreviewTest()">
+                                                <input type="button" ng-disabled="TotalQuestions===0 || TestInfo.Published" value="Publish Test" class="button_testDesc" disabled ng-click="OnPublishClicked()">
+                                                <input type="button" ng-disabled="TotalQuestions===0" value="Save" class="button_testDesc" style="display:none;">
+                                            </titleDescButLabel>
+                                        </titleDescAdded>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Added Question List-->
+                            <div class="testQList" id="dvTestQParentBlock" style="display:none;">
+                                <div class="shadowLayout">
+                                    <div class="crTestHeadBlock">
+                                        <pageHead>
+                                            <pgHeadText>Test Questions</pgHeadText>
+                                            <headingRight>
+                                                <input style="display:none;" type="button" value="Add Random Questions" class="button_addNew" ng-click="OnShowRandomFromQBank()">
+                                                <input type="button" value="Add Questions from Bank" class="button_addNew" ng-click="OnShowAddFromQBank()">
+                                                <input type="button" ng-disabled="DeleteEnabled===0" value="Delete Question" class="button_addNew" ng-click="DeleteSelectedQ()" disabled>
+                                            </headingRight>
+                                            <div class="noContent" id="dvTestQNoContentBlock" style="display: none">Build question to see here</div>
+                                            <filterLayout style="display:block" id="dvTestQListFilerBlock">
+                                                <subjLabel>
+                                                    <select ng-select ng-model="filterSubjectId" name="filterSubjectId" id="filterSubjectId"
+                                                            ng-options="item.Id as item.Text for item in SubjectsList">
+                                                        <option value="" selected="selected">Subject</option>
+                                                    </select>
+                                                </subjLabel>
+                                                <sectionLabel>
+                                                    <select ng-select ng-model="filterSectionId" name="filterSectionId" id="filterSectionId"
+                                                            ng-options="item.Id as item.Text for item in SectionsList">
+                                                        <option value="" selected="selected">Section</option>
+                                                    </select>
+                                                </sectionLabel>
+                                                <catLabel>
+                                                    <select ng-select ng-model="filterCategoryId" name="filterCategoryId" id="filterCategoryId"
+                                                            ng-options="item.Id as item.Name for item in CategoryList2" />
+                                                </catLabel>
+                                                <complexLabel>
+                                                    <select ng-select name="filterComplexityId" id="filterComplexityId"
+                                                            ng-options="item.Value as item.Text for item in [] | range:{min:1,max:5}"
+                                                            ng-model="filterComplexityId">
+                                                        <option value="" selected="selected">Complexity</option>
+                                                    </select>
+                                                </complexLabel>
+                                                <!--<dateDisplayBox>
+                                                    <filterLabelText>Created Date</filterLabelText>
+                                                    <input type="text" id="datepicker" placeholder="From Date" readonly>
+                                                    <input type="text" id="datepicker" placeholder="To Date" readonly>
+                                                </dateDisplayBox>-->
+                                                <input type="button" class="filterButton" title="Filter Selection" ng-click="OnFilterSelected()">
+                                            </filterLayout>
+                                        </pageHead>
+                                        <div class="filterBlock" ng-show="FilterControlItems.length > 0">
+                                            <filter ng-repeat="item in FilterControlItems"><b>{{item.Name}}:</b> {{item.Title}}<closeicon><a href="javascript:void(0);" ng-click="RemoveSelectedFilter(item.Id)" title="Close">&#215;</a></closeicon></filter>
+                                            <input type="button" class="button_clear" value="Clear All" ng-click="ClearAllFilter()" />
+                                        </div>
+
+                                        <div class="noContent" id="dvTestQNoListContentBlock" style="display: none">Build question to see here</div>
+                                        <div class="qstnList" style="display: block" id="dvTestQListBlock">
+                                            <ul class="QLblk">
+                                                <li class="QLblk" ng-repeat="item in Questions | filter:{Deleted:false} track by $index" ng-switch="item.CategoryId">
+                                                    <ul class="ql-head">
+                                                        <li class="ql-head"><input type="checkbox" id="Questions_{{$index}}" name="Questions_{{$index}}" ng-model="item.Selected" ng-click="OnQuestionsChecked()" /><label for="Questions_{{$index}}"></label></li>
+                                                        <li class="ql-head">Subject:</li>
+                                                        <li class="ql-head">{{item.SubjectName}}</li>
+                                                        <li class="ql-head">Section:</li>
+                                                        <li class="ql-head">{{item.SectionName}}</li>
+                                                        <li class="ql-head">Category:</li>
+                                                        <li class="ql-head">{{item.CategoryName}}</li>
+                                                        <li class="ql-head">Complexity:</li>
+                                                        <li class="ql-head">{{item.Complexity}}</li>
+                                                    </ul>
+                                                    <ul class="ql-qstnActnBtn">
+                                                        <li class="ql-qstnActnBtn">{{item.Question}}</li>
+                                                        <li class="ql-qstnActnBtn"><input type="button" value="+" id="QBtn_QBlock_{{$index}}" class="buttonExpCol" ng-click="ShowOneBlock('Q','QBlock_' + $index);"></li>
+                                                    </ul>
+                                                    <div ng-switch-when="1" class="childBlock" id="QBlock_{{$index}}" style="display:none;">
+                                                        <ul class="ansOpt">
+                                                            <li class="ansOpt" ng-repeat="citem in item.Answers | filter:{Deleted:false}">
+                                                                <ansOptTxtHead>Choice {{citem.ItemIndex}}:</ansOptTxtHead>
+                                                                <ansOptTxt>{{citem.Answer}}</ansOptTxt>
+                                                            </li>
+                                                        </ul>
+                                                        <ul class="correctCh">
+                                                            <li class="correctCh">Correct Choice:</li>
+                                                            <li class="correctCh" ng-repeat="citem in item.Answers | filter:{Selected:true}">{{$index+1}}</li>
+                                                        </ul>
+                                                        <ul class="markTime">
+                                                            <li class="markTime">Marks:</li>
+                                                            <li class="markTime">{{item.Marks}}</li>
+                                                            <li class="markTime">Time:</li>
+                                                            <li class="markTime">{{item.Time}} Minute</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div ng-switch-when="2" class="childBlock" id="QBlock_{{$index}}" style="display:none;">
+                                                        <ul class="ansOpt">
+                                                            <li class="ansOpt" ng-repeat="citem in item.Answers | filter:{Deleted:false}">
+                                                                <ansOptTxtHead>Option {{citem.ItemIndex}}:</ansOptTxtHead>
+                                                                <ansOptTxt>{{citem.Answer}}</ansOptTxt>
+                                                            </li>
+                                                        </ul>
+                                                        <ul class="correctCh">
+                                                            <li class="correctCh">Correct Option:</li>
+                                                            <li class="correctCh" ng-repeat="citem in item.Answers | filter:{Selected:true}">{{$index+1}}</li>
+                                                        </ul>
+                                                        <ul class="markTime">
+                                                            <li class="markTime">Marks:</li>
+                                                            <li class="markTime">{{item.Marks}}</li>
+                                                            <li class="markTime">Time:</li>
+                                                            <li class="markTime">{{item.Time}} Minute</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div ng-switch-when="3" class="childBlock" id="QBlock_{{$index}}" style="display:none;">
+                                                        <ul class="markTime">
+                                                            <li class="markTime">Marks:</li>
+                                                            <li class="markTime">{{item.Marks}}</li>
+                                                            <li class="markTime">Time:</li>
+                                                            <li class="markTime">{{item.Time}} Minute</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div ng-switch-when="4" class="childBlock" id="QBlock_{{$index}}" style="display:none;">
+                                                        <ul class="markTime">
+                                                            <li class="markTime">Marks:</li>
+                                                            <li class="markTime">{{item.Marks}}</li>
+                                                            <li class="markTime">Time:</li>
+                                                            <li class="markTime">{{item.Time}} Minute</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div ng-switch-when="5" class="childBlock" id="QBlock_{{$index}}" style="display:none;">
+                                                        <ul class="codingLang">
+                                                            <li class="codingLang">Language:</li>
+                                                            <li class="codingLang">{{item.LanguageName}}</li>
+                                                        </ul>
+                                                        <codingpanelarea>{{item.Challenge}}</codingpanelarea>
+                                                        <ul class="markTime">
+                                                            <li class="markTime">Marks:</li>
+                                                            <li class="markTime">{{item.Marks}}</li>
+                                                            <li class="markTime">Time:</li>
+                                                            <li class="markTime">{{item.Time}} Minute</li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <!--Preview Test-->
+    <div id="popPreviewTest" class="pop_disable_bg">
+        <div class="previewTest_structure">
+            <div class="noContent" style="display: none">No questions added</div>
+            <div class="previewTest">
+                <sectionBlk>
+                    Section - {{QuestionItem.SectionName}}
+                    <timeMarkBlk>
+                        <ul class="MT">
+                            <li class="MT">Marks:</li>
+                            <li class="MT">{{QuestionItem.Marks}}</li>
+                            <li class="MT">Time:</li>
+                            <li class="MT">{{QuestionItem.Time}} Min</li>
+                        </ul>
+                    </timeMarkBlk>
+                </sectionBlk>
+
+                <structure ng-switch="QuestionItem.CategoryId">
+                    <ul class="prevQstn">
+                        <li class="prevQstn">Q{{QuestionItem.QIndex}}:</li>
+                        <li class="prevQstn">
+                            {{QuestionItem.Question}}
+                        </li>
+                    </ul>
+                    <!--For Multi Choice Type Question-->
+                    <ul ng-switch-when="1" class="ansCh" ng-repeat="citem in QuestionItem.Answers | filter:{Deleted:false}">
+                        <li class="ansCh">
+                            <input type="checkbox" id="prv_checkbox_{{$index}}" /><label for="prv_checkbox_{{$index}}"></label>
+                        </li>
+                        <li class="ansCh">
+                            <input type="text" value="{{citem.Answer}}">
+                        </li>
+                    </ul>
+                    <!--For Single Choice Type Question-->
+                    <ul ng-switch-when="2" class="ansCh" ng-repeat="citem in QuestionItem.Answers | filter:{Deleted:false}">
+                        <li class="ansCh">
+                            <input type="radio" name="prv_radio_opt" id="prv_checkbox_{{$index}}" /><label for="prv_checkbox_{{$index}}"></label>
+                        </li>
+                        <li class="ansCh">
+                            <input type="text" value="{{citem.Answer}}">
+                        </li>
+                    </ul>
+                    <!--For Single Text Box Type Question-->
+                    <singleTxtBox ng-switch-when="3">
+                        <input type="text" value="{{QuestionItem.TextBoxChoice}}">
+                    </singleTxtBox>
+                    <!--For Paragraph Type Question-->
+                    <multiTxtBox ng-switch-when="4">
+                        <textarea>{{QuestionItem.ParaChoice}}</textarea>
+                    </multiTxtBox>
+                    <!--For Coding Test Question-->
+                    <div ng-switch-when="5">
+                        <codelangselected>Language Selected: {{QuestionItem.LanguageName}}</codelangselected>
+                        <codeCh>{{QuestionItem.Challenge}}</codeCh>
+                    </div>
+                </structure>
+                <labelbutton>
+                    <input type="button" ng-show="Previous" ng-click="MovePrev()" value="Previous" class="button" />
+                    <input type="button" ng-show="Next" ng-click="MoveNext()" value="Next" class="button" />
+                    <input type="button" value="Close" class="button" onClick="hide('popPreviewTest')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Add Q from Bank-->
+    <div id="popAddQfromBank" class="pop_disable_bg">
+        <div class="addQfromBank_structure">
+            <div class="addQfromBank" ng-switch="QuestionsBank.length>0">
+                <headBlk>Add Questions from Bank <qstncount>{{TotalBQuestions}} &nbsp;Question(s) Selected</qstncount></headBlk>
+                <filterLayout style="display:block">
+                    <subjLabel>
+                        <select ng-select ng-model="filterQSubjectId" name="filterQSubjectId" id="filterQSubjectId"
+                                ng-options="item.Id as item.Text for item in SubjectsList" ng-change="OnQBFilterSelected()">
+                            <option value="" selected="selected">Subject</option>
+                        </select>
+
+                    </subjLabel>
+                    <sectionLabel>
+                        <select ng-select ng-model="filterQSectionId" name="filterQSectionId" id="filterQSectionId"
+                                ng-options="item.Id as item.Text for item in SectionsList"
+                                required ng-change="OnQBFilterSelected()">
+                            <option value="" selected="selected">Section</option>
+                        </select>
+                    </sectionLabel>
+                    <catLabel>
+                        <select ng-select ng-model="filterQCategoryId" name="filterQCategoryId" id="filterQCategoryId"
+                                ng-options="item.Id as item.Name for item in CategoryList2"
+                                required ng-change="OnQBFilterSelected()"></select>
+                    </catLabel>
+                    <complexLabel>
+                        <select name="filterQComplexityId" id="filterQComplexityId" required
+                                ng-options="item.Value as item.Text for item in [] | range:{min:1,max:5}"
+                                ng-model="filterQComplexityId" ng-change="OnQBFilterSelected()">
+                            <option value="" selected="selected">Complexity</option>
+                        </select>
+                    </complexLabel>
+                </filterLayout>
+                <filteredBlock ng-show="FilterQControlItems.length > 0">
+                    <filter ng-repeat="item in FilterQControlItems"><b>{{item.Name}}:</b> {{item.Title}}<closeicon><a href="javascript:void(0);" ng-click="RemoveSelectedQFilter(item.Id)" title="Close">&#215;</a></closeicon></filter>
+                    <input type="button" class="button_clear" value="Clear All" ng-click="ClearAllQFilter()" />
+                </filteredBlock>
+                <div class="noContent" ng-switch-when="false">No questions are available</div>
+                <div class="qstnList" ng-switch-when="true">
+                    <ul class="QfromBankBlk">
+                        <li class="QfromBankBlk" ng-repeat="item in QuestionsBank track by $index" ng-switch="item.CategoryId">
+                            <ul class="ql-head">
+                                <li class="QFB-head"><input type="checkbox" id="QuestionsB_{{$index}}" name="QuestionsB_{{$index}}" ng-model="item.Selected" ng-click="OnAddFromQBankChecked()" /><label for="QuestionsB_{{$index}}"></label></li>
+                                <li class="QFB-head">Subject:</li>
+                                <li class="QFB-head">{{item.SubjectName}}</li>
+                                <li class="QFB-head">Section:</li>
+                                <li class="QFB-head">{{item.SectionName}}</li>
+                                <li class="QFB-head">Category:</li>
+                                <li class="QFB-head">{{item.CategoryName}}</li>
+                                <li class="QFB-head">Complexity:</li>
+                                <li class="QFB-head">{{item.Complexity}}</li>
+                            </ul>
+                            <ul class="QFB-Q_ActnBtn">
+                                <li class="QFB-Q_ActnBtn">{{item.Question}}</li>
+                                <li class="QFB-Q_ActnBtn"><input type="button" value="+" id="QBBtn_QBBlock_{{$index}}" class="buttonExpCol" ng-click="ShowOneBlock('QB','QBBlock_' + $index);"></li>
+                            </ul>
+                            <div ng-switch-when="1" class="childBlock" id="QBBlock_{{$index}}" style="display:none;">
+                                <ul class="QFB_ansOpt">
+                                    <li class="QFB_ansOpt" ng-repeat="citem in item.Answers | filter:{Deleted:false}">
+                                        <QFB_ansOptTxtHead>Choice {{citem.ItemIndex}}:</QFB_ansOptTxtHead>
+                                        <QFB_ansOptTxt>{{citem.Answer}}</QFB_ansOptTxt>
+                                    </li>
+                                </ul>
+                                <ul class="QFB_correctCh">
+                                    <li class="QFB_correctCh">Correct Choice:</li>
+                                    <li class="QFB_correctCh" ng-repeat="citem in item.Answers | filter:{Selected:true}">{{$index+1}}</li>
+                                </ul>
+                                <ul class="QFB_markTime">
+                                    <li class="QFB_markTime">Marks:</li>
+                                    <li class="QFB_markTime">{{item.Marks}}</li>
+                                    <li class="QFB_markTime">Time:</li>
+                                    <li class="QFB_markTime">{{item.Time}} Minute</li>
+                                </ul>
+                            </div>
+
+                            <div ng-switch-when="2" class="childBlock" id="QBBlock_{{$index}}" style="display:none;">
+                                <ul class="QFB_ansOpt">
+                                    <li class="QFB_ansOpt" ng-repeat="citem in item.Answers | filter:{Deleted:false}">
+                                        <QFB_ansOptTxtHead>Option {{citem.ItemIndex}}:</QFB_ansOptTxtHead>
+                                        <QFB_ansOptTxt>{{citem.Answer}}</QFB_ansOptTxt>
+                                    </li>
+                                </ul>
+                                <ul class="QFB_correctCh">
+                                    <li class="QFB_correctCh">Correct Option:</li>
+                                    <li class="QFB_correctCh" ng-repeat="citem in item.Answers | filter:{Selected:true}">{{$index+1}}</li>
+                                </ul>
+                                <ul class="QFB_markTime">
+                                    <li class="QFB_markTime">Marks:</li>
+                                    <li class="QFB_markTime">{{item.Marks}}</li>
+                                    <li class="QFB_markTime">Time:</li>
+                                    <li class="QFB_markTime">{{item.Time}} Minute</li>
+                                </ul>
+                            </div>
+
+                            <div ng-switch-when="3" class="childBlock" id="QBBlock_{{$index}}" style="display:none;">
+                                <ul class="QFB_markTime">
+                                    <li class="QFB_markTime">Marks:</li>
+                                    <li class="QFB_markTime">{{item.Marks}}</li>
+                                    <li class="QFB_markTime">Time:</li>
+                                    <li class="QFB_markTime">{{item.Time}} Minute</li>
+                                </ul>
+                            </div>
+                            <div ng-switch-when="4" class="childBlock" id="QBBlock_{{$index}}" style="display:none;">
+                                <ul class="QFB_markTime">
+                                    <li class="QFB_markTime">Marks:</li>
+                                    <li class="QFB_markTime">{{item.Marks}}</li>
+                                    <li class="QFB_markTime">Time:</li>
+                                    <li class="QFB_markTime">{{item.Time}} Minute</li>
+                                </ul>
+                            </div>
+                            <div ng-switch-when="5" class="childBlock" id="QBBlock_{{$index}}" style="display:none;">
+                                <ul class="QFB_codingLang">
+                                    <li class="QFB_codingLang">Language:</li>
+                                    <li class="QFB_codingLang">{{item.LanguageName}}</li>
+                                </ul>
+                                <codingpanelarea>{{item.Challenge}}</codingpanelarea>
+                                <ul class="QFB_markTime">
+                                    <li class="QFB_markTime">Marks:</li>
+                                    <li class="QFB_markTime">{{item.Marks}}</li>
+                                    <li class="QFB_markTime">Time:</li>
+                                    <li class="QFB_markTime">{{item.Time}} Minute</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <labelbutton>
+                    <input type="button" ng-switch-when="true" value="Add to Test" class="button" ng-click="OnAddFromQBank()" />
+                    <input type="button" value="Close" class="button" ng-click="OnHideAddFromQBank()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Random Pick-->
+    <div id="popRandomPick" class="pop_disable_bg">
+        <div id="randomPick_structure">
+            <div class="randomPick">
+                <randomHead>Random Question Builder</randomHead>
+                <randomNoteText>Select the range below and let system build the questions</randomNoteText>
+                <ul class="randomtype">
+                    <li class="randomtype">
+                        <select name="year" placeholder="Subject" required>
+                            <option value="" selected="selected">Subject</option>
+                            <option value="1">Arithmetic</option>
+                            <option value="2">Engineering</option>
+                            <option value="3">Management</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Section" required>
+                            <option value="" selected="selected">Section</option>
+                            <option value="1">Objective</option>
+                            <option value="2">Psychometric</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Category" required>
+                            <option value="" selected="selected">Category</option>
+                            <option value="1">Multi Choice</option>
+                            <option value="2">Single Choice</option>
+                            <option value="3">Text Box</option>
+                            <option value="3">Paragraph</option>
+                            <option value="4">Code Test</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Language" required disabled>
+                            <option value="" selected="selected">Language</option>
+                            <option value="1">C++</option>
+                            <option value="2">Java</option>
+                            <option value="3">Python</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Complexity" required>
+                            <option value="" selected="selected">Complexity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="No of Q" required>
+                            <option value="" selected="selected">No of Q</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+
+                    <!--2nd Line-->
+                    <li class="randomtype">
+                        <select name="year" placeholder="Subject" required>
+                            <option value="" selected="selected">Subject</option>
+                            <option value="1">Arithmetic</option>
+                            <option value="2">Engineering</option>
+                            <option value="3">Management</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Section" required>
+                            <option value="" selected="selected">Section</option>
+                            <option value="1">Objective</option>
+                            <option value="2">Psychometric</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Category" required>
+                            <option value="" selected="selected">Category</option>
+                            <option value="1">Multi Choice</option>
+                            <option value="2">Single Choice</option>
+                            <option value="3">Text Box</option>
+                            <option value="3">Paragraph</option>
+                            <option value="4">Code Test</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Language" required disabled>
+                            <option value="" selected="selected">Language</option>
+                            <option value="1">C++</option>
+                            <option value="2">Java</option>
+                            <option value="3">Python</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Complexity" required>
+                            <option value="" selected="selected">Complexity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="No of Q" required>
+                            <option value="" selected="selected">No of Q</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <!--3rd Line-->
+                    <li class="randomtype">
+                        <select name="year" placeholder="Subject" required>
+                            <option value="" selected="selected">Subject</option>
+                            <option value="1">Arithmetic</option>
+                            <option value="2">Engineering</option>
+                            <option value="3">Management</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Section" required>
+                            <option value="" selected="selected">Section</option>
+                            <option value="1">Objective</option>
+                            <option value="2">Psychometric</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Category" required>
+                            <option value="" selected="selected">Category</option>
+                            <option value="1">Multi Choice</option>
+                            <option value="2">Single Choice</option>
+                            <option value="3">Text Box</option>
+                            <option value="3">Paragraph</option>
+                            <option value="4">Code Test</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Language" required disabled>
+                            <option value="" selected="selected">Language</option>
+                            <option value="1">C++</option>
+                            <option value="2">Java</option>
+                            <option value="3">Python</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Complexity" required>
+                            <option value="" selected="selected">Complexity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="No of Q" required>
+                            <option value="" selected="selected">No of Q</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <!--4th Line-->
+                    <li class="randomtype">
+                        <select name="year" placeholder="Subject" required>
+                            <option value="" selected="selected">Subject</option>
+                            <option value="1">Arithmetic</option>
+                            <option value="2">Engineering</option>
+                            <option value="3">Management</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Section" required>
+                            <option value="" selected="selected">Section</option>
+                            <option value="1">Objective</option>
+                            <option value="2">Psychometric</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Category" required>
+                            <option value="" selected="selected">Category</option>
+                            <option value="1">Multi Choice</option>
+                            <option value="2">Single Choice</option>
+                            <option value="3">Text Box</option>
+                            <option value="3">Paragraph</option>
+                            <option value="4">Code Test</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Language" required disabled>
+                            <option value="" selected="selected">Language</option>
+                            <option value="1">C++</option>
+                            <option value="2">Java</option>
+                            <option value="3">Python</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Complexity" required>
+                            <option value="" selected="selected">Complexity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="No of Q" required>
+                            <option value="" selected="selected">No of Q</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <!--5th Line-->
+                    <li class="randomtype">
+                        <select name="year" placeholder="Subject" required>
+                            <option value="" selected="selected">Subject</option>
+                            <option value="1">Arithmetic</option>
+                            <option value="2">Engineering</option>
+                            <option value="3">Management</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Section" required>
+                            <option value="" selected="selected">Section</option>
+                            <option value="1">Objective</option>
+                            <option value="2">Psychometric</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Category" required>
+                            <option value="" selected="selected">Category</option>
+                            <option value="1">Multi Choice</option>
+                            <option value="2">Single Choice</option>
+                            <option value="3">Text Box</option>
+                            <option value="3">Paragraph</option>
+                            <option value="4">Code Test</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Language" required disabled>
+                            <option value="" selected="selected">Language</option>
+                            <option value="1">C++</option>
+                            <option value="2">Java</option>
+                            <option value="3">Python</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="Complexity" required>
+                            <option value="" selected="selected">Complexity</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                    <li class="randomtype">
+                        <select name="year" placeholder="No of Q" required>
+                            <option value="" selected="selected">No of Q</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                        </select>
+                    </li>
+                </ul>
+
+                <labelbutton>
+                    <input type="submit" value="Build Questions" class="button" />
+                    <input type="button" value="Cancel" class="button" onClick="HideDiv('popRandomPick')" />
+                </labelbutton>
+                <div class="errorMsg" style="display: block">Select atleast one field and try again</div>
+            </div>
+        </div>
+    </div>
+
+    <!--Job Publish Successful-->
+    <div id="popJobPublishSuccessful" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>Job Published Successfully</txtHead>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onClick="HideDiv('popJobPublishSuccessful')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <div id="popAddSection" class="pop_disable_bg">
+        <div class="addSection_structure">
+            <div class="addSection">
+                <secname id="sectTagName">Section Name</secname>
+                <secnametxtbox><input type="text" id="sectTagVal" name="sectTagVal" ng-model="sectTagVal"></secnametxtbox>
+                <labelbutton>
+                    <input type="button" value="Add" class="button" ng-click="AddSection()">
+                    <input type="button" value="Close" class="button" onclick="hide('popAddSection')">
+                </labelbutton>
+                <div class="secterror" id="secterror" ng-model="secterror" style="display:none;">Value can't be null</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+

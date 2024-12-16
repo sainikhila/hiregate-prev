@@ -1,0 +1,44 @@
+﻿<!--Demo -->
+<div class="demo_pop" ng-controller="menuController">
+    <div class="demo">
+        <heading>Request a Demo</heading>
+        <headtext>Seeing is believing! Schedule a demo to find out why HireGate is the right choice for your business</headtext>
+        <form method="post" name="frmDemoRequest" id="frmDemoRequest" novalidate>
+            <structure>
+                <ul>
+                    <li>
+                        <div id="txtReqNameLabel" class="labelheading">Name *</div>
+                        <input name="txtReqName" id="txtReqName" ng-model="Demo.Name" type="text" on-touch autocomplete="off" required ng-enter="SubmitRequestDemo()" />
+                    </li>
+                    <li>
+                        <div id="txtReqEmailLabel" class=labelheading>Email *</div>
+                        <input name="txtReqEmail" id="txtReqEmail" ng-model="Demo.Email" type="text" on-touch autocomplete="off" required ng-enter="SubmitRequestDemo()" />
+                    </li>
+                    <li>
+                        <div id="txtReqPhoneLabel" class="labelheading">Phone *</div>
+                        <input name="txtReqPhone" id="txtReqPhone" ng-model="Demo.Phone" type="text" on-touch autocomplete="off" required ng-enter="SubmitRequestDemo()" />
+                    </li>
+                    <li>
+                        <div id="txtReqCompanyLabel" class=labelheading>Company Name *</div>
+                        <input name="txtReqCompany" id="txtReqCompany" ng-model="Demo.Company" type="text" on-touch autocomplete="off" required ng-enter="SubmitRequestDemo()" />
+                    </li>
+                    <li>
+                        <div id="txtReqCityLabel" class="labelheading">City *</div>
+                        <input name="txtReqCity" id="txtReqCity" ng-model="Demo.City" type="text" on-touch autocomplete="off" required ng-enter="SubmitRequestDemo()" />
+                    </li>
+                    <li>
+                        <div id="txtReqCountryLabel" class=labelheading>Country *</div>
+                        <input name="txtReqCountry" id="txtReqCountry" ng-model="Demo.Country" type="text" on-touch autocomplete="off" required ng-enter="SubmitRequestDemo()" />
+                    </li>
+                </ul>
+            </structure>
+            <butlabel>
+                <input type="button" id="btnDemoReqSubmit" value="Submit" class="buttondemo" ng-click="SubmitRequestDemo()">
+                <input type="button" id="btnDemoReqClose" value="Close" class="buttondemo" ng-click="HideRequestDemo()">
+            </butlabel>
+            <div class="submitError" id="demoRequestError" style="display: none">Clear error fields and submit again</div>
+            <div class="submitSuccess" id="demoRequestSuccess" style="display: none">Submitted successfully! We will get in touch shortly</div>
+            <div class="submitError" id="demoRequestFailed" style="display: none">System fail to process. Please try again.</div>
+        </form>
+    </div>
+</div>

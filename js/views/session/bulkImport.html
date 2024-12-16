@@ -1,0 +1,116 @@
+﻿<div id="workspacecontainer" ng-controller="bulkImportController" ng-show="loadingView">
+    <div id="popImportDetails" class="pop_disable_bg">
+        <div id="importDetails_structure">
+            <div class="importDetailsHeader">
+                Bulk Import using CSV
+                <headingRight>
+                    <browseLabel>
+                        <label for="importSessionCSV" class="button_impfile">Browse CSV File</label>
+                        <input id="importSessionCSV" name="importSessionCSV" class="button_assign" file-formats="csv" accept=".csv" type="file" ng-model="importSessionCSV" file-change
+                               file-error-id="seImpFileError" style="visibility:hidden;" file-diplay-style="inline-block" ng-change="GetImportCSV()" />
+                    </browseLabel>
+                    <filesizeLabel id="seImpFileError" style="display:none;">File size exceeds 300 kb</filesizeLabel>
+                </headingRight>
+            </div>
+            <div class="importDetails_head" id="importrowsHeaderDiv" style="display:none;">
+                <table>
+                    <tr>
+                        <td><input type="checkbox" id="chkSelectSAll" ng-click="OnCheckAllClicked()" ng-model="chkSelectSAll" /><label for="chkSelectSAll"></label></td>
+                        <td>Job ID</td>
+                        <td>Candidate</td>
+                        <td>Interviewer</td>
+                        <td>Resume</td>
+                        <td>Date &amp; Time (YYYY-MMM-DD)</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="importDetails">
+                <div class="noimportDetails" id="noimportrowsDiv" style="display:block;">
+                    Import files to see details<labelbutton>
+                        <input type="button" value="Close" class="buttonclose" ng-click="HideBulkImport()" />
+                    </labelbutton>
+                </div>
+
+                <form id="frmSeImport" name="frmSeImport" novalidate>
+                    <table id="importrowsDiv" style="display:none;">
+                        <tr ng-repeat="row in Rows">
+                            <td><input type="checkbox" ng-click="OnCheckClicked(row.RowIndex)" id="chkSess_{{row.RowIndex}}" ng-model="row.Checked" /><label for="chkSess_{{row.RowIndex}}"></label></td>
+                            <td>
+                                <jobidcreate>
+                                    <select name="txtSessJob_{{row.RowIndex}}" id="txtSessJob_{{row.RowIndex}}"
+                                            ng-model="row.JobId"
+                                            ng-options="item.Id as item.Text for item in Jobs"
+                                            placeholder="Select" required></select>
+                                </jobidcreate>
+                            </td>
+                            <td><a title="Ph:{{row.CPhone}}, Email:{{row.CEmail}}">{{row.CName}}</a></td>
+                            <td><a title="Ph:{{row.EPhone}}, Email:{{row.EEmail}}">{{row.EName}}</a></td>
+                            <td>
+                                <input id="txtSessCV_{{row.RowIndex}}" name="txtSessCV_{{row.RowIndex}}"
+                                       accept=".pdf,.doc,.docx" type="file" ng-model="row.Resume" file-change
+                                       file-diplay-style="inline-block" file-form-name="frmSeImport" />
+                            </td>
+                            <td style="display:none;">
+                                <input id="txtSessJD_{{row.RowIndex}}" name="txtSessJD_{{row.RowIndex}}"
+                                       accept=".pdf,.doc,.docx" type="file" ng-model="row.JDProfile" file-change
+                                       file-diplay-style="inline-block" file-form-name="frmSeImport" />
+
+                            <td>
+                                <vBlockDate>
+                                    <div data-tip="Format:YYYY-MMM-DD">
+                                        <input name="impDatepicker_{{row.RowIndex}}" type="text"
+                                               ng-model="row.DateString"
+                                               id="impDatepicker_{{row.RowIndex}}" placeholder="YYYY-MMM-DD" required />
+                                    </div>
+                                </vBlockDate>
+                                <selectTime>
+                                    <select name="impHours_{{row.RowIndex}}" id="impHours_{{row.RowIndex}}"
+                                            ng-model="row.DateHour" class="watermark"
+                                            ng-options="item.Value as item.Text for item in [] | range:{min:0,max:23,chars:'',twodigit:true}"
+                                            placeholder="Select" required>
+                                        <option value="" selected="selected">Hr</option>
+                                    </select>
+                                </selectTime>
+                                <selectTime>
+                                    <select ng-model="row.DateMinute" name="impMinutes_{{row.RowIndex}}" ng-select id="impMinutes_{{row.RowIndex}}" required>
+                                        <option value="-1" selected="selected">Min</option>
+                                        <option value="0">00</option>
+                                        <option value="15">15</option>
+                                        <option value="30">30</option>
+                                        <option value="45">45</option>
+                                    </select>
+                                </selectTime>
+                            </td>
+                        </tr>
+                    </table>
+                    <labelbutton>
+                        <input type="button" ng-click="SubmitSchedules(true)" id="btnSEImport" value="Import" class="button" />
+                        <input type="button" ng-click="SubmitSchedules(false)" id="btnSESchedule2" style="display:none;" value="Schedule" class="button" />
+                        <input type="button" id="btnSECancel2" style="display:none;" value="Cancel" class="button" ng-click="HideBulkImport()" />
+                    </labelbutton>
+                    <notetext>Note - Please update the TimeZone from the list page after importing</notetext>
+                    <div class="errorMsg" id="importErrorMsg" style="display:none">Clear Error Msg</div>
+                    <div class="successMsg" id="importSuccessMsg" style="display:none">Scheduled Successfully</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+                        //var todaysDate = new Date();
+                        //todaysDate.setDate(todaysDate.getDate());
+                        //var picker2 = new Pikaday({
+                        //    firstDay: 1,
+                        //    minDate: todaysDate,
+                        //    defaultDate: todaysDate,
+                        //    maxDate: new Date(2020, 12, 31),
+                        //    yearRange: [1950, 2020]
+                        //});
+
+                        //function loadCalendar(dateElm) {
+                        //    picker2.field = document.getElementById(dateElm);
+                        //    picker2.show();
+                        //}
+    </script>
+</div>

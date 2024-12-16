@@ -1,0 +1,29 @@
+﻿<!--Add New Candidate-->
+<div id="popAddNewInterviewer" class="pop_disable_bg">
+    <div id="inviteCan_structure">
+        <div class="inviteCan">
+            <layoutHead>Add New Interviewer</layoutHead>
+            <input name="canName" id="canName" type="text" ng-model="CanName" placeholder="Interviewer Name *">
+            <input name="canEmail" id="canEmail" type="text" ng-model="CanEmail" placeholder="Interviewer Email *">
+            <input name="canPhone" id="canPhone" maxlength="10" type="text" only-digits ng-model="CanPhone" placeholder="Interviewer Phone *">
+            <labelbutton>
+                <input type="button" value="Add Interviewer" class="button" ng-click="SubmitCandidate()" />
+                <input type="button" value="Cancel" class="button" ng-click="ShowHideCandidate(false)" />
+            </labelbutton>
+            <div class="errorMsg" id="errEvaAdd" style="display:none">All fields are mandatory</div>
+        </div>
+    </div>
+</div>
+
+<!--Add Candidate Successful-->
+<div id="popAddInterviewerSuccessful" class="pop_disable_bg">
+    <div id="successSubmit_structure">
+        <div class="successSubmit">
+            <txtHead>Interviewer Added Successfully</txtHead>
+            <txt style="display:none;">Please fill other details of the candidate in the candidate profile page</txt>
+            <labelbutton>
+                <input type="button" value="Close" class="button" onClick="HideDiv('popAddInterviewerSuccessful')" />
+            </labelbutton>
+        </div>
+    </div>
+</div>

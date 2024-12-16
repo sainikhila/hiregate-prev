@@ -1,0 +1,88 @@
+﻿<div id="workspacecontainer" ng-controller="tabController" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="secondary_page_container">
+                    <div class="SP_leftBlock">
+                        <div class="secondaryPage">
+                            <naviLayout>
+                                <ul id="sp_menuBar">
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('features')">Features</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('about')">About</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('privacy')">Privacy Policy</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('terms')">Terms</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('agreement')">User Agreement</a></li>
+                                    <li class="active"><a>Disclaimer</a></li>
+                                </ul>
+                            </naviLayout>
+                            <!-- page content starts-->
+                            <div class="pgContent">
+                                <pgText>This website may contain inaccuracies, typographical and clerical errors. Swazuna Technologies expressly disclaims any obligation to update this site or any of the materials on this site. We do not warrant the accuracy or completeness of the materials or the reliability of any advice, opinion, statement, or other information displayed or distributed through the site. You acknowledge that any reliance on any such opinion, advice, statement, memorandum, or information shall be at your sole risk. We reserve the right, in its sole discretion, to correct any errors or omissions in any portion of the site. We also may make any other changes to the site, the materials and the products, programs, services or prices (if any) described in the site at any time without notice.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Indemnity</pgHead>
+                                <pgText>You agree to indemnify and hold harmless swazuna Technologies, from any claim, cost, expense, judgement, including reasonable attorneys' fees, made by any third party due to or arising out of the content or other loss relating to your use of this website, including without limitation of the foregoing, any action you take which is in violation of the terms and conditions of these Terms of Use.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Changes</pgHead>
+                                <pgText>Swazuna Technologies reserves the rights, at its sole discretion, to change, modify, add or remove any portion of these Terms of Use in whole or in part, at any time. Changes in these Terms of Use will be effective when notice of such change is posted. Your continued use of the website after any changes to these Terms of Use will be considered acceptance of those changes. We may terminate, change, suspend, or discontinue any aspect of our website, including the availability of any features of the website, at any time. We may also impose limits on certain features and services or restrict your access to parts or the entire website without notice or liability. We may terminate the authorization, rights, and license given above and, upon such termination; you shall immediately destroy all materials.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Global Audience and Option of Law</pgHead>
+                                <pgText>Swazuna Technologies controls and operates its website from India and makes no representation that materials at this site are appropriate or available for use at other locations outside India and access them from territories where their contents are illegal, is prohibited. You may not use the website or export the materials in violation of any applicable export laws and regulations. If you access this website from a location outside India, you are responsible for compliance with all local laws. The laws of India shall govern these Terms of Use, without giving effect to its conflict of law provisions. You agree that the appropriate court in Bangalore, India, will have the exclusive jurisdiction to resolve all disputes arising under these Terms of Use and you consent to personal jurisdiction in such forum.</pgText>
+                                <pgText>These Terms of Use constitutes the entire agreement between Swazuna Technologies and you with respect to your use of the website. Any cause of action you may have with respect to your use of the website must be commenced within one (1) year after the claim or cause of action arises. If for any reason a court of competent jurisdiction finds any provision of these Terms of Use or portion thereof, to be unenforceable, that provision shall be enforced to the maximum extent permissible so as to affect the intent of these Terms of Use, and the remainder of these Terms of Use shall continue in full force and effect.</pgText>
+                                <pgText>Swazuna Technologies may at any time revise these terms by updating this posting. By using this website, you agree to be bound by any such revisions and should therefore periodically visit this page to determine the then current terms to which you are bound.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Delivery of Email</pgHead>
+                                <pgText>Swazuna Technologies will attempt to deliver all of the e-mail that is addressed to your e-mail address on our database. However, the nature of e-mail is such that we cannot guarantee delivery of such e-mail.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Notices; Modification and Termination of Services; Amendment of Terms</pgHead>
+                                <pgText>Swazuna Technologies may provide notice to you via email, regular mail, or posting notices or links to notices on the website. We reserve the right at any time to modify, suspend, or terminate the services (or any part thereof), and/or your use of or access to them, with or without notice. We may also delete, or bar access to or use of, all related information and files. We will not be liable to you or any third-party for any modification, suspension, or termination of the Services, or loss of related information. We may amend these Terms at any time by posting the amended terms on this website.</pgText>
+                            </div> <!-- page content ends-->
+                        </div>
+                    </div> <!--Left Block Ends-->
+
+                    <div class="SP_rightBlock">
+                        <!-- Get In Touch-->
+                        <block_bg>
+                            <blockHead>Get In Touch</blockHead>
+                            <contentBlock>
+                                <label20>
+                                    <iconPhone></iconPhone>
+                                    <textLayout>
+                                        <textHead>Call us at −</textHead>
+                                        <textHead>(+91) 888 444 2460</textHead>
+                                        <textDesc>Time - 9AM to 5PM IST</textDesc>
+                                    </textLayout>
+                                </label20>
+                                <label5>
+                                    <iconMail></iconMail>
+                                    <textLayout>
+                                        <textHead>Send an email to −</textHead>
+                                        <emailLink><a href="mailto:support@hiregate.in">support@hiregate.in</a></emailLink>
+                                        <textDesc>Response Time - 4 Hours</textDesc>
+                                    </textLayout>
+                                </label5>
+                            </contentBlock>
+                        </block_bg>
+
+                        <!--Request Call Back-->
+                        <block_bg>
+                            <blockHead>Request Call Back</blockHead>
+                            <contentBlock>
+                                <requestText>Leave your details here, our representative will get in touch with you.</requestText>
+                                <span ng-include src="'js/views/shared/requestCallBack.html'"></span>
+                            </contentBlock>
+                        </block_bg>
+                    </div> <!--Right Block Ends-->
+
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div>
+    <!--Container Ends-->
+    <!--Work Area Ends-->
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+

@@ -1,0 +1,132 @@
+﻿<div id="workspacecontainer" ng-controller="accountController" ng-init="LoadDefaults()" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="acc_pgLayout">
+                    <!-- Account page common header -->
+                    <div class="accBrief">
+                        <vBlock_Logo><a href="javascript:void(0);"><img ng-click="ChangePhoto(CompanyInfo.Logo)" id="img_comp_photo" ng-src="{{CompanyInfo.Logo}}"></a></vBlock_Logo>
+                        <vBlock_L>
+                            <coName>{{CompanyInfo.Name}}</coName>
+                            <label_hor>
+                                <custID_head>Customer ID:</custID_head>
+                                <custID>{{CompanyInfo.CustomerId}}</custID>
+                            </label_hor>
+                        </vBlock_L>
+                        <vBlock_R>
+                            <label_10 ng-switch="CompanyInfo.Status">
+                                <statusHead>Status:</statusHead>
+                                <div ng-switch-when="Active" class="statusActive" style="display:inline-block"></div>
+                                <div ng-switch-when="InActive" class="statusInactive" style="display:inline-block"></div>
+                                <subscribe style="display:none">[ <a href="javascript:void(0);">Renew / Top Up </a>]</subscribe>
+                            </label_10>
+                            <label_hor>
+                                <subscriptionHead>Subscription Plan:</subscriptionHead>
+                                <subscription>{{CompanyInfo.Plan}}</subscription>
+                            </label_hor>
+                        </vBlock_R>
+                    </div>
+
+                    <!-- Accounts Landing page -->
+                    <div class="accHomeStructure">
+
+                        <!-- Company Details -->
+                        <div class="accHome_coDetails">
+                            <vBlock_L>
+                                <contentLabel>
+                                    <labelHead>Company:</labelHead>
+                                    <labelResult>{{CompanyInfo.Name}}</labelResult>
+                                </contentLabel>
+                                <contentLabel>
+                                    <labelHead>Address:</labelHead>
+                                    <labelResult>{{CompanyInfo.Address}}</labelResult>
+                                </contentLabel>
+                                <contentLabel>
+                                    <labelHead>City:</labelHead>
+                                    <labelResult>{{CompanyInfo.City}}</labelResult>
+                                </contentLabel>
+                                <contentLabel>
+                                    <labelHead>State:</labelHead>
+                                    <labelResult>{{CompanyInfo.State}}</labelResult>
+                                </contentLabel>
+                                <contentLabel>
+                                    <labelHead>Zip Code:</labelHead>
+                                    <labelResult>{{CompanyInfo.ZipCode}}</labelResult>
+                                </contentLabel>
+                            </vBlock_L>
+                            <vBlock_R>
+                                <div class="editDetails"><a href="javascript:void(0);" ng-click="NavigateToRoute('acd')">Edit</a></div>
+                                <labelHeadHor>Company Description:</labelHeadHor>
+                                <labelResultHor>{{CompanyInfo.Description}}</labelResultHor>
+                                <contentLabel>
+                                    <labelHead>Website:</labelHead>
+                                    <labelResult>{{CompanyInfo.Website}}</labelResult>
+                                </contentLabel>
+                                <contentLabel>
+                                    <labelHead>Phone:</labelHead>
+                                    <labelResult>{{CompanyInfo.AreaCode + ' ' + CompanyInfo.LandLine}}</labelResult>
+                                </contentLabel>
+                            </vBlock_R>
+                        </div>
+
+                        <!-- Permission Blocks-->
+                        <div class="accHome_permissionBlock">
+                            <div class="manageUserBlock">
+                                <blockHeading>Manage Users</blockHeading>
+                                <contentArea>
+                                    <a href="javascript:void(0);" ng-click="NavigateToRoute('au')">
+                                        <userIcon></userIcon>
+                                        <blockDesc>Add New User or Manage Users with roles and permissions</blockDesc>
+                                    </a>
+                                </contentArea>
+                            </div>
+                            <div class="renewalBlock" style="display:none">
+                                <blockHeading>Renewal and Top-Up</blockHeading>
+                                <contentArea>
+                                    <a href="renewal.html">
+                                        <renewalIcon></renewalIcon>
+                                        <blockDesc>Expiring Subscriptions, Billing Dates and Payments</blockDesc>
+                                    </a>
+                                </contentArea>
+                            </div>
+                            <div class="orderBlock" style="display:none">
+                                <blockHeading>Order History</blockHeading>
+                                <contentArea>
+                                    <a href="orderHistory.html">
+                                        <orderIcon></orderIcon>
+                                        <blockDesc>Receipts and Refunds of Past Orders</blockDesc>
+                                    </a>
+                                </contentArea>
+                            </div>
+                            <div class="subscriptionBlock" style="display:none">
+                                <blockHeading>Subscription Plans</blockHeading>
+                                <contentArea>
+                                    <a href="subscription.html">
+                                        <subscriptionIcon></subscriptionIcon>
+                                        <blockDesc>Easy subscription plans to cater the corporate needs</blockDesc>
+                                    </a>
+                                </contentArea>
+                            </div>
+                            <div class="settingsBlock" style="display:none">
+                                <blockHeading>Account Settings</blockHeading>
+                                <contentArea>
+                                    <a href="javascript:void(0);">
+                                        <settingIcon></settingIcon>
+                                        <blockDesc>Configurations for the <br>Talent Acquisition System</blockDesc>
+                                    </a>
+                                </contentArea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

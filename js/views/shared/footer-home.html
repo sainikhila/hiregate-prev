@@ -1,0 +1,91 @@
+﻿<span ng-controller="footerController" style="{{innerStyles()}}" ng-show="loadingView">
+    
+    <div class="footer-container">
+        <div class="content-widthfix">
+            <ul>
+                <!--Left Block-->
+                <li>
+                    <logopos>
+                        <div class="logo-white-home logo-footer-home"></div>
+                    </logopos>
+                    <copyright>
+                        Copyright &copy;{{CopyRight | date:'yyyy'}} &nbsp;|&nbsp; <a href="javascript:void(0)" ng-click="NavigateToRoute('privacy')">Privacy Policy</a> &nbsp;|&nbsp; <a href="javascript:void(0)" ng-click="NavigateToRoute('terms')">Terms of Use</a>
+                    </copyright>
+                    <qlpos>
+                        <blockHead>Quick Links</blockHead>
+                        <naviText><a href="javascript:void(0)" ng-click="NavigateToRoute('about')">About Us</a> &nbsp;|&nbsp; <a href="javascript:void(0)" ng-click="NavigateToRoute('agreement')">User Agreement</a>  &nbsp;|&nbsp; <a href="javascript:void(0)" ng-click="NavigateToRoute('disclaimer')">Disclaimer</a></naviText>
+                    </qlpos>
+                </li>
+                <!--Right Block-->
+                <li>
+                    <heading>
+                        We are very approachable and would love to hear from you. Please complete the enquiry form and our executive will get back as soon as possible.
+                    </heading>
+                    <div class="footer-form">
+                        <form ng-submit="SubmitFooter();" method="post" class="footer-form" id="form.mainfooter" name="form.mainfooter" novalidate>
+                            <label-8>
+                                <vblock>
+                                    <usericon>
+                                        <vline></vline>
+                                    </usericon>
+                                    <input ng-model="Email.Recipient" type="text" id="footerFullName" name="footerFullName" only-alpha ng-keyup="OnKeyUp($event)"
+                                           placeholder="Full Name" required>
+                                </vblock>
+                                <vblock>
+                                    <mailicon>
+                                        <vline></vline>
+                                    </mailicon>
+                                    <input ng-model="Email.EmailTo" type="email" autocomplete="off" id="footerEmail" ng-keyup="OnKeyUp($event)" name="footerEmail"
+                                           placeholder="Email Address" required>
+                                </vblock>
+                            </label-8>
+                            <label-5>
+                                <msgicon>
+                                    <vline></vline>
+                                </msgicon>
+                                <textarea ng-model="Email.Body" id="footerMessage" name="footerMessage" placeholder="Message" ng-keyup="OnKeyUp($event)"
+                                          required></textarea>
+                            </label-5>
+                            <label-5>
+                                <label-but>
+                                    <input type="submit" class="button" value="Send Message" ng-click="OnKeyUp($event)" />
+                                </label-but>
+                                <error id="footerreqerror" style="display:none;">
+                                    All fields are mandatory
+                                    <icon>
+                                        <a href="javascript:void(0);" ng-click="OnKeyUp($event)" title="Close">&#215;</a>
+                                    </icon>
+                                </error>
+                                <success id="footersuccessId" style="display:none;">
+                                    Message sent successful
+                                    <icon>
+                                        <a href="javascript:void(0);" ng-click="OnKeyUp($event)" title="Close">&#215;</a>
+                                    </icon>
+                                </success>
+                                <error id="footererrorId" style="display:none;">
+                                    Unable to send message. Please retry.
+                                    <icon>
+                                        <a href="javascript:void(0);" ng-click="OnKeyUp($event)" title="Close">&#215;</a>
+                                    </icon>
+                                </error>
+                                <error id="footermsgInfo" style="display:none;">Please wait we are sending the message</error>
+                            </label-5>
+                        </form>
+
+                    </div>
+
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--DISCLAIMER STARTS-->
+    <div class="footer_disclaimer">
+        <div class="content-widthfix">
+            <disclaimerHead>disclaimer -</disclaimerHead>
+            <disclaimerText>
+                HireGate is a product of <b><a href="http://www.swazuna.com" target="_blank">Swazuna Technologies</a></b>. The information contained in this website is for general information purposes only. While we endeavour to keep the information up to date and correct, we do not warrant the accuracy of the information. Use of this site implies your agreement to our terms...<!--While we endeavour to keep the information up to date and correct, we do not warrant the accuracy or completeness of the materials...--> <a href="javascript:void(0)" ng-click="NavigateToRoute('disclaimer')">READ MORE</a>
+            </disclaimerText>
+        </div>
+    </div>
+</span>

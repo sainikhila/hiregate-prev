@@ -1,0 +1,568 @@
+﻿<div id="workspacecontainer" ng-controller="isessionController" ng-show="loadingView" ng-init="Initialize()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">You do not have an active subscription. To buy our services, please get in touch with our customer support team. </div>
+                <div class="process_pg_container">
+                    <div class="process">
+                        <headBlock>
+                            <pgHeadText>Schedule / Re-Schedule Interview</pgHeadText>
+                            <headingRight>
+                                <a ng-href="{{SessionFormatFile}}" id="sessionCSVFormatLink" />
+                                <input type="button" onclick="$('#sessionCSVFormatLink')[0].click();" value="Download CSV Format" class="button_assign" />
+                                <!--<input type="button" value="Import Candidate using Excel" class="button_assign" onClick="pop('popImportCan')">-->
+                                <input type="button" value="Import using CSV" class="button_assign" ng-click="ShowImportingDialog()" />
+                                <input type="button" ng-disabled="EnableBulkUpdate" value="Bulk Schedule" class="button_assign" ng-click="SubmitForScheduled2()" />
+                                <input type="button" value="Single Schedule" class="button_assign" ng-click="ShowNewScheduledSession()" />
+                            </headingRight>
+                            <filterLayout>
+                                <statuslabel>
+                                    <select ng-select name="filterTypeStatus" id="filterTypeStatus" required ng-model="filterIdStatus">
+                                        <option value="Status" selected="selected">Status</option>
+                                        <option value="Scheduled">Scheduled</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="No Show">No Show</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Expired">Expired</option>
+                                    </select>
+                                </statuslabel>
+                                <jobidlabel>
+                                    <select ng-select name="filterByJobId" id="filterByJobId" ng-model="filterByJobId">
+                                        <option ng-repeat="idFilter in FiltersListJobId" value="{{idFilter.Id}}">{{idFilter.Name}}</option>
+                                    </select>
+                                </jobidlabel>
+                                <intcanDisplayBox>
+                                    <filterLabelText>Candidate Name</filterLabelText>
+                                    <intcanlabel><input autocomplete="off" ng-model="FilterTypeCan" name="FilterTypeCan" id="FilterTypeCan" type="text"></intcanlabel>
+                                </intcanDisplayBox>
+                                <intcanDisplayBox>
+                                    <filterLabelText>Interviewer Name</filterLabelText>
+                                    <intcanlabel><input autocomplete="off" ng-model="FilterTypeEva" name="FilterTypeEva" id="FilterTypeEva" type="text"></intcanlabel>
+                                </intcanDisplayBox>
+                                <dateDisplayBox>
+                                    <filterLabelText>Interview Date</filterLabelText>
+                                    <input type="text" id="dtSesFilterFrom" name="dtSesFilterFrom" ng-model="dtFilterFrom" placeholder="From Date" readonly>
+                                    <input type="text" id="dtSesFilterTo" name="dtSesFilterTo" ng-model="dtFilterTo" placeholder="To Date" readonly>
+                                </dateDisplayBox>
+                                <input type="button" class="filterButton" title="Filter Selection" ng-click="OnFilterChanged()">
+                                <!--<divider></divider><input type="button" class="saveButton" title="Save Filter">-->
+                            </filterLayout>
+                        </headBlock>
+
+                        <div class="filterBlock" ng-show="FilterItemsDisplay.length > 0">
+                            <filter ng-repeat="item in FilterItemsDisplay"><b>{{item.FilterLabel}}:</b> {{item.DisplayValue}}<closeicon><a href="javascript:void(0);" ng-click="RemoveFilter(item.FilterIndex)" title="Close">&#215;</a></closeicon></filter>
+                            <input type="button" class="button_clear" value="Clear All" ng-click="ClearFilters()" />
+                        </div>
+
+                        <div class="noContent" ng-show="SessionFilters.length==0">No results found</div>
+
+                        <form id="frmImpSes" name="frmImpSes" novalidate>
+                            <div class="jobProcess" ng-show="SessionFilters.length>0">
+                                <table>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>Job ID</td>
+                                        <td>Candidate Name</td>
+                                        <td>Interviewer Name</td>
+                                        <td>Candidate Resume</td>
+                                        <td>Job Description</td>
+                                        <td>Date &amp; Time</td>
+                                        <td>&nbsp;</td>
+                                        <td>Status</td>
+                                        <td colspan="2">&nbsp;</td>
+                                        <!--<td colspan="2"><input type="button" value="Create New" ng-click="ShowNewScheduledSession()" class="button_add"></td>-->
+                                    </tr>
+
+                                    <tr ng-repeat="item in SessionFilters">
+                                        <td ng-switch="item.Status">
+                                            <input ng-switch-when="Scheduled" disabled type="checkbox" id="chkSession_{{item.SessionId}}" ng-model="item.Selected" ng-click="SessionItemChecked(item.SessionId)" /><label for="chkSession_{{item.SessionId}}"></label>
+                                            <input ng-switch-when="Cancelled" disabled type="checkbox" id="chkSession_{{item.SessionId}}" ng-model="item.Selected" ng-click="SessionItemChecked(item.SessionId)" /><label for="chkSession_{{item.SessionId}}"></label>
+                                            <input ng-switch-when="Expired" disabled type="checkbox" id="chkSession_{{item.SessionId}}" ng-model="item.Selected" ng-click="SessionItemChecked(item.SessionId)" /><label for="chkSession_{{item.SessionId}}"></label>
+                                            <input ng-switch-when="Pending" type="checkbox" id="chkSession_{{item.SessionId}}" ng-model="item.Selected" ng-click="SessionItemChecked(item.SessionId)" /><label for="chkSession_{{item.SessionId}}"></label>
+                                            <input ng-switch-when="Ongoing" disabled type="checkbox" id="chkSession_{{item.SessionId}}" ng-model="item.Selected" ng-click="SessionItemChecked(item.SessionId)" /><label for="chkSession_{{item.SessionId}}"></label>
+                                            <input ng-switch-when="Completed" disabled type="checkbox" id="chkSession_{{item.SessionId}}" ng-model="item.Selected" ng-click="SessionItemChecked(item.SessionId)" /><label for="chkSession_{{item.SessionId}}"></label>
+                                            <input ng-switch-when="No Show" type="checkbox" id="chkSession_{{item.SessionId}}" ng-model="item.Selected" ng-click="SessionItemChecked(item.SessionId)" /><label for="chkSession_{{item.SessionId}}"></label>
+                                        </td>
+                                        <td ng-switch="item.JStatus==99">
+                                            <span ng-switch-when="true">N/A</span>
+                                            <a ng-switch-when="false" href="javascript:void(0);" ng-click="NavigateToRoute('jbd/' + item.JobId)">{{item.JobTag}}</a>
+                                        </td>
+                                        <td ng-switch="item.CStatus==2">
+                                            <span ng-switch-when="true">{{item.CName.slice(0,20)}}</span>
+                                            <a ng-switch-when="false" href="javascript:void(0);" ng-click="ShowCandidateDialog(item.CanId)">{{item.CName.slice(0,20)}}</a>
+                                        </td>
+                                        <td ng-switch="item.IStatus==2">
+                                            <span ng-switch-when="true">{{item.EName.slice(0,20)}}</span>
+                                            <a ng-switch-when="false" href="javascript:void(0);" ng-click="ShowEvaluatorDialog(item.EvaId)">{{item.EName.slice(0,20)}}</a>
+                                        </td>
+                                        <td ng-switch="item.CStatus==2">
+                                            <span ng-switch-when="true">N/A</span>
+                                            <span ng-switch-when="false" ng-switch="item.Status">
+                                                <span ng-switch-when="Scheduled" ng-switch="item.Resume.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.Resume}}" target="_blank">View Resume</a>
+                                                    <span ng-switch-when="false">N/A</span>
+                                                </span>
+                                                <span ng-switch-when="Cancelled" ng-switch="item.Resume.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.Resume}}" target="_blank">View Resume</a>
+                                                    <a ng-switch-when="true" href="javascript:void(0);" title="Remove Resume" ng-click="ShowDeleteResume(item.SessionId)"><div class="deleteIcon"></div></a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                                <span ng-switch-when="Expired" ng-switch="item.Resume.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.Resume}}" target="_blank">View Resume</a>
+                                                    <a ng-switch-when="true" href="javascript:void(0);" title="Remove Resume" ng-click="ShowDeleteResume(item.SessionId)"><div class="deleteIcon"></div></a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                                <span ng-switch-when="Pending" ng-switch="item.Resume.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.Resume}}" target="_blank">View Resume</a>
+                                                    <a ng-switch-when="true" href="javascript:void(0);" title="Remove Resume" ng-click="ShowDeleteResume(item.SessionId)"><div class="deleteIcon"></div></a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                                <span ng-switch-when="Ongoing" ng-switch="item.Resume.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.Resume}}" target="_blank">View Resume</a>
+                                                    <span ng-switch-when="false">N/A</span>
+                                                </span>
+                                                <span ng-switch-when="Completed" ng-switch="item.Resume.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.Resume}}" target="_blank">View Resume</a>
+                                                    <span ng-switch-when="false">N/A</span>
+                                                </span>
+                                                <span ng-switch-when="No Show" ng-switch="item.Resume.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.Resume}}" target="_blank">View Resume</a>
+                                                    <a ng-switch-when="true" href="javascript:void(0);" title="Remove Resume" ng-click="ShowDeleteResume(item.SessionId)"><div class="deleteIcon"></div></a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </td>
+
+                                        <td ng-switch="item.CStatus==2">
+                                            <span ng-switch-when="true">N/A</span>
+                                            <span ng-switch-when="false" ng-switch="item.Status">
+                                                <span ng-switch-when="Scheduled" ng-switch="item.JobDescription.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.JobDescription}}" target="_blank">View JD</a>
+                                                    <span ng-switch-when="false">N/A</span>
+                                                </span>
+                                                <span ng-switch-when="Cancelled" ng-switch="item.JobDescription.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.JobDescription}}" target="_blank">View JD</a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                                <span ng-switch-when="Expired" ng-switch="item.JobDescription.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.JobDescription}}" target="_blank">View JD</a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                                <span ng-switch-when="Pending" ng-switch="item.JobDescription.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.JobDescription}}" target="_blank">View JD</a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                                <span ng-switch-when="Ongoing" ng-switch="item.JobDescription.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.JobDescription}}" target="_blank">View JD</a>
+                                                    <span ng-switch-when="false">N/A</span>
+                                                </span>
+                                                <span ng-switch-when="Completed" ng-switch="item.JobDescription.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.JobDescription}}" target="_blank">View JD</a>
+                                                    <span ng-switch-when="false">N/A</span>
+                                                </span>
+                                                <span ng-switch-when="No Show" ng-switch="item.JobDescription.length > 0">
+                                                    <a ng-switch-when="true" href="{{item.JobDescription}}" target="_blank">View JD</a>
+                                                    <span ng-switch-when="false">
+                                                        <input id="{{item.SessionId}}_ResumeFile" name="{{item.SessionId}}_ResumeFile" file-formats="pdf" accept=".pdf"
+                                                               file-error-self="true" type="file" ng-model="item.ResumeFile" file-change />
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </td>
+
+                                        <td id="dtSessionDate_{{item.SessionId}}">{{item.ScheduledOn | date:'yyyy-MMM-dd HH:mm'}}</td>
+                                        <td ng-switch="item.Status">
+                                            <span ng-hide="item.CStatus==2">
+                                                <a ng-switch-when="No Show" href="javascript:void(0);" title="Reschedule Date &amp; Time" ng-click="ShowRescheduledDialog(item.SessionId)"><div class="rescheduleIcon"></div></a>
+                                                <!--<a ng-switch-when="Cancelled" href="javascript:void(0);" title="Reschedule Date &amp; Time" ng-click="ShowRescheduledDialog(item.SessionId)"><div class="rescheduleIcon"></div></a>-->
+                                                <a ng-switch-when="Pending" href="javascript:void(0);" title="Reschedule Date &amp; Time" ng-click="ShowRescheduledDialog(item.SessionId)"><div class="rescheduleIcon"></div></a>
+                                                <a ng-switch-when="Expired" href="javascript:void(0);" title="Reschedule Date &amp; Time" ng-click="ShowRescheduledDialog(item.SessionId)"><div class="rescheduleIcon"></div></a>
+                                            </span>
+                                        </td>
+                                        <td>{{item.Status}}</td>
+                                        <td ng-switch="item.Status=='Pending'">
+                                            <a ng-switch-when="false" href="javascript:void(0);" ng-click="NavigateToRoute('cs/' + item.SessionId)" title="View Session - {{item.SessionTag}}"><div class="sessionIcon"></div></a>
+                                            <a href="javascript:void(0);" ng-switch-when="true" title="Update TimeZone" ng-click="ShowContactUpdateDialog(item.SessionId)"><div class="timezoneIcon"></div></a>
+                                            <a href="javascript:void(0);" title="Contact Details" ng-click="ShowContactDialog(item.SessionId)"><div class="contactIcon"></div></a>
+                                            <a style="display:none;" href="javascript:void(0);" title="Notes" onClick="pop('popIntProcessNote')"><div class="noteIcon"></div></a>
+                                        </td>
+                                        <td ng-switch="item.Status">
+                                            <span ng-hide="item.CStatus==2">
+                                                <a ng-switch-when="Scheduled" href="javascript:void(0);" ng-click="ShowCancelledDialog(item.SessionId)" title="Cancel Session"><div id="discardIcon_{{item.SessionId}}" class="discardIcon"></div></a>
+                                                <a ng-switch-when="Cancelled" href="javascript:void(0);" ng-click="SubmitForNewSession(item.SessionId)" title="Rescheduled Session"><div id="acceptIcon_{{item.SessionId}}" class="acceptIcon"></div></a>
+                                                <a ng-switch-when="Expired" href="javascript:void(0);" ng-click="SubmitForScheduledDialog(item.SessionId)" title="Rescheduled Session"><div id="acceptIcon_{{item.SessionId}}" class="acceptIcon"></div></a>
+                                                <a ng-switch-when="No Show" href="javascript:void(0);" ng-click="SubmitForScheduledDialog(item.SessionId)" title="Rescheduled Session"><div id="acceptIcon_{{item.SessionId}}" class="acceptIcon"></div></a>
+                                                <a ng-switch-when="Pending" href="javascript:void(0);" ng-click="ShowDeleteDialog(item.SessionId)" title="Delete Session"><div class="deletePendingIcon"></div></a>
+                                                <a ng-switch-when="Pending" href="javascript:void(0);" ng-click="SubmitForScheduledDialog(item.SessionId)" title="Scheduled Session"><div id="acceptIcon_{{item.SessionId}}" class="acceptIcon"></div></a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <!--Contact Details-->
+    <div id="popContactDetails" class="pop_disable_bg">
+        <div class="contactDetails_structure">
+            <div class="contactDetails">
+                <detailHead>Candidate -</detailHead>
+                <detailBlock>
+                    <name>{{SelectedContact.CName}}</name>
+                    <phoneBlock>
+                        <phIcon></phIcon>
+                        <phone>{{SelectedContact.CPhone}}</phone>
+                    </phoneBlock>
+                    <emailBlock>
+                        <emailIcon></emailIcon>
+                        <email>{{SelectedContact.CEmail}}</email>
+                    </emailBlock>
+                    <timezoneblock>
+                        <timezoneicon></timezoneicon>
+                        <timezone>{{SelectedContact.CTime}}</timezone>
+                    </timezoneblock>
+                </detailBlock>
+
+                <detailHead>Interviewer -</detailHead>
+                <detailBlock>
+                    <name>{{SelectedContact.EName}}</name>
+                    <phoneBlock>
+                        <phIcon></phIcon>
+                        <phone>{{SelectedContact.EPhone}}</phone>
+                    </phoneBlock>
+                    <emailBlock>
+                        <emailIcon></emailIcon>
+                        <email>{{SelectedContact.EEmail}}</email>
+                    </emailBlock>
+                    <timezoneblock>
+                        <timezoneicon></timezoneicon>
+                        <timezone>{{SelectedContact.ETime}}</timezone>
+                    </timezoneblock>
+                </detailBlock>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onClick="HideDiv('popContactDetails')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Candidate Details -->
+    <div id="popCanDetails" class="pop_disable_bg">
+        <div class="jd_can_structure">
+            <div class="jd_canint">
+                <canIntContentBlock>
+                    <blockHead>
+                        {{SelectedCandidate.Name}}
+                        <ratingstar>
+                            <div class="rating_sprite_white_m" title="{{SelectedCandidate.Rating}} of 5"><span style="width:{{SelectedCandidate.Rating * 20}}%" class="rating_sprite_white_m_bg"></span></div>
+                        </ratingstar>
+                    </blockHead>
+                    <contentArea>
+                        <horBlock-10>
+                            <vBlock_2col>
+                                <expIcon></expIcon>
+                                <headText>Experience:</headText>
+                                <detailText>{{SelectedCandidate.Experience}}</detailText>
+                            </vBlock_2col>
+                            <vBlock_2col>
+                                <salIcon></salIcon>
+                                <headText>Salary:</headText>
+                                <detailText>{{SelectedCandidate.CTC}} Lacs (p.a.)</detailText>
+                            </vBlock_2col>
+                        </horBlock-10>
+                        <horBlock-10>
+                            <locIcon></locIcon>
+                            <headText>Location:</headText>
+                            <detailText>{{SelectedCandidate.Location}}</detailText>
+                        </horBlock-10>
+                        <horBlock-10 style="display:none;">
+                            <headText_Float>
+                                <eduIcon></eduIcon>
+                                <headText>Highest Qualification:</headText>
+                            </headText_Float>
+                            <detailText_Left160>
+                                <detailText>B. Tech</detailText>
+                            </detailText_Left160>
+                        </horBlock-10>
+                        <horBlock-10>
+                            <headText_Float>
+                                <skillIcon></skillIcon>
+                                <headText>Skills:</headText>
+                            </headText_Float>
+                            <detailText_Left65>
+                                <detailText ng-bind-html="SelectedCandidate.KeySkills">&nbsp;</detailText>
+                            </detailText_Left65>
+                        </horBlock-10>
+                    </contentArea>
+                    <buttonLabel>
+                        <input type="button" class="btn_canDetails" value="View Complete Profile" ng-click="NavigateToRoute('cnp/' + SelectedCandidate.CandidateId)">
+                        <input type="button" value="Close" class="btn_canDetails" onClick="hide('popCanDetails')" />
+                    </buttonLabel>
+                </canIntContentBlock>
+            </div>
+        </div>
+    </div>
+
+    <!--Interviewer Details -->
+    <div id="popIntDetails" class="pop_disable_bg">
+        <div class="jd_int_structure">
+            <div class="jd_canint">
+                <canIntContentBlock>
+                    <blockHead>
+                        {{SelectedEvaluator.Name}}
+                    </blockHead>
+                    <contentArea>
+                        <horBlock-10>
+                            <expIcon></expIcon>
+                            <headText>Experience:</headText>
+                            <detailText>{{SelectedEvaluator.Experience}}</detailText>
+                        </horBlock-10>
+                        <horBlock-10>
+                            <locIcon></locIcon>
+                            <headText>Location:</headText>
+                            <detailText>{{SelectedEvaluator.Location}}</detailText>
+                        </horBlock-10>
+                        <horBlock-10>
+                            <headText_Float>
+                                <skillIcon></skillIcon>
+                                <headText>Skills:</headText>
+                            </headText_Float>
+                            <detailText_Left65>
+                                <detailText ng-bind-html="SelectedEvaluator.KeySkills">&nbsp;</detailText>
+                            </detailText_Left65>
+                        </horBlock-10>
+                    </contentArea>
+                    <buttonLabel>
+                        <input type="button" value="Close" class="btn_canDetails" onClick="hide('popIntDetails')" />
+                    </buttonLabel>
+                </canIntContentBlock>
+            </div>
+        </div>
+    </div>
+
+    <!--Confirm Discard Application-->
+    <div id="popConfirmDiscard" class="pop_disable_bg">
+        <div class="confirmMsg_structure">
+            <div class="confirmMsg">
+                <txtHead>Cancel the scheduled interview</txtHead>
+                <labelbutton>
+                    <input type="button" value="Confirm" class="button" ng-click="SubmitForCancellation()" />
+                    <input type="button" value="Close" class="button" ng-click="HideCancelledDialog()" />
+                </labelbutton>
+                <div class="submissionError" id="submitCancelError" style="display:none">Please fill mandatory fields</div>
+            </div>
+        </div>
+    </div>
+
+    <!--Confirm Discard Application-->
+    <div id="popConfirmDelete" class="pop_disable_bg">
+        <div class="confirmMsg_structure">
+            <div class="confirmMsg">
+                <txtHead>Are you sure? You want to delete?</txtHead>
+                <labelbutton>
+                    <input type="button" value="Confirm" class="button" ng-click="SubmitForDeletion()" />
+                    <input type="button" value="Close" class="button" ng-click="HideDeletedDialog()" />
+                </labelbutton>
+                <div class="submissionError" id="submitDeleteError" style="display:none">Please fill mandatory fields</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popConfirmSchedule" class="pop_disable_bg">
+        <div class="confirmMsg_structure">
+            <div class="confirmMsg">
+                <txthead>Schedule the interview session</txthead>
+                <labelbutton>
+                    <input type="button" value="Confirm" class="button" ng-click="SubmitForScheduled()" />
+                    <input type="button" value="Cancel" class="button" ng-click="HideSubmitForScheduledDialog()" />
+                </labelbutton>
+                <notetext>Note - If TimeZone is not updated, it will schedule with IST </notetext>
+            </div>
+        </div>
+    </div>
+
+    <div id="popConfirmSchedule2" class="pop_disable_bg">
+        <div class="confirmMsg_structure">
+            <div class="confirmMsg">
+                <txthead>Schedule the interview session</txthead>
+                <labelbutton>
+                    <input type="button" value="Confirm" class="button" ng-click="BulkUpdate()" />
+                    <input type="button" value="Cancel" class="button" ng-click="HideSubmitForScheduledDialog2()" />
+                </labelbutton>
+                <notetext>Note - If TimeZone is not updated, it will schedule with IST </notetext>
+            </div>
+        </div>
+    </div>
+
+    <div id="popConfirmReSchedule" class="pop_disable_bg">
+        <div id="assignDateTime_structure">
+            <div class="assignDateTime">
+                <heading>Re-Schedule the interview session</heading>
+                <dateTimeLabel>
+                    <verBlock_col_I>
+                        <blockHead>Date</blockHead>
+                        <input name="text" type="text" id="reScheduleDatePicker" ng-change="DisableNaNTimes()" ng-model="ReScheduledDate" readonly required placeholder="Click to select" />
+                    </verBlock_col_I>
+                    <verBlock_col_II>
+                        <blockHead>Time</blockHead>
+                        <select ng-select name="reSchByHour" id="reSchByHour" ng-model="reSchByHour"
+                                ng-options="item.Value as item.Text for item in Times"
+                                ng-change="DisableNaNMinutes()"
+                                required />
+                    </verBlock_col_II>
+                    <verBlock_col_II>
+                        <blockHead>&nbsp;</blockHead>
+                        <select ng-select name="reSchByMinute" id="reSchByMinute" ng-model="reSchByMinute"
+                                ng-options="item.Value as item.Text for item in MinutesList"
+                                required />
+                    </verBlock_col_II>
+                </dateTimeLabel>
+                <labelbutton>
+                    <input type="button" value="Confirm" class="button" ng-click="SubmitForRescheduled()" />
+                    <input type="button" value="Cancel" class="button" ng-click="HideRescheduledDialog()" />
+                </labelbutton>
+                <div class="errorMsg" id="submitRescheduledError" style="display:none;">Please select date and time</div>
+            </div>
+        </div>
+    </div>
+
+    <!--Interview Schedule Successful-->
+    <div id="popScheduleInterviewSuccessful" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>Interview Scheduled Successfully</txtHead>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onClick="hide('popScheduleInterviewSuccessful')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <div id="popDupScheduleInterview" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>Please validate and retry. Interview already scheduled with Candidate/Interviewer for the date and time</txtHead>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onClick="hide('popDupScheduleInterview')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <div id="popScheduleInterviewFailed" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>System fail to process. Please try again.</txtHead>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" onClick="hide('popScheduleInterviewFailed')" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Confirm Delete Resume-->
+    <div id="popConfirmDeleteResume" class="pop_disable_bg">
+        <div class="confirmMsg_structure">
+            <div class="confirmMsg">
+                <txtHead>Please confirm removing attached resume</txtHead>
+                <labelbutton>
+                    <input type="button" value="Confirm" class="button" ng-click="SubmitForResumeDeletion()" />
+                    <input type="button" value="Cancel" class="button" ng-click="HideDeleteResume()" />
+                </labelbutton>
+                <div class="submissionError" id="submitResumeDeleteError" style="display:none">Please fill mandatory fields</div>
+            </div>
+        </div>
+    </div>
+
+    <!--TimeZone Update-->
+    <div id="popTimeZoneUpdate" class="pop_disable_bg">
+        <div id="timeZone_structure">
+            <div class="timeZoneUpdate">
+                <blockhead>Update TimeZone</blockhead>
+                <txthead>Candidate Name -</txthead>
+                <txtresult>{{SelectedContact.CName}}</txtresult>
+                <txthead>Candidate TimeZone -</txthead>
+                <txtresult>
+                    <select id="CandidateTimeZone1" name="CandidateTimeZone1" ng-model="SelectedContact.CTimeZone"
+                            ng-options="item.Text for item in TimeZonesList track by item.Id">
+                        <option value="" selected="selected">Candidate Time Zone</option>
+                    </select>
+                </txtresult>
+
+                <txtheadint>Interviewer Name -</txtheadint>
+                <txtresult>{{SelectedContact.EName}}</txtresult>
+                <txthead>Interviewer TimeZone -</txthead>
+                <txtresult>
+                    <select id="InterviewerTimeZone1" name="InterviewerTimeZone1" ng-model="SelectedContact.ETimeZone"
+                            ng-options="item.Text for item in TimeZonesList track by item.Id">
+                        <option value="" selected="selected">Interviewer Time Zone</option>
+                    </select>
+                </txtresult>
+
+                <labelbutton>
+                    <input type="button" value="Update" class="button" ng-click="UpdateContactTimeZone()">
+                    <input type="button" value="Cancel" class="button" ng-click="HideContactUpdateDialog()">
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <div ng-include src="'js/views/session/bulkImport.html'"></div>
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+    <script>
+        $(document).ready(function () {
+            var todaysDate = new Date();
+            var pubStartDate = new Pikaday({
+                field: document.getElementById('dtSesFilterFrom'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+
+            var pubEndDate = new Pikaday({
+                field: document.getElementById('dtSesFilterTo'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+
+            var cldStartDate = new Pikaday({
+                field: document.getElementById('reScheduleDatePicker'),
+                minDate: todaysDate,
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+        });
+
+    </script>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

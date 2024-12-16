@@ -1,0 +1,218 @@
+﻿<div id="workspacecontainer" ng-controller="profileController" ng-show="loadingView" ng-init="OnLoadDefaults()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <!-- Profile Top-->
+                <div class="profile_top">
+                    <glimpse>
+                        <photo>
+                            <profile-pic>
+                                <a class="photo_show" href="javascript:void(0);"><img ng-src="{{Contact.Photo}}" title="Add a  photo"></a>
+                            </profile-pic>
+                        </photo>
+                        <glimpsedetails>
+                            <name>{{Contact.Name}}</name>
+                            <emailPhBlock>
+                                <mailicon></mailicon>
+                                <mail>{{Contact.Email}}</mail>
+                                <phicon></phicon>
+                                <phone>{{Contact.AreaCode + ' ' + Contact.MobileNumber}}</phone>
+                                <locationicon></locationicon>
+                                <location>Bangalore</location>
+                            </emailPhBlock>
+                            <coDesgBlock>
+                                <coDesgHead>Company Name:</coDesgHead>
+                                <coDesgResult>{{Contact.Company}}</coDesgResult>
+                                <coDesgHead>Designation:</coDesgHead>
+                                <coDesgResult>{{Contact.Designation}}</coDesgResult>
+                            </coDesgBlock>
+                            <headlineHead>Profile Headline:</headlineHead>
+                            <headline>{{Contact.ProfileHeading}}</headline>
+                        </glimpsedetails>
+                    </glimpse>
+                </div>
+
+                <div class="profile_form_container">
+                    <!-- Left block-->
+                    <div class="profilePageLeft">
+                        <!--Personal Information-->
+                        <div class="profile_form">
+                            <form method="post" class="signup_form" name="frmProfile" id="frmProfile" ng-submit="ProfileSubmit()" novalidate>
+                                <heading>
+                                    <header>Personal Information</header>
+                                </heading>
+                                <container>
+                                    <label15>
+                                        <vblock-l>
+                                            <div class="labelheading">Name</div>
+                                            <usericon><vline></vline></usericon>
+                                            <input name="proname" id="proname" ng-model="Contact.Name" type="text" readonly />
+                                        </vblock-l>
+                                        <vblock-r>
+                                            <div class="labelheading">Email Address</div>
+                                            <mailicon><vline></vline></mailicon>
+                                            <input name="proemail" id="proemail" ng-model="Contact.Email" type="email" readonly />
+                                        </vblock-r>
+                                    </label15>
+
+                                    <label15>
+                                        <vblock-l>
+                                            <div class="labelheading" id="proaddressLabel">Address*</div>
+                                            <locationicon><vline></vline></locationicon>
+                                            <input name="proaddress" id="proaddress" on-touch ng-model="Contact.Line1" type="text" autocomplete="off" required />
+                                        </vblock-l>
+                                        <vblock-r>
+                                            <div class="labelheading" id="procityLabel">City *</div>
+                                            <locationicon><vline></vline></locationicon>
+                                            <input ng-model="Contact.City" on-touch autocomplete="off" name="procity" id="procity" type="text" required
+                                                   city-id="procity" country-id="procountry" zip-code-update="UpdateZipCode(dailingCode)" next-focus-id="prozipcode"
+                                                   state-id="prostate" placeholder="Enter City" google-place />
+                                        </vblock-r>
+                                    </label15>
+                                    <label15>
+                                        <vblock-l>
+                                            <div class="labelheading" id="prostateLabel">State</div>
+                                            <locationicon><vline></vline></locationicon>
+                                            <input name="prostate" id="prostate" type="text" on-touch ng-model="Contact.State" autocomplete="off" readonly />
+                                        </vblock-l>
+                                        <vblock-r>
+                                            <div class="labelheading" id="procountryLabel">Country</div>
+                                            <locationicon><vline></vline></locationicon>
+                                            <input name="procountry" id="procountry" type="text" on-touch ng-model="Contact.Country" autocomplete="off" readonly />
+                                        </vblock-r>
+                                    </label15>
+                                    <label15>
+                                        <vblock-l>
+                                            <div class="labelheading" id="prozipcodeLabel">Zip Code *</div>
+                                            <locationicon><vline></vline></locationicon>
+                                            <input name="prozipcode" id="prozipcode" type="text" on-touch only-digits ng-model="Contact.ZipCode" autocomplete="off" required />
+                                        </vblock-l>
+                                        <vblock-r>
+                                            <div class="labelheading" id="proaddressLabel">Gender *</div>
+                                            <gendericon><vline></vline></gendericon>
+                                            <displaybox>
+                                                <rodioblock>
+                                                    <input type="radio" id="radiogender" on-touch ng-model="Contact.Gender" value="M" name="gender">
+                                                    <label for="radiogender">Male</label>
+                                                </rodioblock>
+                                                <rodioblock>
+                                                    <input type="radio" id="radiogender1" on-touch ng-model="Contact.Gender" value="F" name="gender">
+                                                    <label for="radiogender1">Female</label>
+                                                </rodioblock>
+                                            </displaybox>
+                                        </vblock-r>
+                                    </label15>
+                                    <label15>
+                                        <vblock-l>
+                                            <div class="labelheading" id="promobileLabel">Mobile Number *</div>
+                                            <phicon>
+                                                <vline></vline><phcountrycode>{{Contact.AreaCode}}</phcountrycode>
+                                            </phicon>
+                                            <textphone><input name="promobile" id="promobile" on-touch only-digits ng-model="Contact.MobileNumber" type="text" required /></textphone>
+                                        </vblock-l>
+                                        <vblock-r>
+                                            <otptext>OTP verification will be required for updating mobile number</otptext>
+                                        </vblock-r>
+                                    </label15>
+                                    <label5>
+                                        <div class="labelheading" id="proheadingLabel">Profile Headline</div>
+                                        <permiticon><vline></vline></permiticon>
+                                        <textarea name="proheading" id="proheading" on-touch ng-model="Contact.ProfileHeading" placeholder="Brief Description"></textarea>
+                                    </label5>
+                                    <buttoncontainer>
+                                        <label-but><input type="submit" class="button" value="Update" /></label-but>
+                                        <div id="submiError1" class="submit_error_layout" style="display:none;">
+                                            <div id="submiError1Msg" class="submit_success">Updated Successfully</div>
+                                        </div>
+                                    </buttoncontainer>
+                                </container>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Right block-->
+                    <div class="profilePageRight">
+                        <!--Professional Information-->
+                        <div class="profile_form">
+                            <form method="post" class="signup_form" name="frmPersonal" id="frmPersonal" ng-submit="PersonalSubmit()" novalidate>
+                                <heading>
+                                    <header>Professional Information </header>
+                                </heading>
+                                <container>
+                                    <label15>
+                                        <vblock-l>
+                                            <div class="labelheading" id="prodesgLabel">Current Designation *</div>
+                                            <designationicon><vline></vline></designationicon>
+                                            <input name="prodesg" id="prodesg" on-touch ng-model="Contact.Designation" type="text" required />
+                                        </vblock-l>
+                                        <vblock-r>
+                                            <div class="labelheading" id="proworkLabel">Working Since *</div>
+                                            <yearicon><vline></vline></yearicon>
+                                            <displaybox>
+                                                <vblockdropdown>
+                                                    <selectsmall>
+                                                        <select ng-select name="monthexp" id="monthexp" ng-model="workMonth" ng-change="highlightWork(false)"
+                                                                ng-options="item.Value as item.Text for item in [] | range:{min:1,max:12,chars:'',fullmonth:true}">
+                                                            <option value="" selected="selected">Month</option>
+                                                        </select>
+                                                    </selectsmall>
+                                                </vblockdropdown>
+                                                <vblockdropdown>
+                                                    <selectsmall>
+                                                        <select ng-select name="yearexp" id="yearexp" ng-model="workYear" ng-change="highlightWork(false)"
+                                                                ng-options="item.Value as item.Text for item in [] | range:{min:1900,max:0,chars:'',reverse:true}">
+                                                            <option value="" selected="selected">Year</option>
+                                                        </select>
+                                                    </selectsmall>
+                                                </vblockdropdown>
+                                            </displaybox>
+                                        </vblock-r>
+                                    </label15>
+                                    <label15>
+                                        <textlarge>
+                                            <div class="labelheading">Department</div>
+                                            <departmenticon><vline></vline></departmenticon>
+                                            <input name="prodept" id="prodept" on-touch ng-model="Contact.Department" type="text" />
+                                        </textlarge>
+                                    </label15>
+                                    <buttoncontainer>
+                                        <label-but><input type="submit" class="button" value="Update" /></label-but>
+                                        <div id="submiError2" class="submit_error_layout" style="display:none;">
+                                            <div id="submiError2Msg" class="submit_success">Updated Successfully</div>
+                                        </div>
+                                    </buttoncontainer>
+                                </container>
+                            </form>
+                        </div>
+
+                        <!--Public Profile-->
+                        <div class="profile_form" style="display:none">
+                            <heading>
+                                <header>Public Profile</header>
+                                <disablePublic><input type="checkbox" id="cb_pp" checked /><label for="cb_pp">Disable Public Profile</label></disablePublic>
+                            </heading>
+                            <container>
+                                <label15>
+                                    <textlarge>
+                                        <div class="labelheading">Public Profile URL <viewFile><a href="https://hiregate.com/recruiter/kishor" target="_blank">View Profile</a></viewFile></div>
+                                        <profileicon><vline></vline></profileicon>
+                                        <input name="text" type="text" value="https://hiregate.com/recruiter/kishor" readonly disabled />
+                                    </textlarge>
+                                </label15>
+                            </container>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--Work Area Ends-->
+    <span ng-include src="'js/views/popups/opt.html'"></span>
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

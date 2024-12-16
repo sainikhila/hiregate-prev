@@ -1,0 +1,305 @@
+﻿
+<span id="workspacecontainer" ng-controller="homeController" ng-show="loadingView">
+
+    <!--Header Logo Begins-->
+    <header id="header">
+        <div class="content-widthfix">
+            <div class="logo-white logo-header" data-size="big"></div>
+        </div>
+    </header>
+    <header id="header1">
+        <!--for screen size smaller than 1024-->
+        <div class="content-widthfix">
+            <div id="logosmall"><div class="logo-white logo-small-in"></div></div>
+        </div>
+    </header>
+    <div id="header-line"></div>
+    <!--Header Logo Ends-->
+    <!--Menu Begins-->
+    <div id="menu-pos">
+        <div class="content-widthfix">
+            <div class="menuContainer" ng-controller="menuController">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" ng-click="NavigateToRoute('features')" title="Features"><iconfeature></iconfeature></a>
+                    </li>
+                    <li>
+                        <navitxtlabel><a href="javascript:void(0);" ng-click="NavigateToRoute('features')">Features</a></navitxtlabel>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" ng-click="NavigateToRoute('pricing')" title="Pricing"><iconprice></iconprice></a>
+                    </li>
+                    <li>
+                        <navitxtlabel><a href="javascript:void(0);" ng-click="NavigateToRoute('pricing')">Pricing</a></navitxtlabel>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" ng-click="ShowSignInPopup()" class="signin_show" title="Sign In"><iconsignin></iconsignin></a>
+                    </li>
+                    <li>
+                        <navitxtlabel><a href="javascript:void(0);" ng-click="ShowSignInPopup()" class="signin_show" title="Sign In">Login</a></navitxtlabel>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" ng-click="NavigateToRoute('rg')" title="Signup"><iconsignup></iconsignup></a>
+                    </li>
+                    <li>
+                        <input type="button" class="butsignup" value="Sign Up" ng-click="NavigateToRoute('rg')">
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" class="demo_show" ng-click="ShowRequestDemo()" title="Request Demo"><iconreqdemo></iconreqdemo></a>
+                    </li>
+                    <li>
+                        <input type="button" class="butreqdemo demo_show" ng-click="ShowRequestDemo()" value="Request Demo">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--Menu Ends-->
+    <!--Video Begins-->
+    <div id="main-video">
+        <!--[if lt IE 9]>
+            <script>
+                document.createElement('video');
+            </script>
+        <![endif]-->
+        <div class="videoContainer">
+            <video autoplay loop muted poster="/content/img/video1-fallbk.jpg" class="video1-bg" style="display:block">
+                <source src="/content/video/video3.webm" type="video/webm">
+                <source src="/content/video/video3.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="fallback-smallscreen"></div>
+        <!--for screen size smaller than 450-->
+        <!--Content Over Video Begins-->
+        <div class="tag-desc">
+            <div class="content-widthfix">
+                <div class="maintag">Hire the right people faster</div>
+                <div class="tagline">
+                    <div class="slides">Reduce <highlight>Time to Fill</highlight> by 80% with <highlight>Pre-Assessed</highlight> profiles</div>
+                    <div class="slides">Significantly improve your <highlight>Hit Rate Ratio</highlight> and save cost</div>
+                    <div class="slides">Share <highlight>Assessment Video</highlight> for faster decision making</div>
+                </div>
+                <script>
+                    var slideIndex = 0;
+                    carousel();
+
+                    function carousel() {
+                        var i;
+                        var x = document.getElementsByClassName("slides");
+                        for (i = 0; i < x.length; i++) {
+                            x[i].style.display = "none";
+                        }
+                        slideIndex++;
+                        if (slideIndex > x.length) { slideIndex = 1; }
+                        if (x[slideIndex - 1]) {
+                            x[slideIndex - 1].style.display = "block";
+                        }
+                        setTimeout(carousel, 10000);
+                    }
+                </script>
+                <div class="getStartedBlock">
+                    <input type="button" class="butGetStarted" value="Get Started Today" ng-click="NavigateToRoute('rg')">
+                </div>
+                <div class="no-install">Cloud Service. No Apps Needed</div>
+                <div class="gdpr"></div>
+            </div>
+        </div>
+        <!--Content Over Video Ends-->
+    </div>
+    <!--Video Ends-->
+    <!--Bottom Bar Begins-->
+    <div id="bottom-bar">
+        <div class="content-widthfix">
+            <div id="bottombarcontainer">
+                <!-- Each image is 170px by 50px -->
+                <div class="photobanner">
+                    <img class="first" src="/content/img/co-logo/featured/nikhil.png" alt="Nikhil Analytics" />
+                    <img src="/content/img/co-logo/featured/sebone.png" alt="Sebone Technologies" />
+                    <img src="/content/img/co-logo/featured/digieon.png" alt="Digieon Technologies" />
+                    <img src="/content/img/co-logo/featured/landmark.png" alt="Landmark Hospitals" />
+                    <img src="/content/img/co-logo/featured/thoughtFW.png" alt="Thought Frameworks" />
+                    <img src="/content/img/co-logo/featured/infolance.png" alt="InfoLance" />
+                    <img src="/content/img/co-logo/featured/TeamExpat.png" alt="Team Expat" />
+                    <img src="/content/img/co-logo/featured/infovance.png" alt="Infovance Inc" />
+
+                    <img src="/content/img/co-logo/featured/nikhil.png" alt="Nikhil Analytics" />
+                    <img src="/content/img/co-logo/featured/sebone.png" alt="Sebone Technologies" />
+                    <img src="/content/img/co-logo/featured/digieon.png" alt="Digieon Technologies" />
+                    <img src="/content/img/co-logo/featured/landmark.png" alt="Landmark Hospitals" />
+                    <img src="/content/img/co-logo/featured/thoughtFW.png" alt="Thought Frameworks" />
+                    <img src="/content/img/co-logo/featured/infolance.png" alt="InfoLance" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Bottom Bar Ends-->
+    <!--Work Area Begins-->
+    <div id="content-home">
+        <!--Benefits-->
+        <div class="benefit_container">
+            <div class="content-widthfix">
+                <div class="benefit">
+                    <heading>Screen candidates efficiently and enrich your recruiting efforts with HireGate's Video Interviewing Platform</heading>
+                    <ul>
+                        <li>
+                            <icon01></icon01>
+                            <blockHead>Pre-Assessed Jobseekers</blockHead>
+                            <blockText>
+                                Eliminate initial rounds of the interview process with pre-assessed jobseekers and fill an open position with 80% lesser time
+                            </blockText>
+                        </li>
+                        <li>
+                            <icon02></icon02>
+                            <blockHead>Live Video Interview</blockHead>
+                            <blockText>A secure Video Interview platform to host live interviews in controlled environment with chat, whiteboard and coding panel</blockText>
+                        </li>
+                        <li>
+                            <icon03></icon03>
+                            <blockHead>Share Assessment Video</blockHead>
+                            <blockText>Share recorded assessment videos along with reviewer's feedback and ratings with multiple stakeholders for faster decision making</blockText>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--Success Stats-->
+        <div class="clientsuccess_container" style="display:block">
+            <div class="content-widthfix">
+                <div class="clientsuccess">
+                    <heading>Our Success depends on Our Client’s Success</heading>
+                    <ul>
+                        <li>
+                            <icon01></icon01>
+                            <successcontainer>
+                                <successpercent>80%</successpercent>
+                                <successpoint>Reduction in time and cost-to-hire</successpoint>
+                            </successcontainer>
+                        </li>
+                        <li>
+                            <icon02></icon02>
+                            <successcontainer>
+                                <successpercent>85%</successpercent>
+                                <successpoint>Enhancement in the quality of hire</successpoint>
+                            </successcontainer>
+                        </li>
+                        <li>
+                            <icon03></icon03>
+                            <successcontainer>
+                                <successpercent>95%</successpercent>
+                                <successpoint>Improvement in performance tracking</successpoint>
+                            </successcontainer>
+                        </li>
+                        <li>
+                            <icon04></icon04>
+                            <successcontainer>
+                                <successpercent>90%</successpercent>
+                                <successpoint>Easiness in scheduling of interviews</successpoint>
+                            </successcontainer>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--Features Block Begins-->
+        <div class="feature_container" style="display:block">
+            <div class="content-widthfix">
+                <div class="feature">
+                    <heading>Reason to choose us</heading>
+                    <ul>
+                        <li>
+                            <iconBlock><icon01></icon01></iconBlock>
+                            <blockContainer>
+                                <pointHead>Pre-Assessed Profiles</pointHead>
+                                <pointText>Jobseekers are rated based on their skills by crowdsourced experts. Recruiters can search though our pool of pre-assessed profiles and shortlist the best talent.</pointText>
+                            </blockContainer>
+                        </li>
+                        <li>
+                            <iconBlock><icon04></icon04></iconBlock>
+                            <blockContainer>
+                                <pointHead>Live Video Interview</pointHead>
+                                <pointText>Meet the real person behind the resume. Use HireGate video interview and increase your team’s productivity. Gain more insight on candidates and enable better outcome.</pointText>
+                            </blockContainer>
+                        </li>
+                        <li>
+                            <iconBlock><icon03></icon03></iconBlock>
+                            <blockContainer>
+                                <pointHead>Better Collaboration</pointHead>
+                                <pointText>All interviews on HireGate are recorded. Share interview video and reviewers comments with stakeholders for an unbiased and faster decision making.</pointText>
+                            </blockContainer>
+                        </li>
+                        <li>
+                            <iconBlock><icon02></icon02></iconBlock>
+                            <blockContainer>
+                                <pointHead>No Geographical Restriction</pointHead>
+                                <pointText>Recruiting managers have access to the best of talent from remote cities. Location is not a constraint with pre-assessed profiles from Tier II and Tier III cities.</pointText>
+                            </blockContainer>
+                        </li>
+                        <li>
+                            <iconBlock><icon05></icon05></iconBlock>
+                            <blockContainer>
+                                <pointHead>Bulk Scheduling</pointHead>
+                                <pointText>Scheduling of interviews can be frustrating and time-consuming. Upload a spreadsheet and schedule interviews with just a click of a button.</pointText>
+                            </blockContainer>
+                        </li>
+                        <li>
+                            <iconBlock><icon06></icon06></iconBlock>
+                            <blockContainer>
+                                <pointHead>Candidate Authenticity</pointHead>
+                                <pointText>Candidate Impersonation is an issue every company faces today. Our face recognition system authenticates each of the interview sessions and verify user authenticity.</pointText>
+                            </blockContainer>
+                        </li>
+                    </ul>
+                    <buttonlabel><input type="button" class="button" value="View All Features" ng-click="NavigateToRoute('features')" /></buttonlabel>
+                </div>
+            </div>
+        </div>
+
+        <!--Who Can Use Begins-->
+        <div class="whoCanUse_container" style="display:block">
+            <div class="content-widthfix">
+                <div class="whoCanUse">
+                    <heading>Who Can Use?</heading>
+                    <subheading><!--HireGate is a platform that connects recruiters and the jobseekers. -->Technology has made the hiring process much more streamlined. Use HireGate's Video Interviewing platform with Code Panel and Whiteboard to provide an outstanding candidate experience.</subheading>
+                    <ul>
+                        <li>
+                            <icon01></icon01>
+                            <blockHead>Hiring Managers</blockHead>
+                            <blockText>
+                                Eliminate initial rounds of the interview process with pre-assessed jobseekers and fill an open position with 80% lesser time
+                            </blockText>
+                        </li>
+                        <li>
+                            <icon02></icon02>
+                            <blockHead>Recruitment Agencies</blockHead>
+                            <blockText>
+                                Agencies can use the platform to assess candidate based on client's requirement and share the assessment video with the client
+                            </blockText>
+                        </li>
+                        <li>
+                            <icon03></icon03>
+                            <blockHead>Training Institutions</blockHead>
+                            <blockText>
+                                Prepare candidates and demonstrate their talent by sharing their assessment videos across companies for faster pick
+                            </blockText>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--Who Can Use Ends-->
+
+    </div>
+    <!--Work Area Ends-->
+    <!--Footer starts -->
+    <div id="footer-home">
+        <div class="frame-footer-home">
+            <div ng-include src="'js/views/shared/footer-home.html'"></div>
+        </div>
+    </div>
+    <!--Footer ends-->
+    <span ng-include src="'js/views/popups/sign-in.html'"></span>
+    <span ng-include src="'js/views/popups/reqdemo.html'"></span>
+</span>
+

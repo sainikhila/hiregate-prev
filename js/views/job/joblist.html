@@ -1,0 +1,320 @@
+﻿<div id="workspacecontainer" ng-controller="jobListController" ng-init="LoadDefaults()" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Error</div>
+                <div class="job_pg_container">
+                    <div class="jobLayout" ng-switch="JobHeaders.length>0">
+                        <pageHead ng-switch="filterByStatus==='Status'">
+                            <pgHeadText ng-switch-when="false">Job Requirement - {{filterByStatus}} List</pgHeadText>
+                            <pgHeadText ng-switch-when="true">Job Requirement</pgHeadText>
+                            <headingRight>
+                                <canSearch>
+                                    <div class="canSearch_container">
+                                        <input type="text" id="txtJobSearch" name="txtJobSearch" autocomplete="off" ng-enter="OnSearchSelected()" ng-model="searchString" placeholder="Search by Title" title="Search by Title">
+                                    </div>
+                                </canSearch>
+                                <a ng-href="{{JobFormatFile}}" id="jobCSVFormatLink" />
+                                <input type="button" value="Download CSV Format" onclick="$('#jobCSVFormatLink')[0].click();" class="jobButton">
+                                <input type="button" value="Import Job using CSV" class="jobButton" ng-click="OnImportJobShow()">
+                                <input type="button" value="&#65291; Create New Requirement" class="jobButton" ng-click="NavigateToRoute('jbc')" title="Create New Requirement">
+                            </headingRight>
+                            <filterLayout>
+                                <statuslabel>
+                                    <select ng-select name="filterByStatus" id="filterByStatus" ng-change="OnFilterStatusChanged()" ng-model="filterByStatus">
+                                        <option value="Status" selected="selected">Status</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Upcoming">Upcoming</option>
+                                        <option value="Closed">Closed</option>
+                                        <option value="Un-Published">Un-Published</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
+                                </statuslabel>
+                                <jobidlabel>
+                                    <select ng-select name="filterByJobId" id="filterByJobId" ng-change="OnFilterByJobIdChanged()" ng-model="filterByJobId">
+                                        <option ng-repeat="idFilter in FiltersListJobId" value="{{idFilter.Id}}">{{idFilter.Name}}</option>
+                                    </select>
+                                </jobidlabel>
+                                <publishedlabel>
+                                    <select ng-select name="filterPublishedBy" id="filterPublishedBy" ng-change="OnFilterPublishedByChanged()" ng-model="filterPublishedBy">
+                                        <option ng-repeat="idFilter in FiltersListPublish" value="{{idFilter.Id}}">{{idFilter.Name}}</option>
+                                    </select>
+                                </publishedlabel>
+                                <dateDisplayBox>
+                                    <filterLabelText>Published Date</filterLabelText>
+                                    <input type="text" ng-model="dtPublishedFrom" ng-change="OnFilterPublishedDtChanged()" id="dtPublishedFrom" name="dtPublishedFrom" placeholder="From Date" readonly>
+                                    <input type="text" ng-model="dtPublishedTo" ng-change="OnFilterPublishedDtChanged()" id="dtPublishedTo" name="dtPublishedTo" placeholder="To Date" readonly>
+                                </dateDisplayBox>
+                                <dateDisplayBox>
+                                    <filterLabelText>Closing Date</filterLabelText>
+                                    <input type="text" ng-model="dtClosedFrom" ng-change="OnFilterClosedDtChanged()" id="dtClosedFrom" name="dtClosedFrom" placeholder="From Date" readonly>
+                                    <input type="text" ng-model="dtClosedTo" ng-change="OnFilterClosedDtChanged()" id="dtClosedTo" name="dtClosedTo" placeholder="To Date" readonly>
+                                </dateDisplayBox>
+                                <input type="button" ng-click="OnFilterChanged()" class="filterButton" title="Filter Selection">
+                                <divider style="display:none;"></divider>
+                                <input style="display:none;" type="button" class="saveButton" title="Save Filter">
+                            </filterLayout>
+                        </pageHead>
+                        <div class="filterBlock" ng-show="FilterItemsDisplay.length > 0">
+                            <filter ng-repeat="item in FilterItemsDisplay"><b>{{item.FilterLabel}}:</b>{{item.DisplayValue}}<closeicon><a href="javascript:void(0);" ng-click="RemoveFilter(item.FilterIndex)" title="Close">&#215;</a></closeicon></filter>
+                            <input type="button" class="button_clear" ng-click="ClearFilter()" value="Clear All" />
+                        </div>
+                        <!--message to display for wrong filter selection-->
+                        <div class="noContent" ng-switch-when="false">No results found</div>
+
+                        <!--Block 1-->
+                        <contentBlock ng-switch-when="true" ng-repeat="job in JobHeaders" ng-switch="job.StatusTag">
+                            <div class="jobParentBlock">
+                                <table>
+                                    <tr>
+                                        <td>Job ID</td>
+                                        <td>Job Title</td>
+                                        <td>Published By</td>
+                                        <td>Published Date</td>
+                                        <td>Closed Date</td>
+                                        <td>Status</td>
+                                        <td rowspan="2">&nbsp;</td>
+                                        <td rowspan="2"><input type="button" value="View" class="buttonToggle" id="labelText_{{job.JobId}}" ng-click="ShowOneBlock(job.JobId,false);"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="javascript:void(0);" ng-click="NavigateToRoute('jbd/' + job.JobId)">{{job.JobTag}}</a></td>
+                                        <td>{{job.JobTitle}}</td>
+                                        <td>{{job.CreatedBy}}</td>
+                                        <td>{{SetNA(job.PublishedOn) | date:'yyyy-MMM-dd'}}</td>
+                                        <td>{{SetNA(job.ClosedOn) | date:'yyyy-MMM-dd'}}</td>
+                                        <td>{{job.StatusTag}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="childBlock" id="Block_{{job.JobId + '_' + job.JobTag}}" style="display:none">
+                                <div id="Results_{{job.JobId + '_' + job.JobTag}}" style="display:none">
+                                    <div class="childContentLayout">
+                                        <block-left>
+                                            <descHead>Job Title:</descHead>
+                                            <description>{{SelectedJob.JobTitle}}</description>
+                                            <descHead>Key Skills:</descHead>
+                                            <description>{{SelectedJob.JobSkills}}</description>
+                                            <descHead>Job Description:</descHead>
+                                            <description>{{SelectedJob.JobDescription}}</description>
+                                        </block-left>
+                                        <block-right>
+                                            <descHead>Key Responsibilities:</descHead>
+                                            <description>{{SelectedJob.JobResponsibilities}}</description>
+                                            <descHead>Education Qualification:</descHead>
+                                            <description>{{SelectedJob.JobEducation}}</description>
+                                            <descHead>Location:</descHead>
+                                            <description>{{SelectedJob.JobLocations}}</description>
+                                            <descHead>Work Experience:</descHead>
+                                            <description>{{SelectedJob.JobWorkExp}} Years</description>
+                                            <descHead>Salary Range:</descHead>
+                                            <description>{{SelectedJob.JobSalaryRange}} Lakhs</description>
+                                        </block-right>
+                                        <assigncontactblock>
+                                            <descHead style="display:none;">Job Public Link:</descHead>
+                                            <description style="display:none;"><a href="{{SelectedJob.PublicLink}}" target="_blank">{{SelectedJob.PublicLink}}</a></description>
+                                            <block-left>
+                                                <descHead>Assigned To:</descHead>
+                                                <description ng-repeat="asg in SelectedJob.JobAssignees"><b>{{asg.Name}} -</b> {{asg.Email}}, {{asg.Phone}}</description>
+                                            </block-left>
+                                            <block-right>
+                                                <descHead>Job Contact Details:</descHead>
+                                                <description ng-repeat="cont in SelectedJob.JobContacts"><b>{{cont.Name}} -</b> {{cont.Email}}, {{cont.Phone}}</description>
+                                            </block-right>
+                                        </assigncontactblock>
+                                    </div>
+                                    <childButtonLayout>
+                                        <!-- Active = 0,UnPublished = 1,Deleted = 2,Pending = 3,Closed = 4,Upcoming = 5 -->
+                                        <input ng-show="job.Status==3" type="button" ng-click="NavigateToRoute('jbe/' + job.JobId)" value="Edit Job" class="buttonChild">
+                                        <input ng-show="job.Status==3" type="button" ng-click="OnDeleteShow(job.JobId)" value="Delete Job" class="buttonChild">
+                                        <input ng-show="job.Status==1" type="button" ng-click="NavigateToRoute('jbe/' + job.JobId)" value="Edit Job" class="buttonChild">
+                                        <input ng-show="job.Status==1" type="button" ng-click="OnPublishShow(job.JobId)" value="Publish Job" class="buttonChild">
+                                        <input ng-show="job.Status==0" type="button" ng-click="NavigateToRoute('jbe/' + job.JobId)" value="Re-Publish as New" class="buttonChild">
+                                        <input ng-show="job.Status==0" type="button" ng-click="OnCloseShow(job.JobId)" value="Close Job" class="buttonChild">
+                                        <input ng-show="job.Status==4" type="button" ng-click="NavigateToRoute('jbe/' + job.JobId)" value="Re-Publish" class="buttonChild">
+                                    </childButtonLayout>
+                                </div>
+                                <div id="Progess_{{job.JobId + '_' + job.JobTag}}" class="childContentLayout2">
+                                    <contentbox>
+                                        <textlabel>
+                                            <testname>Loading...</testname>
+                                        </textlabel>
+                                        <progressicon>
+                                            <svg style="width:50px;height:50px;" class="circular-loader" viewBox="25 25 50 50">
+                                                <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke="#28959a" stroke-width="2" />
+                                            </svg>
+                                        </progressicon>
+                                    </contentbox>
+                                </div>
+                                <div id="Error_{{job.JobId + '_' + job.JobTag}}" style="display:none;">
+                                    <div class="childContentLayout">
+                                        Unable to retrieve the details
+                                    </div>
+                                </div>
+                            </div>
+                        </contentBlock>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <!--Publish Job-->
+    <div id="popPublishJob" class="pop_disable_bg">
+        <div id="publishJob_structure">
+            <div class="publishJob">
+                <layoutHead>Select a Date Range</layoutHead>
+                <vBlock2col><input name="text" type="text" ng-model="pubDateFrom" id="pubDateFrom" readonly required placeholder="From Date" /></vBlock2col>
+                <vBlock2col><input name="text" type="text" ng-model="pubDateTo" id="pubDateTo" readonly required placeholder="To Date" /></vBlock2col>
+                <fi_publish><input type="checkbox" name="pubToFaceIt3" ng-checked="pubToFaceIt3" ng-model="pubToFaceIt3" id="pubToFaceIt3"><label for="pubToFaceIt3">Publish in FaceInterview Job Listing</label></fi_publish>
+                <labelbutton>
+                    <input type="submit" value="Publish Job" class="button" ng-click="PublishJob()" />
+                    <input type="button" value="Cancel" class="button" ng-click="OnPublishHide()" />
+                </labelbutton>
+                <div class="errorMsg" id="errorPubMsg" style="display:none">Select From and To date</div>
+            </div>
+        </div>
+    </div>
+
+    <!--Job Publish Successful-->
+    <div id="popJobPublishSuccessful" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>Job Published Successfully</txtHead>
+                <labelbutton>
+                    <input type="button" value="Close" class="button" ng-click="OnPublishCompleted()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+
+    <!--Job Publish Successful-->
+    <div id="popJobCloseConfirm" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>Are you sure you want to close this job?</txtHead>
+                <labelbutton>
+                    <input type="button" value="No" class="button" ng-click="OnCloseCancel()" />
+                    <input type="button" value="Yes" class="button" ng-click="OnCloseComplete()" />
+                </labelbutton>
+                <div class="errorMsg" id="errorCloseMsg" style="display:none">Select From and To date</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popJobDeleteConfirm" class="pop_disable_bg">
+        <div id="successSubmit_structure">
+            <div class="successSubmit">
+                <txtHead>Are you sure you want to delete this job?</txtHead>
+                <labelbutton>
+                    <input type="button" value="No" class="button" ng-click="OnDeleteCancel()" />
+                    <input type="button" value="Yes" class="button" ng-click="OnDeleteComplete()" />
+                </labelbutton>
+                <div class="errorMsg" id="errorDeleteMsg" style="display:none">Select From and To date</div>
+            </div>
+        </div>
+    </div>
+
+    <!--Import Job-->
+    <div id="popImportJob" class="pop_disable_bg">
+        <div id="importJob_structure">
+            <div class="importJob">
+                <form id="frmImpJob" name="frmImpJob" ng-model="frmImpJob" novalidate>
+                    <layoutHead>Import Job (CSV Format) <filesize><b>Max file size:</b> 300 Kb</filesize></layoutHead>
+                    <displaybox>
+                        <input id="importJobXLS" name="importJobXLS" file-formats="csv" accept=".csv" type="file" ng-model="ImportJobXLS" file-change
+                               file-error-id="jobImpFileError" file-diplay-style="block" file-form-name="frmImpJob" ng-change="OnFileChanged()" />
+                    </displaybox>
+                    <labelbutton>
+                        <input type="button" value="Import Job" class="button" ng-click="OnImportJobClick()" />
+                        <input type="button" value="Cancel" class="button" ng-click="OnImportJobHide()" />
+                    </labelbutton>
+                    <div class="errorMsg" id="jobImpFailedError" style="display:none;">Invalid file imported. Please try again.</div>
+                    <div class="errorMsg" id="jobImpFileError" style="display:none;">Attach file to import job</div>
+                    <div class="errorMsg" id="jobImpErrorMsg" style="display:none;">Attach file to import job</div>
+                    <div class="successMsg" id="jobImpSuccessMsg" style="display:none;">Imported Successfully</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            var todaysDate = new Date();
+
+            var startDate,
+                endDate,
+                updateStartDate = function () {
+                    startPicker.setStartRange(startDate);
+                    endPicker.setStartRange(startDate);
+                    endPicker.setMinDate(startDate);
+                },
+                updateEndDate = function () {
+                    startPicker.setEndRange(endDate);
+                    startPicker.setMaxDate(endDate);
+                    endPicker.setEndRange(endDate);
+                },
+                startPicker = new Pikaday({
+                    field: document.getElementById('pubDateFrom'),
+                    minDate: todaysDate,
+                    defaultDate: todaysDate,
+                    maxDate: new Date(2020, 12, 31),
+                    onSelect: function () {
+                        startDate = this.getDate();
+                        updateStartDate();
+                    }
+                }),
+                endPicker = new Pikaday({
+                    field: document.getElementById('pubDateTo'),
+                    defaultDate: todaysDate,
+                    minDate: todaysDate,
+                    maxDate: new Date(2020, 12, 31),
+                    onSelect: function () {
+                        endDate = this.getDate();
+                        updateEndDate();
+                    }
+                }),
+                _startDate = startPicker.getDate(),
+                _endDate = endPicker.getDate();
+            if (_startDate) {
+                startDate = _startDate;
+                updateStartDate();
+            }
+            if (_endDate) {
+                endDate = _endDate;
+                updateEndDate();
+            }
+
+            var pubStartDate = new Pikaday({
+                field: document.getElementById('dtPublishedFrom'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+
+            var pubEndDate = new Pikaday({
+                field: document.getElementById('dtPublishedTo'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+
+            var cldStartDate = new Pikaday({
+                field: document.getElementById('dtClosedFrom'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+
+            var cldEndDate = new Pikaday({
+                field: document.getElementById('dtClosedTo'),
+                minDate: new Date(2015, 12, 31),
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+        });
+    </script>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

@@ -1,0 +1,333 @@
+﻿<div id="workspacecontainer" ng-controller="jobDetailController" ng-init="LoadDefaults()" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Error</div>
+                <div class="JD_pg_container">
+                    <!--left block-->
+                    <div class="JD_leftBlock">
+                        <!--Summary-->
+                        <div class="job_summary">
+                            <backward><a href="#" onClick="window.history.back()">&#x1F519; Go Back</a></backward>
+                            <jobIDblock ng-switch="Job.RecordStatus==4">
+                                <jobID>
+                                    Job ID - {{Job.JobTag}}
+                                </jobID>
+                                <dateHead_start>Start Date: </dateHead_start>
+                                <dateText>{{Job.PublishedOn | date:'yyyy-MM-dd'}}</dateText>
+                                <dateHead_end>End Date: </dateHead_end>
+                                <dateText ng-switch-when="true">{{Job.ClosedOn | date:'yyyy-MM-dd'}}</dateText> <!--show this after end date is greater than current date-->
+                                <div ng-switch-when="false" class="endJobDate" style="display:inline-block">
+                                    <!--hide this after end date is greater than current date-->
+                                    <input name="text" type="text" id="dtPickerClosed" ng-model="Job.ClosedOn" readonly required />
+                                    <buttonLabel>
+                                        <input type="button" value="Update End Date" class="buttonUpdate" ng-click="UpdateEndDate()">
+                                    </buttonLabel>
+                                </div>
+                            </jobIDblock>
+                            <div class="joboverview">
+                                <ul>
+                                    <li>
+                                        <iconBG><icon_scheduled></icon_scheduled></iconBG>
+                                        <overviewContent>
+                                            <number>{{Job.SessionCount.Scheduled}}</number>
+                                            <description>Interview Scheduled</description>
+                                        </overviewContent>
+                                    </li>
+                                    <li>
+                                        <iconBG><icon_interview></icon_interview></iconBG>
+                                        <overviewContent>
+                                            <number>{{Job.SessionCount.Completed}}</number>
+                                            <description>Interview Conducted</description>
+                                        </overviewContent>
+                                    </li>
+                                    <li>
+                                        <iconBG><icon_noshow></icon_noshow></iconBG>
+                                        <overviewContent>
+                                            <number>{{Job.SessionCount.Cancelled}}</number>
+                                            <description>Interview Dropped</description>
+                                        </overviewContent>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--Candidate Applied-->
+                        <div class="JD_container_maxwidth">
+                            <div class="jd_blockhead">
+                                Job Applications
+                                <rightItem style="display:none;">
+                                    <statusApplication>
+                                        <select name="filterType" required>
+                                            <option value="" selected="selected">Filtered By</option>
+                                            <option value="#">Sujoy Prakash</option>
+                                        </select>
+                                    </statusApplication>
+                                    <statusApplication>
+                                        <select name="filterType" required>
+                                            <option value="" selected="selected">Source</option>
+                                            <option value="#">All</option>
+                                            <option value="#">Applied from FaceInterview</option>
+                                            <option value="#">Internal Processing</option>
+                                        </select>
+                                    </statusApplication>
+                                </rightItem>
+                            </div>
+                            <div class="jd_blockcontentarea" ng-switch="Job.JobsApplied.length>0">
+                                <div class="noContent" ng-switch-when="false">No candidate list available</div>
+                                <div class="jobApplicationHead" ng-switch-when="true">
+                                    <table>
+                                        <tr>
+                                            <td>Candidate Name</td>
+                                            <td>Source</td>
+                                            <td>Sourced On</td>
+                                            <td>Filtered By</td>
+                                            <td>FI Rating</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="jobApplication" ng-switch-when="true">
+                                    <table>
+                                        <tr ng-repeat="item in Job.JobsApplied">
+                                            <td><a href="javascript:void(0);" ng-click="GetCandidate(item.CandidateId)">{{item.Candidate.slice(0,20)}}</a></td>
+                                            <td>{{item.AppliedFrom}}</td>
+                                            <td>{{item.AppliedOn | date:'dd-MMM-yyyy'}}</td>
+                                            <td>N/A</td>
+                                            <td>
+                                                <rating>
+                                                    <div class="rating_sprite_blue_m"><span style="width:{{item.Rating * 20}}%" class="rating_sprite_blue_m_bg" title="{{item.Rating}} of 5"></span></div>
+                                                </rating>
+                                            </td>
+                                            <td>
+                                                <a title="Contact Details" href="javascript:void(0);" ng-click="GetCandidateContact(item.CandidateId)"><div class="contactIcon"></div></a>
+                                            </td>
+                                            <td>
+                                                <a ng-show="item.Answered===1" title="View Code" href="javascript:void(0);" ng-click="ShowCodeForCompile(item.AppliedId)"><div class="testCodeIcon"></div></a>
+                                                <a title="Post Code Test" href="javascript:void(0);" ng-click="ShowCodeChallenge(item.AppliedId,item.CandidateId)"><div class="preTestIcon"></div></a>
+                                                <a title="Schedule Interview" href="javascript:void(0);" ng-click="ShowNewScheduledSession(item.CandidateId)"><div class="scheduleIcon"></div></a>
+                                                <!--<a title="Delete from list" href="javascript:void(0);" ng-click="ShowJobCandidateDelete(item.CandidateId)"><div class="deleteCandidateIcon"></div></a>-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Interview Status-->
+                        <div class="JD_container_maxwidth">
+                            <div class="jd_blockhead">
+                                Interview Status
+                                <rightItem ng-switch="Job.RecordStatus==4">
+                                    <span ng-switch-when="false" ng-switch="Job.JobDetails[0].Status==5">
+                                        <input ng-switch-when="false" type="button" value="Schedule New Interview" class="btnschedule" ng-click="ShowNewScheduledSession(0)">
+                                    </span>
+                                    <select name="filterType" required>
+                                        <option value="" selected="selected">Status</option>
+                                        <option value="#">Scheduled</option>
+                                        <option value="#">Completed</option>
+                                        <option value="#">No-Show</option>
+                                        <option value="#">Cancelled</option>
+                                    </select>
+                                </rightItem>
+                            </div>
+                            <div class="jd_blockcontentarea" ng-switch="Job.Sessions.length>0">
+                                <div class="noContent" ng-switch-when="false">No interview scheduled</div>
+                                <div class="interviewStatusHead" ng-switch-when="true">
+                                    <table>
+                                        <tr>
+                                            <td>Session ID</td>
+                                            <td>Candidate Name</td>
+                                            <td>Job Created By</td>
+                                            <td>Scheduled By</td>
+                                            <td>Date &amp; Time</td>
+                                            <td>Status</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="interviewStatus" ng-switch-when="true">
+                                    <table>
+                                        <tr ng-repeat="item in Job.Sessions">
+                                            <td><a href="javascript:void(0);" ng-click="NavigateToRoute('cs/' + item.SessionId)">{{item.SessionTag}}</a></td>
+                                            <td ng-switch="item.CStatus==2">
+                                                <span ng-switch-when="true">{{item.CandidateName.slice(0,20)}}</span>
+                                                <a ng-switch-when="false" href="javascript:void(0);" ng-click="GetCandidate(item.CandidateId)">{{item.CandidateName.slice(0,20)}}</a>
+                                            </td>
+                                            <td>{{item.CreatedBy}}</td>
+                                            <td>{{item.ScheduledBy}}</td>
+                                            <td>{{item.InterviewDate | date:'dd-MMM-yyyy hh:mm'}}</td>
+                                            <td>{{item.Status}}</td>
+                                            <td ng-show="item.Status==='Completed'">
+                                                <rating>
+                                                    <div class="rating_sprite_blue_m"><span style="width:{{item.Rating * 20}}%" class="rating_sprite_blue_m_bg" title="{{item.Rating}} of 5"></span></div>
+                                                </rating>
+                                            </td>
+                                            <td ng-show="item.Status!=='Completed'">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Rating Parameter-->
+                        <div class="JD_container_maxwidth">
+                            <div class="jd_blockhead">Rating Parameter for the Job</div>
+                            <div class="jd_blockcontentarea" ng-switch="Job.JobRatingParams.length > 0">
+                                <div ng-switch-when="false" class="noContent">No Parameter Set</div>
+                                <div ng-switch-when="true" class="ratingparameter">
+                                    <ul>
+                                        <li ng-repeat="item in Job.JobRatingParams">
+                                            <parahead>{{item.Title}}</parahead>
+                                            <paraQ>{{item.Description}}</paraQ>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--left block ends-->
+                    <!--right block-->
+                    <div class="JD_rightBlock">
+                        <div class="JD_contact">
+                            <heading>Job - Contact Details<rightBlock></rightBlock></heading>
+                            <contentArea ng-switch="Job.RecordStatus==4">
+                                <contactHead>Name</contactHead>
+                                <contactDesc id="contName">
+                                    <input ng-switch-when="true" type="text" ng-model="Job.JobContName" readonly>
+                                    <input ng-switch-when="false" type="text" ng-model="Job.JobContName">
+                                </contactDesc>
+                                <contactHead>Email</contactHead>
+                                <contactDesc id="contEmail">
+                                    <input ng-switch-when="true" type="email" ng-model="Job.JobContEmail" readonly>
+                                    <input ng-switch-when="false" type="email" ng-model="Job.JobContEmail">
+                                </contactDesc>
+                                <contactHead>Phone</contactHead>
+                                <contactDesc id="contPhone">
+                                    <phone>
+                                        <input ng-switch-when="true" type="text" ng-model="Job.JobContPhone" readonly>
+                                        <input ng-switch-when="false" type="text" ng-model="Job.JobContPhone">
+                                    </phone>
+                                </contactDesc>
+                                <buttonLabel ng-switch-when="false">
+                                    <input type="button" class="buttonUpdate" value="Update" ng-click="UpdateContacts()">
+                                    <input type="button" class="buttonUpdate" value="Reset" ng-click="ResetContacts()">
+                                </buttonLabel>
+                            </contentArea>
+                        </div>
+                        <div class="jobDesc">
+                            <heading>Job Description</heading>
+                            <contentArea>
+                                <descHead>Job Title:</descHead>
+                                <description>{{Job.JobDetails[0].JobTitle}}</description>
+                                <descHead>Key Skills:</descHead>
+                                <description>{{Job.JobDetails[0].JobSkills}}</description>
+                                <descHead>Work Experience:</descHead>
+                                <description>{{Job.JobDetails[0].JobWorkExp}} (Years)</description>
+                                <descHead>Education Qualification:</descHead>
+                                <description>{{Job.JobDetails[0].JobEducation}}</description>
+                                <descHead>Salary Range:</descHead>
+                                <description>{{Job.JobDetails[0].JobSalaryRange}} Lakh (p.a.)</description>
+                                <descHead>Location:</descHead>
+                                <description>{{Job.JobDetails[0].JobLocations}}</description>
+                                <descHead>Key Responsibilities:</descHead>
+                                <description>{{Job.JobDetails[0].JobResponsibilities}}</description>
+                                <descHead>Job Description:</descHead>
+                                <description>{{Job.JobDetails[0].JobDescription}}</description>
+                            </contentArea>
+                        </div>
+                    </div>
+                    <!--Right Block Ends-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <!--Candidate Details -->
+
+    <div id="popCanDetails" class="pop_disable_bg">
+        <div class="jd_can_structure">
+
+            <div class="jd_canint">
+                <canIntContentBlock>
+                    <blockHead>
+                        {{Candidate.Name}}
+                        <ratingstar>
+                            <div class="rating_sprite_white_m" title="{{Candidate.Rating}} of 5"><span style="width:{{Candidate.Rating * 20}}%" class="rating_sprite_white_m_bg"></span></div>
+                        </ratingstar>
+                    </blockHead>
+                    <contentArea>
+                        <horBlock-10>
+                            <vBlock_2col>
+                                <expIcon></expIcon>
+                                <headText>Experience:</headText>
+                                <detailText>{{Candidate.Experience}}</detailText>
+                            </vBlock_2col>
+                            <vBlock_2col>
+                                <salIcon></salIcon>
+                                <headText>Salary:</headText>
+                                <detailText>{{Candidate.ECTC}} Lacs (p.a.)</detailText>
+                            </vBlock_2col>
+                        </horBlock-10>
+                        <horBlock-10>
+                            <locIcon></locIcon>
+                            <headText>Location:</headText>
+                            <detailText>{{Candidate.Location}}</detailText>
+                        </horBlock-10>
+                        <horBlock-10>
+                            <headText_Float>
+                                <eduIcon></eduIcon>
+                                <headText>Highest Qualification:</headText>
+                            </headText_Float>
+                            <detailText_Left160>
+                                <detailText>&nbsp;</detailText>
+                            </detailText_Left160>
+                        </horBlock-10>
+                        <horBlock-10>
+                            <headText_Float>
+                                <skillIcon></skillIcon>
+                                <headText>Skills:</headText>
+                            </headText_Float>
+                            <detailText_Left65>
+                                <detailText ng-bind-html="Candidate.KeySkills">&nbsp;</detailText>
+                            </detailText_Left65>
+                        </horBlock-10>
+                    </contentArea>
+                    <buttonLabel>
+                        <input type="button" class="btn_canDetails" value="View Complete Profile" ng-click="NavigateToRoute('cnp/I' + Candidate.CandidateId)">
+                        <input type="button" value="Close" class="btn_canDetails" onClick="hide('popCanDetails')" />
+                    </buttonLabel>
+                </canIntContentBlock>
+            </div>
+        </div>
+    </div>
+    <!--Delete Candidate-->
+    <div id="popJobDeleteCandidate" class="pop_disable_bg">
+        <div id="deleteCan_structure">
+            <div class="deleteCan">
+                <layoutHead>Delete this Candidate?</layoutHead>
+                <blkText>The candidate details will be permanently removed and can't be restored.</blkText>
+                <labelbutton>
+                    <input type="button" value="Cancel" class="button" ng-click="HideJobCandidateDelete()" />
+                    <input type="button" value="Delete" class="button" ng-click="ConfirmJobCandidateDelete()" />
+                </labelbutton>
+            </div>
+        </div>
+    </div>
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+    <script>
+        $(document).ready(function () {
+
+            var todaysDate = new Date();
+            todaysDate.setDate(todaysDate.getDate() + 1);
+
+            var cldEndDate = new Pikaday({
+                field: document.getElementById('dtPickerClosed'),
+                minDate: todaysDate,
+                defaultDate: todaysDate,
+                maxDate: new Date(2020, 12, 31)
+            });
+        });
+
+    </script>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

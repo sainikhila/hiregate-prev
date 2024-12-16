@@ -1,0 +1,241 @@
+﻿<div id="workspacecontainer" ng-controller="tabController" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="secondary_page_container">
+                    <div class="SP_leftBlock">
+                        <div class="secondaryPage">
+                            <naviLayout>
+                                <ul id="sp_menuBar">
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('features')">Features</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('about')">About</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('privacy')">Privacy Policy</a></li>
+                                    <li class="active"><a>Terms</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('agreement')">User Agreement</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('disclaimer')">Disclaimer</a></li>
+                                </ul>
+                            </naviLayout>
+                            <!-- page content starts-->
+                            <div class="pgContent">
+                                <pgHead>General</pgHead>
+                                <ol class="numeric">
+                                    <li>
+                                        <pgText>Welcome to www.hiregate.in <b>(“Website”)</b> / the HireGate Mobile Application <b>(“App”)</b>. This Website/App is owned and operated by Swazuna Technologies Pvt. Ltd. <b>(“the Company”)</b>, whose registered office is at #5/1, 2nd Main Road, Venkateshwara Layout, S.G.palya, Bangalore 560029</pgText>
+                                        <pgtext>The Website/App is an online platform which enables Users i.e, </pgtext>
+                                        <ul class="Square">
+                                            <li><pgtext>Hiring Managers / Enterpises to Register and search for Job seekers and use services for their talent Acquisition. <b>(“Hiring Managers”)</b>or</pgtext></li>
+                                            <li><pgtext>Register as job searching candidates / candidates who would want to face interviews from enterprises.</pgtext></li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <pgText>For the purpose of these terms of use <b>(“Terms of Use”)</b>, <b>“We”</b>, <b>“Us”</b> and <b>“Our”</b> means the Company and <b>“You”</b>, <b>“Your”</b> and <b>“User”</b> means any person who accesses or uses the Website/App or the Services. <b>“Services”</b> includes access to Our mobile application (“App”), any upgrades of the App, Our call and SMS based services, databases, Interactive Voice Response services and all other services and functionalities that We provide through the Website/App or Your mobile phone.</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>By accessing or using this Website/App or the Services, You agree to be bound by these Terms of Use, the services agreement between You and SWAZUNA Technologies available at <a href="javascript:void(0);" ng-click="NavigateToRoute('agreement')">https://www.hiregate.in/agreement</a> and Our other policies made available on the Website, including but not limited to the Privacy Policy available at <a href="javascript:void(0);" ng-click="NavigateToRoute('privacy')">https://www.hiregate.in/privacy</a> <b>(“Policies”)</b>. If You do not agree to these Terms of Use or any of Our Policies, please do not use the Services or access the Website/App.</pgText>
+                                    </li>
+                                </ol>
+                                <spacer5></spacer5>
+                                <pgHead>Changes to the Terms of Use</pgHead>
+                                <pgText>We may modify these Terms of Use and Our Policies from time to time, by updating this document. Your continuing to use the Website/App or Services following the posting of changes will mean that You accept such changes.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Access to the Website/App and Services</pgHead>
+                                <pgText>You may access the Website/App and the Services only if You are 18 years of age or older and are legally capable of entering into a binding contract as per applicable law, including, in particular, the Indian Contract Act, 1872.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Your Information</pgHead>
+                                <pgText>You may use the Services through our Website /App. Upon registering, you are required to provide us with your details including Your name, address, contact number and email address (“User Information”). By providing us with Your user information, you confirm that:</pgText>
+                                <ol class="numeric">
+                                    <li><pgtext>The User Information provided by you is accurate and genuine</pgtext></li>
+                                    <li><pgtext>The mobile phone number provided by you belongs to you, has been validly acquired under applicable law, and you may be contacted on the number by way of calls or SMS messages by us or our providers; and you shall immediately notify us of any un-authorized use of your user information or any other breach of these Terms of Use or security known to you</pgtext></li>
+                                    <li><pgtext>Further, you authorize us to: collect, process and store User Information and access information including the IP address, IMEI number and MAC address of the computer/device from where the Website/App were accessed</pgtext></li>
+                                    <li><pgtext>Either directly, or through third parties, verify and confirm your User Information</pgtext></li>
+                                    <li><pgtext>Contact you using your User Information, including for marketing and promotional calls</pgtext></li>
+                                    <li><pgtext>Subject to the above, and your compliance with these Terms of Use, we grant you a non-exclusive, revocable, limited privilege to access and use this Website/App and the Services</pgtext></li>
+                                </ol>
+                                <spacer5></spacer5>
+                                <pgHead>Fees and Payment</pgHead>
+                                <ol class="numeric">
+                                    <li><pgText>The HireGate website can be used only with a subscrption model, (see pricing for details) how ever use of the Website/App is free for a month of evaluation peroid.</pgText></li>
+                                    <li><pgText>Payment can be made as a cheque to the "company" or with Your credit/debit card or other payment instruments will be processed using a third party payment gateway (“Payment Facility”) which will also be governed by the terms and conditions agreed to between you and your issuing bank.</pgText></li>
+                                    <li><pgText>We will not be responsible for any loss or damage to you due to Your use of the Payment Facility on the Website/App.</pgText></li>
+                                    <li><pgText>We can impose limits on the number of Transactions or the Transaction Fee which we receive from you and can refuse to process any Transaction Fee, at Our sole discretion.</pgText></li>
+                                </ol>
+                                <spacer5></spacer5>
+                                <pgHead>Use of the Website/App and Services</pgHead>
+                                <ol class="numeric">
+                                    <li>
+                                        <pgText>You agree to make use of the Website/App and Services for their intended purpose in a bona fide manner. In particular, you agree not to: </pgText>
+                                        <ul class="pointSquare">
+                                            <li><pgtext>Print, distribute, share, download, duplicate or otherwise copy, delete, vary or amend or use any data or User Information of any user other than your own</pgtext></li>
+                                            <li><pgtext>Infringe on any intellectual property rights of any person and/or retain information in any computer system or otherwise with an intention to do so;</pgtext></li>
+                                            <li><pgtext>Attempt to gain unauthorized access to any portion or feature of the Website/App, or any other systems or networks connected to the Website/App or to any server, computer, network, or to any of the Services by hacking, password “mining” or any other illegitimate means;</pgtext></li>
+                                            <li><pgtext>Probe, scan or test the vulnerability of the Website/App or Services or any network connected to the Website/App or Services or breach the security or authentication measures on the Website/App or any network connected to the Website/App or Services;</pgtext></li>
+                                            <li><pgtext>Use any automated systems to extract data from the Website/App;</pgtext></li>
+                                            <li><pgtext>Make any inaccurate, false, unfair or defamatory statement(s) or comment(s) about Us or the brand name or domain name used by Us, any Provider or any User on the Website/App;</pgtext></li>
+                                            <li><pgtext>Take any action that imposes an unreasonable or disproportionately large load on the infrastructure of the Website/App or Our systems or networks, or any systems or networks connected to Us; or</pgtext></li>
+                                            <li><pgtext>Circumvent or manipulate the Website/App, Services, registration process, Transaction Fees, billing system, or attempt to do so.</pgtext></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <pgText>You further agree not to host, display, upload, modify, publish, transmit, update, share or otherwise make available on the Website/App any information, that:</pgText>
+                                        <ul class="pointSquare">
+                                            <li><pgtext>Contains content or other material protected by intellectual property laws unless You own or control the rights thereto or have received all necessary consents;</pgtext></li>
+                                            <li><pgtext>Defames, abuses, harasses, stalks, hurts religious or ethnic sentiments of, threatens or otherwise violates the legal rights of others;</pgtext></li>
+                                            <li><pgtext>Is grossly harmful, harassing, blasphemous defamatory, obscene, pornographic, paedophilic, libellous, invasive of another’s privacy, hateful, or racially, ethnically objectionable, disparaging, relating or encouraging money laundering or gambling, or otherwise unlawful in any manner whatever;</pgtext></li>
+                                            <li><pgtext>Harms minors in any way;</pgtext></li>
+                                            <li><pgtext>Infringes any patent, trademark, copyright or other proprietary rights;</pgtext></li>
+                                            <li><pgtext>violates any law for the time being in force;</pgtext></li>
+                                            <li><pgtext>Deceives or misleads the addressee about the origin of such messages or communicates any information which is grossly offensive or menacing in nature;</pgtext></li>
+                                            <li><pgtext>Abets or assists with impersonating another person;</pgtext></li>
+                                            <li><pgtext>Contains software viruses or any other computer code, files or programs designed to interrupt, destroy or limit the functionality of any computer resource;</pgtext></li>
+                                            <li><pgtext>Threatens the unity, integrity, defence, security or sovereignty of India, friendly relations with foreign states, or public order or causes incitement to the commission of any cognisable offence or prevents investigation of any offence or is insulting any other nation;</pgtext></li>
+                                            <li><pgtext>Conducts or forwards surveys, contests, pyramid schemes or chain letters;</pgtext></li>
+                                            <li><pgtext>Creates profiles or provides content that promotes escort services or prostitution;</pgtext></li>
+                                            <li><pgtext>Uses any other internet service to send or post spam to drive visitors to any other site hosted on or through the Company’s systems, whether or not the messages were originated by You, under Your direction, or by or under the direction of a related or unrelated third party; or</pgtext></li>
+                                            <li><pgtext>Contains any content which is non-compliant with the Information Technology Act, 2000, Rules and regulations, guidelines made thereunder, including Rule 3 of The Information Technology (Intermediaries Guidelines) Rules, 2011, Terms of Use or Privacy Policy, as amended/re-enacted from time to time.</pgtext></li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                                <spacer5></spacer5>
+                                <pgHead>Intellectual Property</pgHead>
+                                <ol class="numeric">
+                                    <li>
+                                        <pgText>The intellectual property in the Website/App, and in the material, content and information made available on the Website/App including graphics, images, photographs, logos, trademarks, the appearance, organization and layout of the Website/App and the underlying software code belong to Us or Our licensors.</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>You must not copy, modify, alter, publish, broadcast, distribute, sell or transfer (whether in whole or in part) any such material. The information provided on the Website/App and through the Services is for Your personal use only.</pgText>
+                                    </li>
+                                </ol>
+                                <spacer5></spacer5>
+                                <pgHead>Ownership</pgHead>
+                                <pgText>The software services are owned and copyrighted by Swazuna Technologies. The recipient confers no title or ownership in the software services and should not be construed as a sale of any right in the software services.</pgText>
+                                <spacer5></spacer5>
+                                <pgHead>Indemnity</pgHead>
+                                <pgText>You agree to indemnify Us, Our owners, licensees, affiliates, group companies and their respective officers, directors, agents, and employees, on demand, against any claim, action, damage, loss, liability, cost, charge, expense or payment which We may pay, suffer, incur or are liable for, in relation to any act You do or cause to be done, in breach of the Terms of Use or Your violation of any law, rules or regulations.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Feedback, Reputation and Reviews</pgHead>
+                                <pgText>You agree to be fair, accurate and non-disparaging while leaving comments, feedback, testimonials and reviews (“Feedback”) on or about the Website/App or the Services, You acknowledge that You transfer all rights in such Feedback to Us and that We will be free to use the same as We may find appropriate.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Breach of these Terms of Use</pgHead>
+                                <pgText>If You have, or We have reasonable grounds to believe that You have, violated these Terms of Use in any way, We can indefinitely suspend or terminate Your access to the Website/App or Services at any time, forfeit any amounts paid by You and report such action to relevant authorities. We reserve the right to take recourse to all available remedies under applicable law in furtherance of the above.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Transactions</pgHead>
+                                <ol class="numeric">
+                                    <li>
+                                        <pgText>The Website/App is a platform which enables corporates to interact with jobseekers and any transactions between You and jobseeker or any Provider are strictly bi-partite. We are not and cannot be a party to, or control in any manner, any Transaction between You and  jobseeker or any Provider. We shall not and are not required to mediate or resolve any disputes or disagreements between the You and jobseeker or any Provider.</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>Accordingly, We will not be liable for any loss or damage incurred as the result of any such transaction. While interacting with any Provider found through the Website/App or through the Services, We strongly encourage You to exercise reasonable diligence as You would in traditional off line channels and practice judgment and common sense before committing to any Transaction or exchange of information.</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>You understand that there is no guarantee of a satisfactory response or any response at all to Your request for services of Providers.</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>You acknowledge that We are not responsible for the use of any personal information that You disclose or share with others through the use of the Services.</pgText>
+                                    </li>
+                                </ol>
+                                <spacer5></spacer5>
+                                <pgHead>Third Party Sites</pgHead>
+                                <pgText>All third party advertisements, hyperlinks or other redirection tools on the Website/App which take You to content operated by third parties are not controlled by Us and do not form part of the Website/App. We are not liable for any loss or harm that occurs to You as a result of such sites.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Disclaimer and Limitation of Liability </pgHead>
+                                <pgText>The website/app and services are provided on an “as is” and “as available” basis without any representation or warranty, express or implied. We do not warrant that:</pgText>
+                                <ol class="numeric">
+                                    <li>
+                                        <pgText>The Website/App or the Services will be constantly available or available at all. We shall have no liability to You for any interruption or delay in access to the Website/App or Services availed through it, irrespective of the cause;</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>The information on the Website/App or given through Services is complete, true, accurate or non-misleading;</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>Any errors or defects in the Website/App or Services will be corrected;</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>That the Website/App is secure or free of viruses, Trojans or other malware; or</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>The contents of the Website/App or the Services do not infringe any intellectual property rights.</pgText>
+                                    </li>
+                                </ol>
+                                <pgtext>In no event shall we be liable for any direct, special, punitive, incidental, indirect or consequential damages including but not limited to any loss of profits, revenue, business or data of any kind in connection with these terms of use, even if you have been informed in advance of the possibility of such damages.</pgtext>
+                                <spacer10></spacer10>
+                                <pgHead>Privacy Policy</pgHead>
+                                <pgText>Any personal information You supply to Us when You use this Website/App or the Services will be used in accordance with Our Privacy Policy.</pgText>
+                                <spacer10></spacer10>
+                                <pgHead>Miscellaneous</pgHead>
+                                <ol class="numeric">
+                                    <li>
+                                        <pgText>Severability and Waiver</pgText>
+                                        <pgText>If any provisions of these Terms of Use are found to be invalid by any court having competent jurisdiction, the invalidity of such provision shall not affect the validity of the remaining provisions of these Terms of Use, which shall remain in full force and effect. No waiver of any term of these Terms of Use shall be deemed a further or continuing waiver of such term or any other term.</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>Relationship between the Company and its Users</pgText>
+                                        <pgText>Use of the Website/App does not create any association, partnership, venture or relationship of principal and agent, master and servant or employer and employee between the User and the Company. Further, there is no relationship of principal and agent, master and servant or employer and employee between the Providers and the Company or the Contractor and the Company.</pgText>
+                                    </li>
+                                    <li>
+                                        <pgText>Applicable Law and Dispute Resolution</pgText>
+                                        <pgText>These Terms of Use shall be governed by and interpreted and construed in accordance with the laws of India. Any disputes pertaining to the Website/App shall be subject to the exclusive jurisdiction of the appropriate courts in Bangalore.</pgText>
+                                    </li>
+                                </ol>
+                                <spacer5></spacer5>
+                                <pgHead>Contact Us</pgHead>
+                                <pgText>
+                                    Please contact Us at <a href="mailto:info@swazuna.com">info@swazuna.com</a> for any questions, grievances or comments (including all inquiries related to copyright infringement) regarding this Website/App or reach us at -
+                                    <spacer20></spacer20>
+                                    <b>Swazuna Technologies Pvt. Ltd.</b>
+                                    <spacer5></spacer5>
+                                    #5/1, 2nd Main Road, <br>Venkateshwara Layout, S.G.palya, <br>Bangalore 560029
+                                </pgText>
+                                <pgtext>This document is an electronic record under the Information Technology Act, 2000 and rules thereunder. This electronic record is generated by a computer system and does not require any physical or digital signatures.</pgtext>
+                                <pgtext>This document is published in accordance with the provisions of Rule 3 (1) of the Information Technology (Intermediaries Guidelines) Rules, 2011 that require publishing the rules and regulations, Privacy Policy and Terms of Use for access to or usage of this Website/App.</pgtext>
+                            </div><!-- page content ends-->
+
+                        </div>
+                    </div> <!--Left Block Ends-->
+
+                    <div class="SP_rightBlock">
+                        <!-- Get In Touch-->
+                        <block_bg>
+                            <blockHead>Get In Touch</blockHead>
+                            <contentBlock>
+                                <label20>
+                                    <iconPhone></iconPhone>
+                                    <textLayout>
+                                        <textHead>Call us at −</textHead>
+                                        <textHead>(+91) 888 444 2460</textHead>
+                                        <textDesc>Time - 9AM to 5PM IST</textDesc>
+                                    </textLayout>
+                                </label20>
+                                <label5>
+                                    <iconMail></iconMail>
+                                    <textLayout>
+                                        <textHead>Send an email to −</textHead>
+                                        <emailLink><a href="mailto:support@hiregate.in">support@hiregate.in</a></emailLink>
+                                        <textDesc>Response Time - 4 Hours</textDesc>
+                                    </textLayout>
+                                </label5>
+                            </contentBlock>
+                        </block_bg>
+
+                        <!--Request Call Back-->
+                        <block_bg>
+                            <blockHead>Request Call Back</blockHead>
+                            <contentBlock>
+                                <requestText>Leave your details here, our representative will get in touch with you.</requestText>
+                                <span ng-include src="'js/views/shared/requestCallBack.html'"></span>
+                            </contentBlock>
+                        </block_bg>
+                    </div> <!--Right Block Ends-->
+
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div>
+    <!--Container Ends-->
+    <!--Work Area Ends-->
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

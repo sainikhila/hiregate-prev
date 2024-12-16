@@ -1,0 +1,20 @@
+﻿<div id="workspacecontainer" ng-controller="unusedController" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="secondary_page_container">
+                    <div class="accValidate">
+                        <textLabel>Account Successfully Validated</textLabel>
+                        <textLabelbody style="display:none;">Please check your email for the password</textLabelbody>
+                        <textLabelbody>Thank you for showing interest in HireGate. <br>We are screening your account. On approval, we will intimate you through email.</textLabelbody>
+                    </div>
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div> <!--Container Ends-->
+    <!--Work Area Ends-->
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

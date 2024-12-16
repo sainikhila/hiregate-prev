@@ -1,0 +1,60 @@
+.SD_pg_container {display:block; min-height:100px; margin-bottom:50px; margin-top:20px;} 
+
+.sessionDetails {
+	display:block;
+	box-shadow:0px 1px 8px rgba(0,0,0,.45);
+	background:#fff;
+	min-height:500px;
+}
+.sessionDetails headBlock {
+	display:block;
+	background-color: #accdd5; /*c7dde3*/
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(177,209,217,.2) 3px, rgba(177,209,217,.1) 2px); 
+	border:1px solid #fff;
+	border-bottom:1px solid #92c3c8;
+	/*border-bottom:1px dashed #e7e7e7;*/
+	height:42px;
+}
+.sessionDetails pgHead {
+	display:inline-block;
+	font:1em Arial;
+	color:#2e2e2e;
+	padding:4px 7px 2px 7px;
+	margin:9px -5px 0 12px;
+	background-color:#eff3f3;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(167, 195, 202, .1) 2px, rgba(167, 195, 202, .1) 2px);
+}
+.sessionDetails backward {
+	position:relative;
+	float:right;
+	top:15px;
+	right:3px;
+	padding:0px 12px 2px 8px;
+}
+.sessionDetails backward a {
+	color:#2e2e2e;
+	font:1em Arial;
+	text-decoration:none;
+}
+.sessionDetails backward a:hover {
+	color:#29829b;
+}
+.sessionDetails descBlock {
+	display:block;
+	height:30px;
+	border:1px solid #fff;
+	border-top:none;
+	border-bottom:1px solid #bebebe;
+	font:0.8125em Arial;
+	color:#565656;
+	/*background-color: #bfd6dc;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(177,209,217,.2) 3px, rgba(177,209,217,.1) 2px);*/
+	background-color: #eee;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,.1) 2px, rgba(255,255,255,.1) 4px);
+	padding:0 12px;
+	line-height:30px;
+}
+.sessionDetails contentBlock {
+	display:block;
+	padding:14px;
+}

@@ -1,0 +1,225 @@
+﻿<div id="workspacecontainer" ng-controller="accountController" ng-init="LoadDefaultsDetails()" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="acc_pgLayout">
+                    <!-- Account page common header -->
+                    <div class="accBrief">
+                        <vBlock_Logo><a href="javascript:void(0);"><img ng-click="ChangePhoto(ShortCompanyInfo.Logo)" id="img_comp_photo" ng-src="{{ShortCompanyInfo.Logo}}"></a></vBlock_Logo>
+                        <vBlock_L>
+                            <coName><a href="javascript:void(0);" ng-click="NavigateToRoute('ac')">{{ShortCompanyInfo.Name}}</a></coName>
+                            <label_hor>
+                                <custID_head>Customer ID:</custID_head>
+                                <custID>{{ShortCompanyInfo.CustomerId}}</custID>
+                            </label_hor>
+                        </vBlock_L>
+                        <vBlock_R>
+                            <label_10 ng-switch="ShortCompanyInfo.Status">
+                                <statusHead>Status:</statusHead>
+                                <div ng-switch-when="Active" class="statusActive" style="display:inline-block"></div>
+                                <div ng-switch-when="InActive" class="statusInactive" style="display:inline-block"></div>
+                                <subscribe style="display:none"><a href="javascript:void(0);">[Renew / Upgrade]</a></subscribe>
+                            </label_10>
+                            <label_hor>
+                                <subscriptionHead>Subscription Plan:</subscriptionHead>
+                                <subscription>{{ShortCompanyInfo.Plan}}</subscription>
+                            </label_hor>
+                        </vBlock_R>
+                    </div>
+
+                    <!--Left Navigation-->
+                    <div class="accNavi">
+                        <ul>
+                            <li><a class="current"><accIcon></accIcon>Account Details</a></li>
+                            <li><a href="javascript:void(0);" ng-click="NavigateToRoute('au')"><userIcon></userIcon>Manage Users</a></li>
+                            <li class="disabled"><a href="renewal.html"><renewalIcon></renewalIcon>Renewal and Top-Up</a></li>
+                            <li class="disabled"><a href="subscription.html"><subscriptionIcon></subscriptionIcon>Subscription Plan</a></li>
+                            <li class="disabled"><a href="orderHistory.html"><orderIcon></orderIcon>Order History</a></li>
+                            <li class="disabled"><a href="accSetting.html"><settingIcon></settingIcon>Account Settings</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Accounts page right block-->
+                    <div class="accInpageRightStructure">
+                        <form method="post" name="frmCorporate" id="frmCorporate" ng-submit="SubmitUpdate()" novalidate>
+                            <!-- Accounts Details page -->
+                            <div class="accInpage_accForm">
+                                <blockhead>Company Details</blockhead>
+                                <content>
+                                    <label-20>
+                                        <vblock>
+                                            <div class="labelheading">Company Name *</div>
+                                            <coIcon><vline></vline></coIcon>
+                                            <textGeneric><input type="text" name="coName" autocomplete="off" ng-model="CompanyInfo.Company.Name" disabled /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading">Corporate Identity Number (CIN) *</div>
+                                            <descIcon><vline></vline></descIcon>
+                                            <textGeneric><input type="text" name="coName" autocomplete="off" ng-model="CompanyInfo.Company.CIN" disabled /></textGeneric>
+                                        </vblock>
+                                        <vblock style="display:none;">
+                                            <div class="labelheading" id="cplevelLabel">Type *</div>
+                                            <typeicon><vline></vline></typeicon>
+                                            <select name="cplevel" id="cplevel">
+                                                <!--<option value="" selected="selected">Select</option>-->
+                                                <!--<option value="#" disabled>Corporate</option>-->
+                                                <option value="Consultant" selected="selected">Consultant</option>
+                                                <!--<option value="#" disabled>Educational Institution</option>-->
+                                            </select>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpgstLabel">GST No <div class="errorFormat" style="display:none;" id="cpgstExist">Already Exist</div></div>
+                                            <descicon><vline></vline></descicon>
+                                            <textgeneric><input type="text" gst-validate ng-model="CompanyInfo.Company.GST" name="cpgst" id="cpgst" on-touch autocomplete="off" placeholder="Goods and Services Tax No."></textgeneric>
+                                        </vblock>
+                                    </label-20>
+                                    <label-20>
+                                        <vblock>
+                                            <div class="labelheading" id="cpcityLabel">City *</div>
+                                            <locationIcon><vline></vline></locationIcon>
+                                            <textGeneric>
+                                                <input ng-model="CompanyInfo.Company.City" on-touch autocomplete="off" name="cpcity" id="cpcity" type="text" required
+                                                       city-id="cpcity" country-id="cpcountry" zip-code-update="UpdateZipCode(dailingCode)" next-focus-id="cpaddress"
+                                                       state-id="cpstate" placeholder="Enter City" google-place />
+                                            </textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpstateLabel">State *</div>
+                                            <locationIcon><vline></vline></locationIcon>
+                                            <textGeneric><input name="cpstate" id="cpstate" type="text" autocomplete="off" required ng-model="CompanyInfo.Company.State" disabled /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpcountryLabel">Country *</div>
+                                            <locationIcon><vline></vline></locationIcon>
+                                            <textGeneric><input name="cpcountry" id="cpcountry" type="text" autocomplete="off" required ng-model="CompanyInfo.Company.Country" disabled /></textGeneric>
+                                        </vblock>
+                                    </label-20>
+                                    <label-20>
+                                        <vblock>
+                                            <div class="labelheading" id="cpaddressLabel">Address *</div>
+                                            <locationIcon><vline></vline></locationIcon>
+                                            <textGeneric><input name="cpaddress" id="cpaddress" type="text" on-touch autocomplete="off" required ng-model="CompanyInfo.Company.Address" /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpzipLabel">Zip Code * <div class="errorFormat" style="display:none;">Invalid Format</div></div>
+                                            <locationIcon><vline></vline></locationIcon>
+                                            <textGeneric><input name="cpzip" id="cpzip" type="text" autocomplete="off" on-touch only-digits ng-model="CompanyInfo.Company.ZipCode" required /></textGeneric>
+                                        </vblock>
+                                        <vblock style="display:none;">
+                                            <div class="labelheading" id="cpphoneLabel">Landline (Include City Code)<div style="display:none;" class="errorFormat">Invalid Format</div></div>
+                                            <landphicon>
+                                                <vline></vline>
+                                                <phCountryCode>{{CompanyInfo.Company.AreaCode}}</phCountryCode>
+                                            </landphicon>
+                                            <textPhone><input name="cpphone" id="cpphone" type="text" on-touch only-digits autocomplete="off" ng-model="CompanyInfo.Company.LandLine" /></textPhone>
+                                        </vblock>
+                                    </label-20>
+                                </content>
+                                <blockhead>Other Details <textDesc>Updating this section will have better visibility in Job Posting</textDesc></blockhead>
+                                <content>
+                                    <label-20>
+                                        <vblock>
+                                            <div class="labelheading" id="cpwebsiteLabel">Company Website <div class="errorFormat" style="display:none;">Invalid Format</div></div>
+                                            <webIcon><vline></vline></webIcon>
+                                            <textGeneric><input type="text" on-touch url-validate autocomplete="off" name="cpwebsite" id="cpwebsite" ng-model="CompanyInfo.Company.Website" placeholder="http://www" /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cplinkedinLabel">LinkedIn Profile <div class="errorFormat" style="display:none;">Invalid Format</div></div>
+                                            <linkedinIcon><vline></vline></linkedinIcon>
+                                            <textGeneric><input type="text" name="cplinkedin" id="cplinkedin" on-touch url-validate autocomplete="off" ng-model="CompanyInfo.Company.LinkedIn" placeholder="http://www" /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpfacebookLabel">Facebook Profile<div class="errorFormat" style="display:none;">Invalid Format</div></div>
+                                            <facebookIcon><vline></vline></facebookIcon>
+                                            <textGeneric><input type="text" name="cpfacebook" id="cpfacebook" on-touch url-validate autocomplete="off" ng-model="CompanyInfo.Company.Facebook" placeholder="http://www" /></textGeneric>
+                                        </vblock>
+                                    </label-20>
+
+                                    <label-20>
+                                        <vblockProfile>
+                                            <div class="labelheading" id="cpdescriptionLabel">
+                                                Company Profile
+                                                <div class="rightText" style="display:none">Max 1000 character</div>
+                                                <div class="errorFormat" style="display:none">Max character limit exceeded</div>
+                                            </div>
+                                            <descIcon><vline></vline></descIcon>
+                                            <textarea id="cpdescription" name="cpdescription" on-touch placeholder="Max 1000 character" autocomplete="off" ng-model="CompanyInfo.Company.Description"></textarea>
+                                        </vblockProfile>
+                                    </label-20>
+                                </content>
+                                <blockhead>Contact Details<textDesc>Please keep this section updated. HireGate will use this for further communications</textDesc></blockhead>
+                                <content>
+                                    <label-20>
+                                        <vblock>
+                                            <div class="labelheading" id="cpccontactLabel">Contact Person *</div>
+                                            <userIcon><vline></vline></userIcon>
+                                            <textGeneric><input name="cpccontact" id="cpccontact" type="text" on-touch autocomplete="off" ng-model="CompanyInfo.Contact.Name" required /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpcemailLabel">Email Address *</div>
+                                            <mailIcon><vline></vline></mailIcon>
+                                            <textGeneric><input name="cpcemail" id="cpcemail" type="email" on-touch autocomplete="off" ng-model="CompanyInfo.Contact.Email" required readonly placeholder="Please provide company email id" /></textGeneric>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpcgenderLabel">Gender *</div>
+                                            <gendericon><vline></vline></gendericon>
+                                            <displaybox>
+                                                <rodioblock>
+                                                    <input type="radio" id="radiogender" name="cpcgender" value="M" required on-touch ng-model="CompanyInfo.Contact.Gender">
+                                                    <label for="radiogender">Male</label>
+                                                </rodioblock>
+                                                <rodioblock>
+                                                    <input type="radio" id="radiogender1" name="cpcgender" value="F" required on-touch ng-model="CompanyInfo.Contact.Gender">
+                                                    <label for="radiogender1">Female</label>
+                                                </rodioblock>
+                                            </displaybox>
+                                        </vblock>
+                                    </label-20>
+                                    <label-20>
+                                        <vblock>
+                                            <div class="labelheading" id="cpcmobileLabel">Mobile Number * <div class="errorFormat" style="display:none;">Invalid Format</div></div>
+                                            <phicon>
+                                                <vline></vline>
+                                                <phcountrycode>+91</phcountrycode>
+                                            </phicon>
+                                            <textphone><input name="cpcmobile" id="cpcmobile" type="text" only-digits on-touch autocomplete="off" required ng-model="CompanyInfo.Contact.MobileNumber" /></textphone>
+                                        </vblock>
+                                        <vblock>
+                                            <div class="labelheading" id="cpcphoneLabel">Landline (Include City Code)<div class="errorFormat" style="display:none;">Invalid Format</div></div>
+                                            <landphicon>
+                                                <vline></vline>
+                                                <phCountryCode>{{CompanyInfo.Contact.AreaCode}}</phCountryCode>
+                                            </landphicon>
+                                            <textphone><input name="cpcphone" id="cpcphone" type="text" only-digits on-touch autocomplete="off" ng-model="CompanyInfo.Contact.LandLine" /></textphone>
+                                        </vblock>
+                                        <vblock style="display:none;">
+                                            <div class="labelheading" id="cpcextensionLabel">Extension</div>
+                                            <landphicon><vline></vline></landphicon>
+                                            <textGeneric><input name="cpcextension" id="cpcextension" type="text" only-digits on-touch autocomplete="off" ng-model="CompanyInfo.Contact.Extension" /></textGeneric>
+                                        </vblock>
+                                    </label-20>
+                                </content>
+                                <buttomContainer>
+                                    <buttonLabel><input type="submit" class="buttonSubmit" value="Update" /> <input type="reset" class="buttonSubmit" value="Cancel" /></buttonLabel>
+                                    <successErrorLabel>
+                                        <div class="successLabel" id="submissionSuccess" style="display:none">Updated Successfully</div>
+                                        <div class="errorLabel" id="submissionError" style="display:none">Clear error fields and update</div>
+                                    </successErrorLabel>
+                                </buttomContainer>
+
+                                <!-- The below buttons are for HELP purpose -->
+                                <!--<input type="button" class="buttonSubmit otp_show" value="OTP" />-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span ng-include src="'js/views/popups/opt.html'"></span>
+    <div ng-include src="'js/views/popups/popups.html'"></div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>

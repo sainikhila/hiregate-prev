@@ -1,0 +1,84 @@
+﻿<div id="workspacecontainer" ng-controller="tabController" ng-show="loadingView">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="secondary_page_container">
+                    <div class="SP_leftBlock">
+                        <div class="secondaryPage">
+                            <naviLayout>
+                                <ul id="sp_menuBar">
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('about')">About</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('privacy')">Privacy Policy</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('terms')">Terms</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('agreement')">User Agreement</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('disclaimer')">Disclaimer</a></li>
+                                    <li class="active"><a>FAQ's</a></li>
+                                </ul>
+                            </naviLayout>
+                            <!-- page content starts-->
+                            <div class="pgContentFAQ">
+                                <ol class="boxes-list">
+                                    <li ng-repeat="faqQ in FaqQuestions">
+                                        <Q_Block>
+                                            <a href="#" id="Block{{$index+1}}" onClick="javascript: triggerOneBlock(this);">{{faqQ.Q}}</a>
+                                        </Q_Block>
+                                        <div class="childBlock" id="Block{{$index+1}}" style="display:none">
+                                            {{faqQ.A}}
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div> <!-- page content ends-->
+                        </div>
+                    </div> <!--Left Block Ends-->
+                    <script>
+                        function triggerOneBlock(elem) {
+                            showOneBlock(elem.id);
+                        }
+                    </script>
+                    <div class="SP_rightBlock">
+                        <!-- Get In Touch-->
+                        <block_bg>
+                            <blockHead>Get In Touch</blockHead>
+                            <contentBlock>
+                                <label20>
+                                    <iconPhone></iconPhone>
+                                    <textLayout>
+                                        <textHead>Call us at −</textHead>
+                                        <textHead>(+91) 888 444 2460</textHead>
+                                        <textDesc>Time - 9AM to 5PM IST</textDesc>
+                                    </textLayout>
+                                </label20>
+                                <label5>
+                                    <iconMail></iconMail>
+                                    <textLayout>
+                                        <textHead>Send an email to −</textHead>
+                                        <emailLink><a href="mailto:support@hiregate.in">support@hiregate.in</a></emailLink>
+                                        <textDesc>Response Time - 4 Hours</textDesc>
+                                    </textLayout>
+                                </label5>
+                            </contentBlock>
+                        </block_bg>
+
+                        <!--Request Call Back-->
+                        <block_bg>
+                            <blockHead>Request Call Back</blockHead>
+                            <contentBlock>
+                                <requestText>Leave your details here, our representative will get in touch with you.</requestText>
+                                <span ng-include src="'js/views/shared/requestCallBack.html'"></span>
+                            </contentBlock>
+                        </block_bg>
+                    </div> <!--Right Block Ends-->
+
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div>
+    <!--Container Ends-->
+    <!--Work Area Ends-->
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+

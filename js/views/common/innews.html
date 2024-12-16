@@ -1,0 +1,76 @@
+﻿
+<div id="workspacecontainer" ng-controller="tabController" ng-show="loadingView">
+    <span ng-include src="'js/views/Shared/Header.html'"></span>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <!-- toggle between 'content' and 'content_logout' for logged out state -->
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="secondary_page_container">
+                    <div class="SP_leftBlock">
+                        <div class="secondaryPage">
+                            <naviLayout>
+                                <ul id="sp_menuBar">
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('feature')">Features</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('about')">About</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('privacy')">Privacy</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('terms')">Terms</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('agreement')">User Agreement</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('disclaimer')">Disclaimer</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('faq')">FAQ's</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="NavigateToRoute('join')">Join Us</a></li>
+                                    <li class="active"><a>In News</a></li>
+                                </ul>
+                            </naviLayout>
+                            <!-- page content starts-->
+                            <div class="pgContent">
+                                <pgheading>Media Announcements</pgheading>
+                                <div class="noContent">No Announcements</div>
+                            </div> <!-- page content ends-->
+                        </div>
+                    </div> <!--Left Block Ends-->
+
+                    <div class="SP_rightBlock">
+                        <!-- Get In Touch-->
+                        <block_bg>
+                            <blockHead>Get In Touch</blockHead>
+                            <contentBlock>
+                                <label20>
+                                    <iconPhone></iconPhone>
+                                    <textLayout>
+                                        <textHead>Call us at −</textHead>
+                                        <textHead>(+91) 888 444 2460</textHead>
+                                        <textDesc>Time - 9AM to 5PM IST</textDesc>
+                                    </textLayout>
+                                </label20>
+                                <label5>
+                                    <iconMail></iconMail>
+                                    <textLayout>
+                                        <textHead>Send an email to −</textHead>
+                                        <emailLink><a href="mailto:support@hiregate.in">support@hiregate.in</a></emailLink>
+                                        <textDesc>Response Time - 4 Hours</textDesc>
+                                    </textLayout>
+                                </label5>
+                            </contentBlock>
+                        </block_bg>
+
+                        <!--Request Call Back-->
+                        <block_bg>
+                            <blockHead>Request Call Back</blockHead>
+                            <contentBlock>
+                                <requestText>Leave your details here, our representative will get in touch with you.</requestText>
+                                <span ng-include src="'js/views/shared/requestCallBack.html'"></span>
+                            </contentBlock>
+                        </block_bg>
+                    </div> <!--Right Block Ends-->
+
+                </div> <!-- Page Container Ends-->
+            </div>
+        </div>
+    </div>
+    <!--Container Ends-->
+    <!--Work Area Ends-->
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+

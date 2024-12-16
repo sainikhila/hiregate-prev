@@ -1,0 +1,131 @@
+.loginlayout {
+	display:block;
+	width:400px;
+	margin:4% auto 0 auto;
+	background-color: #fbfcfc;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(243,243,243,.1) 3px, rgba(243,243,243,.1) 6px);
+	box-shadow:0px 1px 8px rgba(0,0,0,.35);
+	padding:20px 45px 30px 45px;
+	font:1em Arial;
+	color:#88888a;
+}
+.loginlayout heading{
+	display:block;
+	font:bold 1.35em Arial;
+	color:#656160;
+	margin-bottom: 12px;
+	line-height: 22px;
+	text-align: center;
+}
+.loginlayout structure{
+	display:block;
+	background-color: #656161;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(104,104,104,.4) 2px, rgba(104,104,104,.4) 4px);
+	border-radius:4px;
+	padding:30px 30px 20px 30px;
+}
+.loginlayout knowmoreText{
+	display:block;
+	font:0.9375em Arial;
+	color:#888;
+	text-align:center;
+	margin-top:10px;
+}
+.loginlayout knowmoreText a{text-decoration:none; color:#297e9a;} 
+.loginlayout knowmoreText a:hover{color:#454545}
+.loginForm bgBlock{
+	display:block;
+	margin-bottom:10px;
+	background-color: #f4f4f4;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255,255,255,.1) 3px, rgba(255,255,255,.1) 6px);
+	border-radius:2px;
+	height:45px;
+}
+.loginForm bgBlock buttonLabel{
+	position:absolute;
+	float:right;
+}
+.loginForm .button{
+	position:relative;
+	right:35px;
+	top:8px;
+	height:31px;
+	width:31px;
+	border:none;
+	border-radius:3px;
+	font:2em Arial;
+    color: #f4f4f4;
+    text-align:center;
+	padding:7px;
+	background-color: #656161;
+	background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(104,104,104,.4) 2px, rgba(104,104,104,.4) 4px);
+	outline:none;
+	transition-property: color;
+	transition-duration: 0.5s;
+}
+.loginForm .button:before{
+    float: left;        
+    width: 1em;
+    text-align: center;
+    font-size:0.75em;
+    margin:-5px 0 0 -4px;
+    pointer-events: none;
+}
+@-moz-document url-prefix() {
+    .loginForm .button {padding-top:2px}
+	.loginForm .button:before {padding-top:4px;}
+}
+.loginForm .button:hover{
+	color:#aaa; 
+	cursor:pointer;
+}
+.loginarrow:before {content: "\25B6";}
+
+.loginForm ::-webkit-input-placeholder {color: #c7c7c7;  /* WebKit, Blink, Edge */}
+.loginForm :-moz-placeholder {color: #c7c7c7; opacity:  1;/* Mozilla Firefox 4 to 18 */}
+.loginForm ::-moz-placeholder {color: #c7c7c7; opacity:  1; /* Mozilla Firefox 19+ */}
+.loginForm :-ms-input-placeholder {color: #c7c7c7; /* Internet Explorer 10-11 */}
+.loginForm input[type="password"], .loginForm input[type="email"] {
+    width: 82%;
+    padding: 0px 0px 0px 55px;
+    border: none;
+	background: transparent;
+    font: 1em Arial; 
+	color:#737373;
+    height: 45px;
+	outline: 0;
+}
+.loginForm vline {
+    position:relative;
+	top:-3px;	
+	left:13px;
+	float: right;
+	width:1px;
+	height:25px;
+	background:#6f6f6f;
+}
+.loginForm emailicon,
+.loginForm PINicon {
+    position:absolute;
+	float: left;
+	width:16px;
+	height:17px;
+	margin: 14px 13px 0 16px;
+	background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOS43IDE1LjQiPgo8cGF0aCBmaWxsPSIjNUY2MDYwIiBkPSJNMTkuNyAxNS40SDBWMGgxOS43VjE1LjR6IE0xOC4xIDEuN0gxLjZ2MTJoMTYuNVYxLjd6IE0xLjYgNC44bDguNSA1LjlsOC01LjlsMC0xLjlMMTAgOC44TDEuNiAyLjlMMS42IDQuOCB6Ii8+Cjwvc3ZnPg==') center center no-repeat;
+}
+.loginForm PINicon {
+	height:18px;
+	margin: 15px 13px 0 16px;
+	background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNC4zMDIgMTYuNzIiPgogIDxwYXRoIGZpbGw9IiM3RDdEN0QiIGQ9Ik05Ljk1MiA2LjUyMUg0LjQxM0w0LjQxNSA0LjM4YzAtMS4zNTcgMS4yMzktMi40NTkgMi43Ny0yLjQ1OSAxLjUyOSAwIDIuNzcgMS4xMDIgMi43NyAyLjQ1OUw5Ljk1MiA2LjUyMXpNMTIuMDU2IDQuNDI3QzEyLjA1NiAxLjk4MiA5Ljg3MyAwIDcuMTgzIDAgNC40ODkgMCAyLjMwOCAxLjk4MiAyLjMwOCA0LjQyN2wwLjAwMyAyLjA5NEMwLjg1MiA2LjUyMSAwIDYuODYxIDAgOC4zMjJ2NS43NTZjMCAxLjQ1OSAxLjE4NCAyLjY0MyAyLjY0NCAyLjY0M2g5LjAxNmMxLjQ1OSAwIDIuNjQzLTEuMTg0IDIuNjQzLTIuNjQzVjguMjkyYzAtMS40Ni0wLjcwMi0xLjc3MS0yLjE2Mi0xLjc3MUwxMi4wNTYgNC40Mjd6TTguMTAzIDE0LjAwMWMwIDAuNTAyLTAuNDA2IDAuOTA4LTAuOTA4IDAuOTA4bDAgMGMtMC41MDEgMC0wLjkwNy0wLjQwNi0wLjkwNy0wLjkwOHYtMy42MDVjMC0wLjUwMiAwLjQwNi0wLjkwNiAwLjkwNy0wLjkwNmwwIDBjMC41MDIgMCAwLjkwOCAwLjQwNCAwLjkwOCAwLjkwNlYxNC4wMDF6Ii8+Cjwvc3ZnPg==') center center no-repeat;
+}
+.submissionError {
+	display:block;
+	position:relative;
+	background:#e9af00;
+	text-align:center;
+	font:bold 0.75em Arial;
+	color:#353535;
+	padding:3px 0;
+	border-radius:1px;
+	margin-top:5px;
+}

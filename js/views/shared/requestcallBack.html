@@ -1,0 +1,17 @@
+﻿<div id="requestcallcontainer">
+    <form ng-submit="SubmitEnquiry()" id="form.frmenquiry" name="form.frmenquiry" method="post" class="requestForm" novalidate>
+        <div class="request_labelheading" id="enqfnameLabel">Contact Person *</div>
+        <userIcon><vline></vline></userIcon>
+        <input name="enqfname" id="enqfname" type="text" ng-model="Enquiry.Name" autocomplete="off" on-touch required />
+
+        <div class="request_labelheading" id="enqemailLabel">Email Address *</div>
+        <mailIcon><vline></vline></mailIcon>
+        <input name="enqemail" id="enqemail" type="email" ng-model="Enquiry.Email" autocomplete="off" on-touch required />
+
+        <div class="request_labelheading" id="enqcontactnumberLabel">Contact Number *</div>
+        <phIcon><vline></vline></phIcon>
+        <textphone><input name="enqcontactnumber" id="enqcontactnumber" type="text" autocomplete="off" maxlength="10" only-digits ng-model="Enquiry.Number" on-touch required /></textphone>
+        <buttonContainer><input type="submit" value="Submit" class="button"></buttonContainer>
+        <div id="msgId" style="display:none;" class="{{CSSStyle}}">{{Message}}</div>
+    </form>
+</div>

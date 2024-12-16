@@ -1,0 +1,477 @@
+<div id="workspacecontainer" ng-controller="candidateProfileController" ng-show="loadingView" ng-init="OnLoadResults()">
+    <div ng-include src="'js/views/Shared/header-inner.html'"></div>
+    <!--Work Area-->
+    <div id="container">
+        <div id="content_in">
+            <div class="content-widthfix">
+                <div class="global_page_error" style="display:none">Global Page Error</div>
+                <div class="canProfile_pgLayout" ng-switch="Result.Internal">
+                    <!--page left block-->
+                    <div class="canProfile_left_block">
+                        <div class="CP_overviewBlock">
+                            <!--Profile Glipmse-->
+                            <div class="CP_Glimpse">
+                                <result_photo_container>
+                                    <photo>
+                                        <profile-pic ng-switch-when="true"><a href="javascript:void(0);"><img ng-click="ChangePhoto(Result.CandidateId,Result.Photo)" ng-src="{{Result.Photo}}"></a></profile-pic>
+                                        <profile-pic ng-switch-when="false"><img ng-src="{{Result.Photo}}"></profile-pic>
+                                    </photo>
+                                </result_photo_container>
+                                <result_content_container>
+                                    <backward><a href="#" onClick="window.history.back()"><< Back</a></backward>
+                                    <name>{{Result.Name}}</name>
+                                    <rating-verify-label>
+                                        <ratingcontainer>
+                                            <ratingstar>
+                                                <div class="rating_sprite_blue_m" title="{{Result.Rating}} of 5"><span style="width:{{Result.Rating * 20}}%" class="rating_sprite_blue_m_bg"></span></div>
+                                            </ratingstar>
+                                            <ratingcount>{{Result.ReviewsCount}} Interviews(s)</ratingcount>
+                                        </ratingcontainer>
+                                    </rating-verify-label>
+                                    <rating-verify-divider></rating-verify-divider>
+                                    <horBlock-15>
+                                        <vBlock_canDetails>
+                                            <expIcon></expIcon>
+                                            <canDetailsHead>Experience:</canDetailsHead>
+                                            <canDetailsText>{{Result.Experience}}</canDetailsText>
+                                        </vBlock_canDetails>
+                                        <vBlock_canDetails>
+                                            <locIcon></locIcon>
+                                            <canDetailsHead>Location:</canDetailsHead>
+                                            <canDetailsText>{{Result.Location}}</canDetailsText>
+                                        </vBlock_canDetails>
+                                        <vBlock_canDetails_last>
+                                            <salIcon></salIcon>
+                                            <canDetailsHead>CTC:</canDetailsHead>
+                                            <canDetailsText>{{Result.CTC}} Lacs (p.a.)</canDetailsText>
+                                        </vBlock_canDetails_last>
+                                    </horBlock-15>
+
+                                    <horBlock-15>
+                                        <skillHead>
+                                            <skillIcon></skillIcon>
+                                            <canDetailsHead>Key Skills:</canDetailsHead>
+                                        </skillHead>
+                                        <skillText ng-bind-html="Result.KeySkills">&nbsp;</skillText>
+                                    </horBlock-15>
+                                </result_content_container>
+                            </div>
+
+                            <!--Notification-->
+                            <div class="CP_Notification" style="display: none">
+                                <leftBlock>
+                                    <active_label>
+                                        <actUpdateTextHead>Last Active:</actUpdateTextHead>
+                                        <actUpdateText>Oct 25, 2016</actUpdateText>
+                                    </active_label>
+                                    <updated_label>
+                                        <actUpdateTextHead>Last Updated:</actUpdateTextHead>
+                                        <actUpdateText>Oct 25, 2016</actUpdateText>
+                                    </updated_label>
+                                </leftBlock>
+
+                                <rightBlock>
+                                    <verifyIcon></verifyIcon>
+                                    <verifyTextHead>Background Verification:</verifyTextHead>
+                                    <verifyText>Oct 25, 2016</verifyText>
+                                </rightBlock>
+                            </div>
+                        </div>
+                        <!--CP_overviewBlock Ends-->
+                        <!--Email Phone Resume Block-->
+                        <div class="CP_emailPhResume">
+                            <blk-email>
+                                <icon-email></icon-email>
+                                <textHead>Email:</textHead>
+                                <div class="textResult">{{Result.Email}}</div>
+                            </blk-email>
+                            <blk-ph>
+                                <icon-ph></icon-ph>
+                                <textHead>Phone:</textHead>
+                                <div class="textResult">{{ToNullValue(Result.DailingCode) + '' + ToNullValue(Result.PhoneNumber)}}</div>
+                            </blk-ph>
+                            <blk-resume>
+                                <icon-resume></icon-resume>
+                                <textHead>Resume:</textHead>
+                                <div class="textResult" ng-switch="Result.Resume.length>0">
+                                    <a ng-switch-when="true" href="{{Result.Resume}}" target="_blank">Download Resume</a>
+                                    <span ng-switch-when="false">Resume N/A</span>
+                                </div>
+                            </blk-resume>
+                        </div>
+
+                        <div class="CP_DetailsBlock">
+                            <div class="CP_Details_Navi_Container">
+                                <shareSessionBlk ng-switch-when="true">
+                                    <input type="button" ng-disabled="DisableSharing" value="Share Session" class="buttonShare" ng-click="OnCShareSessionClicked()">
+                                </shareSessionBlk>
+                                <div class="CP_Details_Navi">
+                                    <ul>
+                                        <li><a id="intHref" onclick="DisplayTab('INT')" class="current">Video Interview Sessions</a></li>
+                                        <li><a id="preHref" onclick="DisplayTab('PRE')">Pre-assessments</a></li>
+                                        <li><a id="canHref" onclick="DisplayTab('CAN')">Candidate Profile</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!--Interview Sessions-->
+                            <div id="interview_structure" ng-switch="Result.CompletedSessions.length>0">
+                                <div class="noContent" ng-switch-when="false">No interview session available for this candidate</div>
+                                <div class="canMockInterview" ng-switch-when="true">
+                                    <mockBlock ng-repeat="item in Result.CompletedSessions" ng-switch="Result.Internal">
+                                        <blockHead>
+                                            <ckBoxLabel ng-switch-when="true">
+                                                <input type="checkbox"
+                                                       id="chk_{{item.SessionId+ '_' + item.SessionTag}}" name="chk_{{item.SessionId+ '_' + item.SessionTag}}"
+                                                       ng-click="SharingSelected(item.SessionId)" /><label for="chk_{{item.SessionId+ '_' + item.SessionTag}}"></label>
+                                            </ckBoxLabel>
+                                            <idHead>Interview Id:</idHead>
+                                            <idTxt ng-switch-when="true"><a href="javascript:void(0);" ng-click="NavigateToRoute('cs/' + item.SessionId)">{{item.SessionTag}}</a></idTxt>
+                                            <idTxt ng-switch-when="false">{{item.SessionTag}}</idTxt>
+                                            <rating>
+                                                <div class="rating_sprite_blue_m" title="{{item.Rating}} of 5"><span style="width:{{(item.Rating * 20) | number:2}}%" class="rating_sprite_blue_m_bg"></span></div>
+                                            </rating>
+                                        </blockHead>
+                                        <skillRatingBlock style="display:none;">
+                                            <skillTest>
+                                                <skillTestHead>Skill Test:</skillTestHead>
+                                                <skillTestText>{{item.InterviewTopic}}</skillTestText>
+                                            </skillTest>
+                                            <subjRateBlock ng-repeat="rating in item.SessionRatings">
+                                                <subjRateHead>{{rating.RatingName}}:</subjRateHead>
+                                                <subjRating><div class="rating_sprite_blue_s" title="{{rating.RatingValue}} of 5"><span style="width:{{(rating.RatingValue * 20) | number:2}}%" class="rating_sprite_blue_s_bg"></span></div></subjRating>
+                                            </subjRateBlock>
+                                        </skillRatingBlock>
+                                        <contentarea>
+                                            <div class="preAssessVideo" ng-switch="IsVideoLinkExist(item.InterviewLink)">
+                                                <videolayout>
+                                                    <div class="webcamera_control" ng-switch-when="false">
+                                                        <div class="noContent">Recorded video will be available soon</div>
+                                                    </div>
+                                                    <div class="webcamera_control" ng-switch-when="true">
+                                                        <video id="video_{{item.SessionId}}" class="video-js" controls preload="auto" style="width:100%;height:100%" data-setup="{}">
+                                                            <source ng-src="{{item.InterviewLink}}" type='video/mp4'>
+                                                        </video>
+                                                    </div>
+                                                </videolayout>
+                                                <!--<fi-player ng-switch-when="true" user-object="item.PlayerObject"></fi-player>-->
+                                            </div>
+                                            <videoannotblock ng-show="item.Annotations.length > 0">
+                                                <videoannot ng-repeat="tTime in item.Annotations"><a href="javascript:void(0);" ng-click="OnPlayAtPosition(item.SessionId,tTime.Position)">{{tTime.AnnoteName}}</a></videoannot>
+                                            </videoannotblock>
+                                        </contentarea>
+                                    </mockBlock>
+                                    <!--Shared Session With-->
+                                    <sharedSession ng-show="Result.SharedByList.length>0">
+                                        <sharedSessionHead>
+                                            Shared With -
+                                            <note>Uncheck and update to remove sharing from the email id</note>
+                                        </sharedSessionHead>
+                                        <shareBlk ng-repeat="sharedItem in Result.SharedByList">
+                                            <sharedisplay ng-switch="sharedItem.Approved">
+                                                <ul>
+                                                    <li>
+                                                        <input type="checkbox" ng-disabled="!sharedItem.Approved" ng-checked="sharedItem.Shared" ng-model="sharedItem.Shared"
+                                                               id="btnShared_{{sharedItem.Pin}}" checked="">
+                                                        <label for="btnShared_{{sharedItem.Pin}}">{{sharedItem.Email}}</label>
+                                                    </li>
+                                                    <li>{{sharedItem.SessionTag}}</li>
+                                                    <li>{{sharedItem.SharedName}}</li>
+                                                    <li ng-switch-when="false">Approval Pending</li>
+                                                    <li ng-switch-when="true">Approved</li>
+                                                </ul>
+                                            </sharedisplay>
+                                        </shareBlk>
+                                    </sharedSession>
+                                    <updateButtonLayout ng-show="Result.SharedByList.length>0">
+                                        <input type="button" value="Update" ng-click="OnCSubmitSharedUpdated()" class="buttonShareControl">
+                                    </updateButtonLayout>
+                                </div>
+                            </div>
+
+                            <!--Pre assessments-->
+                            <div id="pre_assessments_structure" ng-switch="Result.PreAssessedSessions.length>0">
+                                <div class="noContent" ng-switch-when="false">The candidate has not yet appeared for any pre-assessments</div>
+                                <div class="canMockInterview" ng-switch-when="true">
+                                    <mockBlock ng-repeat="item in Result.PreAssessedSessions" ng-switch="Result.Internal">
+                                        <blockHead>
+                                            <!--<ckBoxLabel ng-switch-when="true">
+                                                <input type="checkbox"
+                                                       id="chk_{{item.SessionId+ '_' + item.SessionTag}}" name="chk_{{item.SessionId+ '_' + item.SessionTag}}"
+                                                       ng-click="SharingSelected(item.SessionId)" /><label for="chk_{{item.SessionId+ '_' + item.SessionTag}}"></label>
+                                            </ckBoxLabel>
+                                            <idHead>Interview Id:</idHead>
+                                            <idTxt ng-switch-when="true"><a href="javascript:void(0);" ng-click="NavigateToRoute('cs/' + item.SessionId)">{{item.SessionTag}}</a></idTxt>
+                                            <idTxt ng-switch-when="false">{{item.SessionTag}}</idTxt>-->
+                                            <rating>
+                                                <div class="rating_sprite_blue_m" title="{{item.Rating}} of 5"><span style="width:{{(item.Rating * 20) | number:2}}%" class="rating_sprite_blue_m_bg"></span></div>
+                                            </rating>
+                                        </blockHead>
+                                        <skillRatingBlock style="display:none;">
+                                            <skillTest>
+                                                <skillTestHead>Skill Test:</skillTestHead>
+                                                <skillTestText>{{item.InterviewTopic}}</skillTestText>
+                                            </skillTest>
+                                            <subjRateBlock ng-repeat="rating in item.SessionRatings">
+                                                <subjRateHead>{{rating.RatingName}}:</subjRateHead>
+                                                <subjRating><div class="rating_sprite_blue_s" title="{{rating.RatingValue}} of 5"><span style="width:{{(rating.RatingValue * 20) | number:2}}%" class="rating_sprite_blue_s_bg"></span></div></subjRating>
+                                            </subjRateBlock>
+                                        </skillRatingBlock>
+                                        <contentarea>
+                                            <div class="preAssessVideo" ng-switch="IsVideoLinkExist(item.InterviewLink)">
+                                                <videolayout>
+                                                    <div class="webcamera_control" ng-switch-when="false">
+                                                        <div class="noContent">Recorded video will be available soon</div>
+                                                    </div>
+                                                    <div class="webcamera_control" ng-switch-when="true">
+                                                        <video id="video_{{item.SessionId}}" class="video-js" controls preload="auto" style="width:100%;height:100%" data-setup="{}">
+                                                            <source ng-src="{{item.InterviewLink}}" type='video/mp4'>
+                                                        </video>
+                                                    </div>
+                                                </videolayout>
+                                                <!--<fi-player ng-switch-when="true" user-object="item.PlayerObject"></fi-player>-->
+                                            </div>
+                                            <videoannotblock ng-show="item.Annotations.length > 0">
+                                                <videoannot ng-repeat="tTime in item.Annotations"><a href="javascript:void(0);" ng-click="OnPlayAtPosition(item.SessionId,tTime.Position)">{{tTime.AnnoteName}}</a></videoannot>
+                                            </videoannotblock>
+                                        </contentarea>
+                                    </mockBlock>
+                                </div>
+                            </div>
+
+                            <!-- Candidate Profile Starts-->
+                            <div id="profile_structure" style="display:none;">
+                                <div class="canProfile">
+                                    <ul>
+                                        <li>
+                                            <blockHead>Personal Details</blockHead>
+                                            <contentarea>
+                                                <label10>
+                                                    <vblk1>Name:</vblk1>
+                                                    <vblk2><input type="text" id="txtName" value="{{Result.Name}}" readonly></vblk2>
+                                                </label10>
+                                                <label10>
+                                                    <vblk1>Email:</vblk1>
+                                                    <vblk2><input type="text" id="txtEmail" value="{{Result.Email}}" readonly></vblk2>
+                                                </label10>
+                                                <label10>
+                                                    <vblk1>Location:</vblk1>
+                                                    <vblk2>
+                                                        <input name="city" id="city" autocomplete="off" type="text"
+                                                               city-id="txtcity" country-id="txtcountry" format-id="city"
+                                                               state-id="txtstate" area-id="txtDailingCode" placeholder="Enter City"
+                                                               required ng-model="Result.Location" format="{City}, {Country}"
+                                                               on-touch google-place />
+                                                        <input type="hidden" id="txtcity" ng-model="Result.City">
+                                                        <input type="hidden" id="txtcountry" ng-model="Result.Country">
+                                                        <input type="hidden" id="txtstate" ng-model="Result.State">
+                                                    </vblk2>
+                                                </label10>
+                                                <label10>
+                                                    <vblk1>Phone:</vblk1>
+                                                    <vblk2>
+                                                        <phcountrycode><span id="txtDailingCode">{{Result.DailingCode}}</span></phcountrycode><textphone><input type="text" id="txtPhoneNumber" value="{{Result.PhoneNumber}}" readonly></textphone>
+                                                    </vblk2>
+                                                </label10>
+                                                <label10>
+                                                    <vblk1>Gender:</vblk1>
+                                                    <vblk2>
+                                                        <displaybox>
+                                                            <rodioblock>
+                                                                <input type="radio" id="radiogender1" value="M" ng-model="Result.Gender" name="txtgender">
+                                                                <label for="radiogender1">Male</label>
+                                                            </rodioblock>
+                                                            <rodioblock>
+                                                                <input type="radio" id="radiogender2" value="F" ng-model="Result.Gender" name="txtgender">
+                                                                <label for="radiogender2">Female</label>
+                                                            </rodioblock>
+                                                        </displaybox>
+                                                    </vblk2>
+                                                </label10>
+                                            </contentarea>
+                                        </li>
+                                        <li>
+                                            <blockHead>Professional Details</blockHead>
+                                            <form id="frmProDetails" name="frmProDetails" ng-model="frmProDetails" novalidate>
+                                                <contentarea>
+                                                    <label10>
+                                                        <vblk1>Experience:</vblk1>
+                                                        <vblk2>
+                                                            <selectsm>
+                                                                <select name="expYear" id="expYear" ng-model="expYear"
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:0,max:50}"></select>
+                                                            </selectsm>
+                                                            <vblktxt>Year</vblktxt>
+                                                            <selectsm>
+                                                                <select name="expMonth" id="expMonth" ng-model="expMonth"
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:0,max:12}"></select>
+                                                            </selectsm>
+                                                            <vblktxt>Month</vblktxt>
+                                                        </vblk2>
+                                                    </label10>
+                                                    <label10>
+                                                        <vblk1>CTC:</vblk1>
+                                                        <vblk2>
+                                                            <selectsm>
+                                                                <select name="cCtcLakh" id="cCtcLakh" ng-model="CTC.Current.L"
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:0,max:25}"></select>
+                                                            </selectsm>
+                                                            <vblktxt>Lakhs</vblktxt>
+                                                            <selectsm>
+                                                                <select name="cCtcThousand" id="cCtcThousand" ng-model="CTC.Current.T"
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:0,max:99}"></select>
+                                                            </selectsm>
+                                                            <vblktxt>Thousands</vblktxt>
+                                                        </vblk2>
+                                                    </label10>
+                                                    <label10>
+                                                        <vblk1>Exp. CTC:</vblk1>
+                                                        <vblk2>
+                                                            <selectsm>
+                                                                <select name="eCtcLakh" id="eCtcLakh" ng-model="CTC.Expected.L"
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:0,max:25}"></select>
+                                                            </selectsm>
+                                                            <vblktxt>Lakhs</vblktxt>
+                                                            <selectsm>
+                                                                <select name="eCtcThousand" id="eCtcThousand" ng-model="CTC.Expected.T"
+                                                                        ng-options="item.Value as item.Text for item in [] | range:{min:0,max:99}"></select>
+                                                            </selectsm>
+                                                            <vblktxt>Thousands</vblktxt>
+                                                        </vblk2>
+                                                    </label10>
+                                                    <span id="fileError" class="errormessage" style="display:none;"></span>
+                                                    <label10>
+                                                        <vblk1>Resume:</vblk1>
+                                                        <vblk2>
+                                                            <displaybox>
+                                                                <input id="fileresume" accept=".pdf" type="file" name="fileresume" ng-model="Resume" file-change
+                                                                       file-error-id="fileError" file-form-name="frmProDetails" />
+                                                            </displaybox>
+                                                        </vblk2>
+                                                    </label10>
+                                                    <label10>
+                                                        <vblk1>Linkedin:</vblk1>
+                                                        <vblk2><input type="text" id="txtLinedIn" value="{{Result.LinkedIn}}"></vblk2>
+                                                    </label10>
+                                                </contentarea>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                    <blockHead>Skills &amp; Years of Experience in each skill <rightblk ng-switch-when="true"><a href="javascript:void(0)" ng-click="AddNewSkill()">Add New Skill</a></rightblk></blockHead>
+                                    <contentarea>
+                                        <ul>
+                                            <li ng-repeat="itSkill in ItSkills | filter:{ RecordStatus:0 }">
+                                                <label10>
+                                                    <skillblk><input name="txtSkillName{{itSkill.ItemIndex}}" id="txtSkillName{{itSkill.ItemIndex}}" type="text" placeholder="Skill Name" ng-model="itSkill.SkillName" /></skillblk>
+                                                    <skillexp>
+                                                        <selectsm>
+                                                            <select name="itYear{{itSkill.ItemIndex}}" id="itYear{{itSkill.ItemIndex}}" ng-model="itSkill.Years"
+                                                                    ng-options="item.Value as item.Text for item in [] | range:{min:0,max:25}"></select>
+                                                        </selectsm>
+                                                        <selectsm>
+                                                            <select name="itMonth{{itSkill.ItemIndex}}" id="itMonth{{itSkill.ItemIndex}}" ng-model="itSkill.Months"
+                                                                    ng-options="item.Value as item.Text for item in [] | range:{min:0,max:12}"></select>
+                                                        </selectsm>
+                                                    </skillexp>
+                                                    <delskill ng-show="GetIteSkillCount()>1"><a href="javascript:void(0)" ng-click="DeleteSkill(itSkill.ItemIndex)" title="Delete">x</a></delskill>
+                                                </label10>
+                                            </li>
+                                        </ul>
+                                    </contentarea>
+                                    <buttoncontainer ng-switch-when="true">
+                                        <buttonlabel><input type="button" class="buttonupdate" ng-click="SubmitPersonalDetails()" value="Update" /></buttonlabel>
+                                        <errorsuccess>
+                                            <div class="errsubmit" id="errsubmit" style="display: none">Clear error fields and update</div>
+                                            <div class="sucsubmit" id="sucsubmit" style="display: none">Updated successfully</div>
+                                            <div class="errsubmit" id="errFilesubmit" style="display: none">Unable to upload the file.</div>
+                                            <div class="errsubmit" id="errsubmit2" style="display: none">System fail to process. Please try again.</div>
+                                        </errorsuccess>
+                                    </buttoncontainer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--page right block-->
+                    <div class="canProfile_right_block">
+                        <heading>
+                            Interactions
+                            <addNote ng-switch-when="true"><a onClick="popuAddNote()">Add Note</a></addNote>
+                        </heading>
+                        <note_container>
+                            <table>
+                                <tr ng-repeat="item in Notes">
+                                    <td>
+                                        <comment>{{item.NoteText}}</comment>
+                                        <dateName>
+                                            <date>{{item.CreateDate | date:'MMMM dd, yyyy hh:mm a'}}</date>
+                                            <name>Added By - {{item.CreatedBy}}</name>
+                                        </dateName>
+                                    </td>
+                                </tr>
+                            </table>
+                        </note_container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Work Area Ends-->
+    <!-- Share Session-->
+    <div id="popShareSessionDiv" class="pop_disable_bg">
+        <div id="popup_ShareSession">
+            <div class="shareSession">
+                <txtHead>Share Session</txtHead>
+                <txtLabel>
+                    <mailicon><vline></vline></mailicon>
+                    <input name="txtCShareEmail" id="txtCShareEmail" type="email" placeholder="Email Address" />
+                </txtLabel>
+                <cblabel>
+                    <input type="checkbox" name="chkCShareGDPR" ng-checked="CShareGDPR" ng-model="CShareGDPR" id="chkCShareGDPR"><label for="chkCShareGDPR">GDPR Compliance</label>
+                </cblabel>
+                <txtlabel ng-show="CShareGDPR">
+                    <coicon><vline></vline></coicon>
+                    <input name="txtCSharedName" id="txtCSharedName" type="text" placeholder="Company or Contact Name">
+                </txtlabel>
+                <gdprnote ng-show="CShareGDPR">Candidate will be notified through email about the session sharing. Only if the candidate approves, the session will be shared.</gdprnote>
+                <labelbutton>
+                    <input id="btnCShareSession" type="button" value="Share" class="button" ng-click="OnCSubmitSharedClicked()" />
+                    <input type="button" value="Close" class="button" ng-click="OnCCancelSharedClicked()" />
+                </labelbutton>
+                <div class="errorMsg" id="errorCShare" style="display:none;">Email is mandatory for sharing session</div>
+                <div class="successMsg" id="successCShare" style="display:none;">Session shared successfully</div>
+            </div>
+        </div>
+    </div>
+    <div ng-include src="'js/views/candidate/canpopups.html'"></div>
+</div>
+<div id="footer-in" class="frame-footer-in" ng-include src="'js/views/Shared/footer-inner.html'"></div>
+
+<script type="text/javascript">
+
+    function DisplayTab(tag) {
+        $("#canHref").removeAttr('class');
+        $("#intHref").removeAttr('class');
+        $("#preHref").removeAttr('class');
+        if (tag === 'INT') {
+            $("#intHref").attr('class', 'current');
+        }
+        else if (tag === 'CAN') {
+            $("#canHref").attr('class', 'current');
+        }
+        else if (tag === 'PRE') {
+            $("#preHref").attr('class', 'current');
+        }
+        ShowHideDiv('interview_structure', tag === 'INT');
+        ShowHideDiv('profile_structure', tag === 'CAN');
+        ShowHideDiv('pre_assessments_structure', tag === 'PRE');
+    }
+    function popuAddNote() {
+        $('#noteText').val('');
+        pop('popProfileNote');
+    }
+    ShowHideDiv('interview_structure',true);
+    ShowHideDiv('profile_structure', false);
+    ShowHideDiv('pre_assessments_structure', false);
+
+</script>
