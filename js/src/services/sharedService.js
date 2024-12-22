@@ -8,8 +8,8 @@ define(['faceitConsApp' + window.__env.minUrl
             var servieUrl = window.__env.apiUrl + '/api/';
 
             this.LoginToServer = function (postdata, successFunction, errorFunction) {
-                var headerType = 'application/x-www-form-urlencoded';
-                $ajx.AjaxPost3(postdata, headerType, servieUrl + 'common/login', successFunction, errorFunction);
+                var headerType = 'application/x-www-form-urlencoded'
+                $ajx.AjaxPost3(postdata, headerType, servieUrl + 'auth/signin', successFunction, errorFunction);
             };
             this.LogoutFromServer = function (successFunction, errorFunction) {
                 $ajx.AjaxGet(servieUrl + "Common/Logout", successFunction, errorFunction);

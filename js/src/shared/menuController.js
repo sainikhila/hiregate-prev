@@ -112,8 +112,8 @@ define(['faceitConsApp' + window.__env.minUrl
                     $support.start();
 
                     var data = {
-                        'Email': _email,
-                        'Password': _pws
+                        'email': _email,
+                        'password': _pws
                     };
 
                     $ajx.LoginToServer($support.EncodeDetails(data), successToken, failureToken);
@@ -122,7 +122,11 @@ define(['faceitConsApp' + window.__env.minUrl
                 var successToken = function successToken(res) {
                     if (parseInt(res.status) === 200) {
                         $storage.setValue('Identity', res.data);
-                        if (parseInt(res.data.status) !== 200) {
+                        $user.setModal(res.data);
+                        $support.stop();
+                        $root.NavigateToRoute('db');
+
+                        /* if (parseInt(res.data.status) !== 200) {
                             if (res.data.statusText.startsWith("Invalid token")) {
                                 ShowLoginState('System fail to process. Please try again.');
                             } else {
@@ -149,7 +153,7 @@ define(['faceitConsApp' + window.__env.minUrl
                                     $support.stop();
                                 }
                             );
-                        }
+                        } */
                     }
                     else {
                         ShowLoginState('System fail to process. Please try again.');
@@ -355,7 +359,7 @@ define(['faceitConsApp' + window.__env.minUrl
                             element = document.getElementsByName(elm)[0];
                         }
 
-                        if (element )  element.className = 'labelheading';
+                        if (element) element.className = 'labelheading';
                     });
                 }
 
